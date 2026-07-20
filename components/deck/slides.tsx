@@ -861,4 +861,30 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'backprop',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 17 · Rétropropagation',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Apprendre de l&apos;erreur</Kicker>
+        <Title>L&apos;erreur voyage vers l&apos;arrière, ajustant chaque poids</Title>
+        <Card>
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Prédiction vs vérité' },
+              { label: 'Mesurer l’erreur' },
+              { label: 'Renvoyer l’erreur en arrière' },
+              { label: 'Ajuster chaque poids', strong: true },
+            ]}
+          />
+        </Card>
+        <Callout label="Le moteur de l&apos;apprentissage profond">
+          La rétropropagation détermine combien chaque poids a contribué à l&apos;erreur et l&apos;ajuste dans la
+          direction qui aurait réduit cette erreur. Répétez ceci des millions de fois et le réseau devient performant.
+        </Callout>
+      </div>
+    ),
+  },
 ]
