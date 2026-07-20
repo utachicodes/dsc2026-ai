@@ -834,4 +834,31 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'forward-prop',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 16 · Propagation avant',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Faire une prédiction</Kicker>
+        <Title>Les données avancent à travers les couches</Title>
+        <Card>
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Image' },
+              { label: 'Couche 1' },
+              { label: 'Couche 2' },
+              { label: 'Couche 3' },
+              { label: 'Prédiction', strong: true },
+            ]}
+          />
+        </Card>
+        <Prose>
+          Chaque couche transforme un peu plus les nombres, extrayant une information plus significative. Quand les
+          nombres arrivent au bout, on a une prédiction. Ce trajet à sens unique s&apos;appelle la propagation avant.
+        </Prose>
+      </div>
+    ),
+  },
 ]
