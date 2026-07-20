@@ -934,4 +934,29 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'loss-accuracy',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 20 & 21 · Perte et précision',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Deux nombres à surveiller</Kicker>
+        <Title>La perte mesure à quel point on se trompe. La précision, à quelle fréquence on a raison.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Perte">
+            <p className="leading-relaxed text-muted-foreground">
+              Un seul nombre mesurant à quel point les prédictions sont loin de la vérité. Une perte élevée signifie
+              très faux, une perte basse signifie presque correct. L&apos;entraînement existe pour minimiser la perte.
+            </p>
+          </Card>
+          <Card title="Précision" tone="positive">
+            <p className="leading-relaxed text-muted-foreground">
+              La part des prédictions correctes. 96 correctes sur 100 images donne <Mono>96%</Mono> de précision.
+              Facile à lire, mais comme vous le verrez, ça peut cacher des problèmes.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
