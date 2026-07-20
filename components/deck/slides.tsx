@@ -1460,4 +1460,34 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'close',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Pour conclure',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Vous pouvez maintenant expliquer</Kicker>
+        <Title>D&apos;un seul pixel à un modèle sur le XIAO</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Card title="Récap jour 5">
+            Comment les images deviennent des nombres, comment les classificateurs apprennent à partir de jeux de
+            données étiquetés, et ce qu&apos;est vraiment un premier modèle.
+          </Card>
+          <Card title="Récap jour 6">
+            Comment les CNN s&apos;entraînent, pourquoi l&apos;apprentissage par transfert et la quantification
+            comptent, et comment déployer sur le XIAO.
+          </Card>
+          <Card title="Ensuite" tone="positive">
+            Ouvrez Edge Impulse, collectez vos données pierre, feuille, ciseaux, et mettez un classificateur
+            fonctionnel sur la carte.
+          </Card>
+        </div>
+        <Callout label="Une phrase à retenir">
+          Un ordinateur ne voit jamais une image. Il voit des nombres, apprend quels motifs de nombres comptent, et
+          avec le TinyML il peut faire cette vision propulsée par l&apos;apprentissage n&apos;importe où, même sur une
+          carte de la taille d&apos;une pièce de monnaie.
+        </Callout>
+      </div>
+    ),
+  },
 ]
