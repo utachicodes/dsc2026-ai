@@ -777,4 +777,31 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'weights-bias',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 12 & 13 · Poids et biais',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La mémoire du réseau</Kicker>
+        <Title>L&apos;entraînement, c&apos;est juste ajuster les poids et les biais</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Poids">
+            <p className="leading-relaxed text-muted-foreground">
+              Chaque connexion a un nombre comme <Mono>0,2</Mono>, <Mono>-0,4</Mono>, ou <Mono>0,9</Mono>.
+              L&apos;entraînement change ces nombres et rien d&apos;autre. Les modèles modernes en contiennent des
+              millions ou des milliards.
+            </p>
+          </Card>
+          <Card title="Biais" tone="positive">
+            <CodeBlock>{`sortie = poids x entrée + biais`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Le biais est un réglage supplémentaire qui décale la frontière de décision, pour qu&apos;un neurone
+              puisse s&apos;activer plus tôt ou plus tard.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
