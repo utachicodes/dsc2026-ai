@@ -1290,4 +1290,32 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'quantization',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 25 · Quantification',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le faire tenir</Kicker>
+        <Title>Échangez des décimaux 32 bits contre des entiers 8 bits</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow direction="horizontal" steps={[{ label: 'flottant 32 bits' }, { label: 'quantification' }, { label: 'entier 8 bits', strong: true }]} />
+          </Card>
+          <Card title="Résultat" tone="positive">
+            <div className="flex flex-wrap gap-2 text-sm">
+              {['Modèle plus petit', 'Inférence plus rapide', 'Consommation plus faible'].map((t) => (
+                <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Le compromis est une petite baisse de précision, généralement négligeable pour les tâches que gère un XIAO.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
