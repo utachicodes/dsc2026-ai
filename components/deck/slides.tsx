@@ -269,4 +269,32 @@ ALORS chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'why-ml',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 3 · Pourquoi s’embêter',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le piège de l&apos;écriture de règles</Kicker>
+        <Title>Essayez de coder « chat » à la main et vous ne finirez jamais</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Vos règles">
+            <CodeBlock>{`si oreilles == pointues
+et moustaches == vrai
+et queue == longue`}</CodeBlock>
+          </Card>
+          <Card title="La réalité" tone="negative">
+            <div className="flex flex-wrap gap-2 font-mono text-sm text-muted-foreground">
+              {['chats endormis', 'chats noirs', 'chats poilus', 'vue de côté', 'à l’envers', 'chat de dessin animé'].map((t) => (
+                <span key={t} className="rounded-md border border-border bg-secondary px-3 py-1.5">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 leading-relaxed text-muted-foreground">Trop de cas. Impossible à la main. Alors on laisse la machine apprendre à la place.</p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
