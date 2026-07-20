@@ -1318,4 +1318,33 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'edge-impulse',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 24 & 27 · Flux de travail',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Jour 6 · Edge Impulse</Kicker>
+        <Title>Le flux de travail, des photos jusqu&apos;à un modèle déployable</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            'Créer un projet',
+            'Connecter le XIAO, un téléphone, ou une webcam',
+            'Collecter des images par classe',
+            'Étiqueter chaque image',
+            'Découper en entraînement et test',
+            'Construire un impulse de classification d’images',
+            'Générer les caractéristiques d’image',
+            'Entraîner le réseau de neurones',
+            'Vérifier la précision et la matrice de confusion',
+            'Déployer le modèle',
+          ].map((t, i) => (
+            <Card key={t} title={`Étape ${i + 1}`}>
+              {t}
+            </Card>
+          ))}
+        </div>
+      </div>
+    ),
+  },
 ]
