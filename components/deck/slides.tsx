@@ -627,4 +627,40 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'matrices',
+    chapter: 'Images',
+    kicker: 'Partie 8 · Matrices',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Les images sont des maths</Kicker>
+        <Title>Une image en niveaux de gris est une matrice. La couleur en fait trois.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Une matrice de luminosité">
+            <CodeBlock>{`120 121 119 118 117
+124 126 123 120 118
+130 132 131 125 120`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">Chaque nombre est une valeur de luminosité.</p>
+          </Card>
+          <Card title="Couleur = trois matrices empilées" tone="positive">
+            <div className="flex gap-3">
+              {['R', 'V', 'B'].map((c, i) => (
+                <div
+                  key={c}
+                  className="flex-1 rounded-lg border p-3 text-center font-mono text-sm"
+                  style={{ color: `var(--rgb-${['red', 'green', 'blue'][i]})` }}
+                >
+                  matrice {c}
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Empilez les matrices rouge, verte et bleue et vous obtenez une image en couleurs complète, purement
+              faite de nombres.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
