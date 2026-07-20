@@ -601,4 +601,30 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'resolution',
+    chapter: 'Images',
+    kicker: 'Partie 9 · Résolution',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Combien de pixels</Kicker>
+        <Title>Plus de résolution veut dire plus de détails, et plus de coût</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <Stat value="32 x 32" label="1 024 pixels" />
+            <Stat value="96 x 96" label="9 216 pixels" />
+          </div>
+          <Card title="Le compromis">
+            <BulletList
+              items={[
+                <>Plus de détails aide la précision</>,
+                <>Mais chaque pixel supplémentaire coûte de la mémoire et du calcul</>,
+                <>Les microcontrôleurs ont très peu de RAM, donc le TinyML utilise souvent <Mono>96x96</Mono> ou <Mono>160x120</Mono></>,
+              ]}
+            />
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
