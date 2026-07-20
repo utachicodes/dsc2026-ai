@@ -1347,4 +1347,38 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'deployment-runtime',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 27 · Sur l’appareil',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce qui se passe quand vous appuyez sur déployer</Kicker>
+        <Title>Le modèle devient du C++ qui tourne sur la carte</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Au moment de la compilation">
+            <BulletList
+              items={[
+                <>Modèle converti en TensorFlow Lite for Microcontrollers</>,
+                <>Optimisé, souvent quantifié en 8 bits</>,
+                <>Fichiers source C et C++ générés</>,
+                <>Compilé avec votre sketch Arduino et téléversé</>,
+              ]}
+            />
+          </Card>
+          <Card title="À l'exécution, chaque image" tone="positive">
+            <Flow
+              steps={[
+                { label: 'La caméra capture une image' },
+                { label: 'Redimensionner et normaliser' },
+                { label: 'Inférence du CNN' },
+                { label: 'Probabilités' },
+                { label: 'LED / OLED / moteur / buzzer', strong: true },
+              ]}
+            />
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
