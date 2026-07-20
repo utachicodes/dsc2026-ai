@@ -1129,4 +1129,25 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- BIEN ENTRAÎNER
+  {
+    id: 'splits',
+    chapter: 'Bien entraîner',
+    kicker: 'Partie 23 · Découpage des données',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ne jamais étudier l&apos;examen</Kicker>
+        <Title>Découpez vos données en entraînement, validation et test</Title>
+        <div className="grid gap-3 lg:grid-cols-3">
+          <Card title="Entraînement · 70-80%">Utilisé pour apprendre les poids.</Card>
+          <Card title="Validation · 10-15%">Utilisé pour ajuster les réglages pendant l&apos;entraînement.</Card>
+          <Card title="Test · 10-15%" tone="positive">Utilisé une seule fois, à la toute fin, pour mesurer la performance réelle.</Card>
+        </div>
+        <Callout>
+          Le modèle ne doit jamais s&apos;entraîner sur l&apos;ensemble de test. Sinon, votre précision est un
+          mensonge, comme un élève qui a vu les réponses de l&apos;examen à l&apos;avance.
+        </Callout>
+      </div>
+    ),
+  },
 ]
