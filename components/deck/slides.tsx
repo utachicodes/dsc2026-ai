@@ -236,4 +236,37 @@ ALORS chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'what-is-ml',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 2 · Apprentissage automatique',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Apprendre comme un enfant</Kicker>
+        <Title>On n&apos;explique pas un chien. On en montre plein.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <div className="flex flex-wrap gap-2 font-mono text-sm">
+              {['Chien', 'Chien', 'Chien', 'Chien', 'Chat', 'Chat', 'Chat'].map((t, i) => (
+                <span
+                  key={i}
+                  className={`rounded-md border px-3 py-1.5 ${t === 'Chien' ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border bg-secondary text-muted-foreground'}`}
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Finalement, l&apos;enfant reconnaît des chiens qu&apos;il n&apos;a jamais vus. Il a généralisé à partir d&apos;exemples.
+            </p>
+          </Card>
+          <Callout label="La définition qui reste">
+            L&apos;apprentissage automatique consiste à trouver des motifs dans des exemples pour pouvoir faire de
+            bonnes suppositions sur de nouveaux exemples jamais vus. Cette dernière partie, la généralisation, c&apos;est
+            tout l&apos;enjeu.
+          </Callout>
+        </div>
+      </div>
+    ),
+  },
 ]
