@@ -804,4 +804,34 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'activation',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 14 · Fonctions d’activation',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Où vit la non-linéarité magique</Kicker>
+        <Title>Sans fonctions d&apos;activation, l&apos;apprentissage profond s&apos;effondrerait</Title>
+        <div className="grid gap-3 lg:grid-cols-3">
+          <Card title="ReLU">
+            Les négatifs deviennent 0, les positifs passent tels quels. Simple, rapide, et le choix par défaut dans les couches cachées.
+          </Card>
+          <Card title="Sigmoïde">
+            Compresse n&apos;importe quel nombre dans l&apos;intervalle 0 à 1. Pratique pour les décisions oui ou non.
+          </Card>
+          <Card title="Softmax" tone="positive">
+            Transforme les scores finaux en probabilités qui totalisent 100 %, pour pouvoir les lire comme des niveaux de confiance.
+          </Card>
+        </div>
+        <Card title="Exemple de softmax">
+          <div className="flex flex-wrap gap-4 font-mono text-sm">
+            <span className="text-primary">Chat 0,82</span>
+            <span className="text-muted-foreground">Chien 0,11</span>
+            <span className="text-muted-foreground">Oiseau 0,07</span>
+            <span className="text-muted-foreground">= 1,00</span>
+          </div>
+        </Card>
+      </div>
+    ),
+  },
 ]
