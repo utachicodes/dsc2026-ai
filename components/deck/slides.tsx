@@ -726,4 +726,26 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- RÉSEAUX DE NEURONES
+  {
+    id: 'model',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 11 · Modèles',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Connaissance apprise</Kicker>
+        <Title>Un modèle est un cerveau compressé, pas un album photo</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow steps={[{ label: 'Jeu de données' }, { label: 'Apprentissage' }, { label: 'Modèle', strong: true }, { label: 'Prédiction' }]} />
+          </Card>
+          <Callout label="Important">
+            Le modèle ne stocke pas les images d&apos;entraînement. Il stocke des millions de nombres appris appelés{' '}
+            <Term>poids</Term> qui capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut
+            reconnaître des choses qu&apos;il n&apos;a jamais vues.
+          </Callout>
+        </div>
+      </div>
+    ),
+  },
 ]
