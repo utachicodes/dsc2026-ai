@@ -503,4 +503,36 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- IMAGES
+  {
+    id: 'what-is-image',
+    chapter: 'Images',
+    kicker: 'Partie 6 · Images',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La grande révélation</Kicker>
+        <Title>Un ordinateur ne voit jamais une image. Il voit des nombres.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Ce que vous voyez">
+            <div className="grid w-40 grid-cols-3 gap-1">
+              {[1, 1, 1, 0, 0, 1, 1, 0, 1].map((v, i) => (
+                <div
+                  key={i}
+                  className="aspect-square rounded"
+                  style={{ backgroundColor: v ? 'var(--foreground)' : 'var(--secondary)' }}
+                />
+              ))}
+            </div>
+            <p className="mt-3 text-sm text-muted-foreground">Une petite forme.</p>
+          </Card>
+          <Card title="Ce que l'ordinateur voit" tone="positive">
+            <CodeBlock>{`255 255 255
+  0   0 255
+255   0 255`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">Ce ne sont que des nombres, du début à la fin.</p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
