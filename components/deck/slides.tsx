@@ -1400,4 +1400,32 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'rps-project',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Réalisation · Démo en classe',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Tout le cycle de vie en un seul projet</Kicker>
+        <Title>Pierre, feuille, ciseaux sur le XIAO</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <BulletList
+              items={[
+                <>Collectez 100 à 200 images de chacun de pierre, feuille et ciseaux, sous des éclairages et arrière-plans variés</>,
+                <>Entraînez le modèle dans Edge Impulse par apprentissage par transfert</>,
+                <>Déployez sur le XIAO équipé d&apos;une caméra</>,
+                <>La carte classe le geste en temps réel et allume une LED correspondante ou affiche la classe</>,
+              ]}
+            />
+          </Card>
+          <Callout label="Pourquoi ce projet">
+            Il touche à chaque idée de ces deux jours : collecte de données, étiquetage, entraînement, évaluation, et
+            inférence sur l&apos;appareil, dans quelque chose que les élèves peuvent construire et comprendre
+            eux-mêmes.
+          </Callout>
+        </div>
+      </div>
+    ),
+  },
 ]
