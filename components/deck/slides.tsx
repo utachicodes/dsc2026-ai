@@ -683,4 +683,26 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'augmentation',
+    chapter: 'Images',
+    kicker: 'Partie 10 · Augmentation',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Des données gratuites en plus</Kicker>
+        <Title>Transformez 50 images en centaines en les modifiant</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Card title="Rotation">Une inclinaison de 15 degrés reste le même objet.</Card>
+          <Card title="Miroir">Reflétez-le de gauche à droite.</Card>
+          <Card title="Zoom">Mise à l&apos;échelle à 1,2x.</Card>
+          <Card title="Luminosité">Rendez-le plus sombre ou plus clair.</Card>
+        </div>
+        <Callout>
+          L&apos;augmentation apprend au modèle qu&apos;un objet reste ce même objet sous des angles et un éclairage
+          différents. C&apos;est l&apos;une des façons les moins chères de rendre un petit jeu de données bien plus
+          robuste.
+        </Callout>
+      </div>
+    ),
+  },
 ]
