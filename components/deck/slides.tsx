@@ -161,4 +161,43 @@ export const slides: Slide[] = [
       </div>
     ),
   },
+  {
+    id: 'traditional-vs-ai',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 1 · Deux philosophies',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le basculement clé</Kicker>
+        <Title>La programmation traditionnelle écrit les règles. L&apos;IA les découvre.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Programmation traditionnelle">
+            <Flow
+              steps={[
+                { label: 'Règles + Données' },
+                { label: 'Programme' },
+                { label: 'Réponse', strong: true },
+              ]}
+            />
+            <CodeBlock className="mt-4">{`SI l'objet a 4 pattes
+ET dit "miaou"
+ALORS chat`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">Vous écrivez chaque règle à la main. Ça casse à la première exception.</p>
+          </Card>
+          <Card title="Apprentissage automatique" tone="positive">
+            <Flow
+              steps={[
+                { label: 'Données + Réponses' },
+                { label: 'Apprentissage' },
+                { label: 'Modèle', strong: true },
+              ]}
+            />
+            <p className="mt-4 leading-relaxed text-muted-foreground">
+              Au lieu de lui dire « les chats ont des moustaches », vous lui montrez des milliers de photos de chats
+              et vous le laissez déterminer ce qui fait qu&apos;un chat est un chat.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
