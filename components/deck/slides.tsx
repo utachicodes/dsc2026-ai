@@ -1030,4 +1030,32 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'pooling',
+    chapter: 'CNN',
+    kicker: 'Partie 18 · Pooling',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Réduire volontairement</Kicker>
+        <Title>Le pooling réduit la taille tout en gardant l&apos;essentiel</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow direction="horizontal" steps={[{ label: '4 x 4' }, { label: 'pooling' }, { label: '2 x 2', strong: true }]} />
+          </Card>
+          <Card title="Pourquoi ça aide" tone="positive">
+            <div className="flex flex-wrap gap-2 text-sm">
+              {['Plus rapide', 'Moins de RAM', 'Moins de calcul', 'Moins de surapprentissage'].map((t) => (
+                <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Crucial pour le TinyML, où chaque kilo-octet de mémoire compte.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
