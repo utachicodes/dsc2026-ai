@@ -1217,4 +1217,21 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'confusion-demo',
+    chapter: 'Bien entraîner',
+    kicker: 'Démo · Matrice de confusion',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif · Partie 26</Kicker>
+        <Title className="text-2xl md:text-4xl">La précision seule ment. La matrice de confusion dit la vérité.</Title>
+        <Prose>
+          Classez quelques images pierre, feuille, ciseaux, ou appuyez sur <Mono>Tout classer</Mono>. La diagonale
+          verte représente les bonnes réponses ; chaque cellule rouge montre exactement quelles classes le modèle
+          confond.
+        </Prose>
+        <ClassifierMatrix />
+      </div>
+    ),
+  },
 ]
