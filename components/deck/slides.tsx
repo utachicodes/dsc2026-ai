@@ -1428,4 +1428,36 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'pipeline',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 27 · La boucle complète',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Tout, dans l&apos;ordre</Kicker>
+        <Title>Le pipeline complet de l&apos;IA</Title>
+        <div className="rounded-xl border bg-card p-5 md:p-6">
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Collecter les données' },
+              { label: 'Étiqueter' },
+              { label: 'Construire le jeu de données' },
+              { label: 'Prétraiter' },
+              { label: 'Entraîner le CNN' },
+              { label: 'Évaluer' },
+              { label: 'Améliorer les données' },
+              { label: 'Exporter le modèle' },
+              { label: 'Déployer sur le XIAO' },
+              { label: 'Exécuter sur l’appareil', strong: true },
+            ]}
+          />
+        </div>
+        <Prose>
+          Remarquez que c&apos;est une boucle, pas une ligne. L&apos;évaluation vous renvoie à améliorer les données,
+          et de meilleures données sont presque toujours le chemin le plus rapide vers un meilleur modèle.
+        </Prose>
+      </div>
+    ),
+  },
 ]
