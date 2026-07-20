@@ -663,4 +663,24 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'normalize',
+    chapter: 'Images',
+    kicker: 'Partie 9 · Prétraitement',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Préparer les nombres</Kicker>
+        <Title>La normalisation ramène les pixels de 0-255 à 0-1</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow direction="horizontal" steps={[{ label: '128' }, { label: '128 / 255' }, { label: '0,502', strong: true }]} />
+          </Card>
+          <Prose>
+            Les réseaux de neurones s&apos;entraînent plus stablement quand leurs entrées sont petites et cohérentes.
+            Diviser chaque pixel par 255 garde les calculs bien maîtrisés et accélère l&apos;apprentissage.
+          </Prose>
+        </div>
+      </div>
+    ),
+  },
 ]
