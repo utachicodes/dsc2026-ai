@@ -705,4 +705,25 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'features',
+    chapter: 'Images',
+    kicker: 'Partie 10 · Caractéristiques',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce que le modèle recherche</Kicker>
+        <Title>Les humains remarquent les yeux et les contours. Les réseaux apprennent les caractéristiques automatiquement.</Title>
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
+          {['Contours', 'Coins', 'Couleur', 'Forme', 'Texture'].map((t) => (
+            <Card key={t}>{t}</Card>
+          ))}
+        </div>
+        <Prose>
+          Dans l&apos;ancienne vision par ordinateur, les ingénieurs concevaient ces caractéristiques à la main. La
+          percée de l&apos;apprentissage profond, c&apos;est que le réseau découvre lui-même des caractéristiques
+          utiles, directement à partir des pixels.
+        </Prose>
+      </div>
+    ),
+  },
 ]
