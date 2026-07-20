@@ -1058,4 +1058,27 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'feature-maps',
+    chapter: 'CNN',
+    kicker: 'Partie 22 · Cartes de caractéristiques',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Beaucoup de nouvelles images</Kicker>
+        <Title>Après la convolution, une image devient plusieurs cartes de caractéristiques</Title>
+        <Prose>
+          Chaque filtre produit sa propre image de sortie qui met en évidence une chose : l&apos;un trouve les
+          contours verticaux, un autre les cercles, un autre la texture. Les CNN modernes génèrent des centaines ou
+          des milliers de ces cartes de caractéristiques, empilant une information de plus en plus abstraite au fil
+          des couches.
+        </Prose>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Card title="Filtre A">contours verticaux</Card>
+          <Card title="Filtre B">cercles</Card>
+          <Card title="Filtre C">texture</Card>
+          <Card title="...">des centaines d&apos;autres</Card>
+        </div>
+      </div>
+    ),
+  },
 ]
