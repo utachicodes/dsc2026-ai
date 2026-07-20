@@ -134,4 +134,31 @@ export const slides: Slide[] = [
       </div>
     ),
   },
+  {
+    id: 'what-is-ai',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 1 · Définition',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Intelligence artificielle</Kicker>
+        <Title>Faire faire à des ordinateurs des choses qui demandent normalement l&apos;intelligence humaine</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            'Reconnaître des visages',
+            'Comprendre la parole',
+            'Traduire des langues',
+            'Conduire une voiture',
+            'Détecter des maladies',
+            'Identifier des objets dans une caméra',
+          ].map((t) => (
+            <Card key={t}>{t}</Card>
+          ))}
+        </div>
+        <Prose>
+          Remarquez que ce sont toutes des tâches où écrire chaque règle à la main est sans espoir. Cette difficulté
+          est la raison même de l&apos;existence du domaine.
+        </Prose>
+      </div>
+    ),
+  },
 ]
