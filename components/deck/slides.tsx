@@ -1381,4 +1381,23 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'challenges',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 28 · Retour à la réalité',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Pourquoi les projets d&apos;IA échouent</Kicker>
+        <Title>Repérer les problèmes est aussi important qu&apos;entraîner</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Card title="Mauvais éclairage">Des images prises en pleine lumière échouent en faible lumière.</Card>
+          <Card title="Déséquilibre des classes">Une classe a bien plus d&apos;exemples qu&apos;une autre.</Card>
+          <Card title="Surapprentissage">A mémorisé les données d&apos;entraînement plutôt que le motif.</Card>
+          <Card title="Sous-apprentissage">Modèle trop simple pour capturer le motif.</Card>
+          <Card title="Dérive des données">Le monde réel change avec le temps.</Card>
+          <Card title="Biais d’arrière-plan" tone="negative">Chaque photo de chat était sur le même canapé, alors il a appris le canapé.</Card>
+        </div>
+      </div>
+    ),
+  },
 ]
