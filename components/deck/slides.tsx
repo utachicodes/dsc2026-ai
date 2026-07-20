@@ -325,4 +325,29 @@ et queue == longue`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'learning-types',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 5 · Autres saveurs',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Tout n&apos;est pas un classificateur</Kicker>
+        <Title>Trois façons pour une machine d&apos;apprendre</Title>
+        <div className="grid gap-3 lg:grid-cols-3">
+          <Card title="Supervisé">
+            Les données viennent avec des étiquettes : chat, chien, voiture. Le modèle apprend la correspondance entre
+            l&apos;entrée et la réponse connue. C&apos;est ce qu&apos;on utilise au camp.
+          </Card>
+          <Card title="Non supervisé">
+            Pas d&apos;étiquettes. Videz mille pièces de LEGO sur une table et le modèle les regroupe par couleur et
+            taille tout seul.
+          </Card>
+          <Card title="Par renforcement">
+            Pas d&apos;étiquettes, juste des récompenses. Un bon coup rapporte des points, un mauvais en fait perdre.
+            Utilisé pour les robots, les jeux et les drones.
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
