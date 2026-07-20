@@ -350,4 +350,30 @@ et queue == longue`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'data-food',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 6 · Données',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le carburant du modèle</Kicker>
+        <Title>Les données sont à l&apos;IA ce que la nourriture est pour vous</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="grid gap-3">
+            <Card>
+              <Flow direction="horizontal" steps={[{ label: 'Humain' }, { label: 'Nourriture' }, { label: 'Énergie', strong: true }]} />
+            </Card>
+            <Card>
+              <Flow direction="horizontal" steps={[{ label: 'IA' }, { label: 'Données' }, { label: 'Connaissance', strong: true }]} />
+            </Card>
+          </div>
+          <Callout label="Ordures en entrée, ordures en sortie">
+            Si vous nourrissez un modèle avec des données désordonnées, biaisées ou mal étiquetées, vous obtenez un
+            modèle désordonné, biaisé et faux. Aucun algorithme malin ne rattrape de mauvaises données. La qualité des
+            données bat presque toujours l&apos;ingéniosité du modèle.
+          </Callout>
+        </div>
+      </div>
+    ),
+  },
 ]
