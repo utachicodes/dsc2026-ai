@@ -376,4 +376,33 @@ et queue == longue`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'structured-unstructured',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 7 · Types de données',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Deux formes de données</Kicker>
+        <Title>Structurées ressemblent à un tableur. Non structurées, non.</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Structurées">
+            <CodeBlock>{`Nom    Âge  Taille
+John   18   172
+Sara   20   165`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">Des lignes et colonnes bien nettes, comme Excel.</p>
+          </Card>
+          <Card title="Non structurées" tone="positive">
+            <div className="flex flex-wrap gap-2 font-mono text-sm text-muted-foreground">
+              {['Images', 'Audio', 'Vidéo', 'Courriels', 'PDF'].map((t) => (
+                <span key={t} className="rounded-md border border-border bg-secondary px-3 py-1.5">
+                  {t}
+                </span>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">Les CNN se spécialisent dans les données d&apos;images non structurées, ce vers quoi on se dirige.</p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
