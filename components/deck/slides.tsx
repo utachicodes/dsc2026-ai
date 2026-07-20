@@ -441,4 +441,27 @@ Banane/   500 images`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'labels',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 5 · Étiquettes',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La vérité attachée à chaque exemple</Kicker>
+        <Title>Sans étiquettes, l&apos;apprentissage supervisé est impossible</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CodeBlock>{`chien1.jpg  ->  Chien
+chien2.jpg  ->  Chien
+chat1.jpg   ->  Chat`}</CodeBlock>
+          </Card>
+          <Prose>
+            L&apos;étiquette est la vérité terrain que le modèle utilise pour se vérifier. Une image mal étiquetée
+            enseigne activement quelque chose de faux au modèle, donc un étiquetage soigné n&apos;est pas une corvée,
+            c&apos;est le fondement.
+          </Prose>
+        </div>
+      </div>
+    ),
+  },
 ]
