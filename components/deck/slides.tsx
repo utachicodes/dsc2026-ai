@@ -535,4 +535,21 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'pixels',
+    chapter: 'Images',
+    kicker: 'Partie 7 · Pixels',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Élément d&apos;image</Kicker>
+        <Title>Chaque image est une grille de minuscules carrés colorés</Title>
+        <Prose>Un pixel est le plus petit carré d&apos;une image. Une image, ce sont juste des millions d&apos;entre eux alignés en grille.</Prose>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Stat value="100 x 100" unit="px" label="10 000 pixels" />
+          <Stat value="96 x 96" unit="px" label="9 216 pixels, courant en TinyML" />
+          <Stat value="4000 x 3000" unit="px" label="12 millions de pixels, une photo de téléphone" />
+        </div>
+      </div>
+    ),
+  },
 ]
