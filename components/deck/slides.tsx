@@ -1234,4 +1234,38 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- TINYML & XIAO
+  {
+    id: 'inference-vs-training',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 24 · Deux phases',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Où chaque étape s&apos;exécute</Kicker>
+        <Title>Entraînez sur un gros ordinateur, exécutez l&apos;inférence sur le petit</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Entraînement">
+            <BulletList
+              items={[
+                <>Se déroule sur un ordinateur puissant ou dans le cloud</>,
+                <>Utilise beaucoup de puissance CPU et GPU</>,
+                <>Peut prendre des minutes à des jours</>,
+                <>Modifie les poids du modèle</>,
+              ]}
+            />
+          </Card>
+          <Card title="Inférence" tone="positive">
+            <BulletList
+              items={[
+                <>Se déroule après l&apos;entraînement</>,
+                <>Utilise le modèle terminé pour faire des prédictions</>,
+                <>Ne modifie pas le modèle</>,
+                <>Fonctionne sur de tout petits appareils comme le XIAO</>,
+              ]}
+            />
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
