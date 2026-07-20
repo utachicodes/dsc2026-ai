@@ -1013,4 +1013,21 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'convolution-demo',
+    chapter: 'CNN',
+    kicker: 'Démo · Convolution',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif · Partie 17</Kicker>
+        <Title className="text-2xl md:text-4xl">Faites glisser un filtre 3x3 et regardez une carte de caractéristiques apparaître</Title>
+        <Prose>
+          Une convolution est une petite fenêtre qui se déplace sur l&apos;image. Chaque filtre chasse un motif
+          précis. Appuyez sur <Mono>Lancer le balayage</Mono> et changez de filtre pour voir les contours
+          s&apos;illuminer dans la carte de caractéristiques à droite.
+        </Prose>
+        <ConvolutionDemo />
+      </div>
+    ),
+  },
 ]
