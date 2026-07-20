@@ -1150,4 +1150,26 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'overfitting',
+    chapter: 'Bien entraîner',
+    kicker: 'Partie 22 · Surapprentissage',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>L&apos;échec classique</Kicker>
+        <Title>Mémoriser n&apos;est pas la même chose qu&apos;apprendre</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Surapprentissage" tone="negative">
+            Le modèle mémorise les images d&apos;entraînement et obtient un score parfait dessus, puis échoue sur tout
+            ce qui est nouveau. Comme réussir les exercices d&apos;entraînement mais rater l&apos;examen réel.
+          </Card>
+          <Card title="Sous-apprentissage">
+            L&apos;inverse. Le modèle est trop simple pour capturer le motif du tout, donc il se débrouille mal
+            partout.
+          </Card>
+        </div>
+        <Prose>Un bon entraînement trouve l&apos;équilibre entre ces deux extrêmes, et l&apos;ensemble de validation permet de trouver cet équilibre.</Prose>
+      </div>
+    ),
+  },
 ]
