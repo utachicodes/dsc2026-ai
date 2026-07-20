@@ -584,4 +584,21 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'pixel-demo',
+    chapter: 'Images',
+    kicker: 'Démo · Explorateur de pixels & RVB',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif</Kicker>
+        <Title className="text-2xl md:text-4xl">Faites exploser l&apos;image et découvrez ce qu&apos;est vraiment un pixel</Title>
+        <Prose>
+          Appuyez sur <Mono>Exploser en pixels</Mono>, changez la résolution, puis survolez n&apos;importe quel
+          carré. L&apos;image que vous reconnaissez se dissout dans les trois nombres avec lesquels la machine
+          travaille réellement.
+        </Prose>
+        <PixelExplorer />
+      </div>
+    ),
+  },
 ]
