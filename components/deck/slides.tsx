@@ -959,4 +959,29 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- CNN
+  {
+    id: 'why-cnn',
+    chapter: 'CNN',
+    kicker: 'Partie 15 & 20 · Pourquoi les CNN',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le bon outil pour les images</Kicker>
+        <Title>Les pixels voisins sont liés, et les CNN exploitent ça</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Un réseau classique sur une image 224x224" tone="negative">
+            <Stat value="150 528" label="nombres connectés à chaque neurone" />
+            <p className="mt-3 text-sm text-muted-foreground">Des millions de paramètres, lent, et ça ignore qu&apos;un pixel est lié à ses voisins.</p>
+          </Card>
+          <Card title="Un CNN" tone="positive">
+            <p className="leading-relaxed text-muted-foreground">
+              Réutilise de petits filtres qui glissent sur toute l&apos;image. Bien moins de paramètres, bien plus
+              rapide, et ça respecte la structure 2D d&apos;une image. C&apos;est la norme pour la reconnaissance
+              d&apos;images.
+            </p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
