@@ -984,4 +984,33 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'cnn-buildup',
+    chapter: 'CNN',
+    kicker: 'Partie 16 · Hiérarchie',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Du simple au complexe</Kicker>
+        <Title>Chaque couche se construit sur les motifs de la précédente</Title>
+        <Card>
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Contour' },
+              { label: 'Coin' },
+              { label: 'Cercle' },
+              { label: 'Œil' },
+              { label: 'Visage' },
+              { label: 'Personne', strong: true },
+            ]}
+          />
+        </Card>
+        <Prose>
+          Les premières couches détectent des contours et des lignes. Les couches intermédiaires les assemblent en
+          yeux, roues et feuilles. Les couches profondes reconnaissent des objets entiers. Personne n&apos;a programmé
+          cette hiérarchie ; elle émerge de l&apos;entraînement.
+        </Prose>
+      </div>
+    ),
+  },
 ]
