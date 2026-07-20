@@ -1100,4 +1100,33 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'output-layer',
+    chapter: 'CNN',
+    kicker: 'Partie 19 · Sortie',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La réponse finale</Kicker>
+        <Title>La couche de sortie donne une probabilité par classe</Title>
+        <Card title="Classificateur de fruits" tone="positive">
+          <div className="space-y-3">
+            {[
+              { c: 'Pomme', p: 95 },
+              { c: 'Orange', p: 4 },
+              { c: 'Banane', p: 1 },
+            ].map((r) => (
+              <div key={r.c} className="flex items-center gap-3">
+                <span className={`w-20 font-mono text-sm ${r.p > 50 ? 'text-primary' : 'text-muted-foreground'}`}>{r.c}</span>
+                <div className="h-4 flex-1 overflow-hidden rounded-full bg-secondary">
+                  <div className={`h-full rounded-full ${r.p > 50 ? 'bg-primary' : 'bg-muted-foreground/50'}`} style={{ width: `${r.p}%` }} />
+                </div>
+                <span className="w-12 text-right font-mono text-sm">{r.p}%</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <Prose>La plus haute probabilité l&apos;emporte. Ce choix unique est la décision du classificateur.</Prose>
+      </div>
+    ),
+  },
 ]
