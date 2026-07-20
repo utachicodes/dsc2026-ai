@@ -104,4 +104,34 @@ export const slides: Slide[] = [
       </div>
     ),
   },
+  // ---------------------------------------------------------------- QU'EST-CE QUE L'IA
+  {
+    id: 'intelligence',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 1 · Intelligence',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Avant les machines</Kicker>
+        <Title>Qu&apos;est-ce qui rend quelque chose intelligent ?</Title>
+        <Lead>Demandez d&apos;abord à la salle. L&apos;intelligence humaine est un ensemble de capacités, pas une seule chose.</Lead>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            'On apprend par l’expérience',
+            'On reconnaît des motifs',
+            'On se souvient des choses',
+            'On résout des problèmes',
+            'On s’adapte à de nouvelles situations',
+            'On décide avec des informations incomplètes',
+          ].map((t) => (
+            <Card key={t}>{t}</Card>
+          ))}
+        </div>
+        <Callout label="Cadrage honnête">
+          L&apos;IA d&apos;aujourd&apos;hui ne recrée que <Term>certaines</Term> de ces capacités, et elle ne pense pas
+          comme vous. Elle trouve des motifs mathématiques dans d&apos;énormes quantités de données. C&apos;est
+          puissant, et c&apos;est aussi sa principale limite.
+        </Callout>
+      </div>
+    ),
+  },
 ]
