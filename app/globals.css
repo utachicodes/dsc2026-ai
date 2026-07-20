@@ -1,0 +1,208 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-signal: var(--signal);
+  --color-grid: var(--grid);
+
+  --color-rgb-red: var(--rgb-red);
+  --color-rgb-green: var(--rgb-green);
+  --color-rgb-blue: var(--rgb-blue);
+
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+:root {
+  color-scheme: light;
+
+  --background: oklch(0.985 0.004 100);
+  --foreground: oklch(0.22 0.015 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.015 260);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.015 260);
+
+  --primary: oklch(0.62 0.17 45);
+  --primary-foreground: oklch(0.99 0.005 100);
+
+  --secondary: oklch(0.95 0.006 260);
+  --secondary-foreground: oklch(0.22 0.015 260);
+
+  --muted: oklch(0.95 0.006 260);
+  --muted-foreground: oklch(0.48 0.014 260);
+
+  --accent: oklch(0.92 0.01 260);
+  --accent-foreground: oklch(0.22 0.015 260);
+
+  --destructive: oklch(0.58 0.21 25);
+
+  --border: oklch(0.9 0.008 260);
+  --input: oklch(0.9 0.008 260);
+  --ring: oklch(0.62 0.17 45);
+
+  --signal: oklch(0.62 0.17 45);
+  --grid: oklch(0.88 0.008 260 / 70%);
+
+  --rgb-red: oklch(0.6 0.22 27);
+  --rgb-green: oklch(0.62 0.17 150);
+  --rgb-blue: oklch(0.55 0.18 250);
+
+  --radius: 0.625rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    @apply bg-background;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes slide-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-enter > * {
+  animation: slide-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.slide-enter > *:nth-child(1) { animation-delay: 0.02s; }
+.slide-enter > *:nth-child(2) { animation-delay: 0.09s; }
+.slide-enter > *:nth-child(3) { animation-delay: 0.16s; }
+.slide-enter > *:nth-child(4) { animation-delay: 0.23s; }
+.slide-enter > *:nth-child(5) { animation-delay: 0.3s; }
+.slide-enter > *:nth-child(6) { animation-delay: 0.37s; }
+.slide-enter > *:nth-child(7) { animation-delay: 0.44s; }
+
+.reveal {
+  opacity: 0;
+}
+.reveal.is-visible {
+  animation: reveal-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Explode/assemble motif: shared across the pixel hero, neuron diagram and
+   feature-map slides so scattered pieces snapping into place reads as one
+   consistent visual language. */
+@keyframes assemble-in {
+  0% {
+    opacity: 0;
+    transform: translate(var(--from-x, 0), var(--from-y, 0)) rotate(var(--from-rot, 0deg)) scale(0.4);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes draw-line {
+  from {
+    stroke-dashoffset: var(--line-length, 200);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-3px);
+  }
+}
+
+@keyframes pulse-node {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--primary) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in oklch, var(--primary) 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .slide-enter > *,
+  .reveal.is-visible,
+  [class*='assemble-'],
+  [style*='assemble-in'] {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
