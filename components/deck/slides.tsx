@@ -552,4 +552,36 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'rgb',
+    chapter: 'Images',
+    kicker: 'Partie 8 · RVB',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Trois nombres par pixel</Kicker>
+        <Title>Rouge, vert et bleu, chacun de 0 à 255</Title>
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {[
+            { n: 'Rouge', c: 'rgb(220,40,40)', v: '255, 0, 0' },
+            { n: 'Vert', c: 'rgb(40,190,90)', v: '0, 255, 0' },
+            { n: 'Bleu', c: 'rgb(60,110,230)', v: '0, 0, 255' },
+            { n: 'Jaune', c: 'rgb(230,200,40)', v: '255, 255, 0' },
+            { n: 'Blanc', c: 'rgb(245,245,245)', v: '255, 255, 255' },
+            { n: 'Noir', c: 'rgb(20,20,24)', v: '0, 0, 0' },
+          ].map((s) => (
+            <div key={s.n} className="rounded-xl border bg-card p-3">
+              <div className="mb-2 aspect-square rounded-lg border" style={{ backgroundColor: s.c }} aria-hidden />
+              <div className="text-sm font-medium text-foreground">{s.n}</div>
+              <div className="font-mono text-xs text-muted-foreground">{s.v}</div>
+            </div>
+          ))}
+        </div>
+        <Callout>
+          Mélanger trois canaux de 0 à 255 donne environ 16,7 millions de couleurs possibles par pixel. C&apos;est
+          pourquoi la démo suivante peut reconstruire un perroquet en couleurs à partir de rien d&apos;autre que des
+          triplets de nombres.
+        </Callout>
+      </div>
+    ),
+  },
 ]
