@@ -1172,4 +1172,32 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'transfer-learning',
+    chapter: 'Bien entraîner',
+    kicker: 'Partie 23 · Apprentissage par transfert',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Sur les épaules de géants</Kicker>
+        <Title>Partez d&apos;un modèle qui sait déjà voir</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow
+              steps={[
+                { label: 'MobileNet, pré-entraîné sur des millions d’images' },
+                { label: 'Garder ses compétences visuelles générales' },
+                { label: 'Réentraîner seulement les dernières couches sur vos classes', strong: true },
+              ]}
+            />
+          </Card>
+          <Callout label="Pourquoi c&apos;est important pour le camp">
+            Un modèle entraîné sur des millions d&apos;images comprend déjà les contours, les textures et les formes.
+            Vous ne lui enseignez que vos quelques classes, ce qui demande bien moins de données et de temps. C&apos;est
+            exactement comme ça que les plateformes TinyML comme Edge Impulse obtiennent de bons résultats avec les
+            petits jeux de données qu&apos;on peut collecter en un après-midi.
+          </Callout>
+        </div>
+      </div>
+    ),
+  },
 ]
