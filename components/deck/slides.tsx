@@ -1268,4 +1268,26 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'why-tinyml',
+    chapter: 'TinyML & XIAO',
+    kicker: 'Partie 26 · Pourquoi le TinyML',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>L&apos;IA sans le cloud</Kicker>
+        <Title>Une vraie intelligence sur une carte qui sirote à peine la batterie</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Card title="Faible latence">Des décisions en une fraction de seconde, sur l&apos;appareil.</Card>
+          <Card title="Fonctionne hors ligne">Aucun internet nécessaire.</Card>
+          <Card title="Privé">L&apos;image ne quitte jamais la carte.</Card>
+          <Card title="Faible consommation" tone="positive">Fonctionne sur une petite batterie.</Card>
+        </div>
+        <Prose>
+          Un XIAO n&apos;a qu&apos;une infime fraction de la mémoire et de la puissance de calcul d&apos;un
+          ordinateur portable, et pourtant il peut faire tourner des modèles compacts. Le TinyML est l&apos;art de
+          rendre les modèles assez petits, assez rapides et assez efficaces pour tenir dedans.
+        </Prose>
+      </div>
+    ),
+  },
 ]
