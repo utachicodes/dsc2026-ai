@@ -79,4 +79,29 @@ export const slides: Slide[] = [
       </div>
     ),
   },
+  {
+    id: 'roadmap',
+    chapter: 'Départ',
+    kicker: 'Le trajet',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Où on va</Kicker>
+        <Title>D&apos;un seul pixel à un modèle qui tourne sur un microcontrôleur</Title>
+        <Prose>
+          La plupart des tutoriels vous disent sur quels boutons cliquer. Celui-ci explique pourquoi chaque étape
+          fonctionne, dans l&apos;ordre qui construit la compréhension plutôt que l&apos;ordre imposé par le logiciel.
+        </Prose>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          <Card title="1 · Qu'est-ce que l'IA">L&apos;intelligence, l&apos;apprentissage automatique, et pourquoi on laisse l&apos;ordinateur trouver les règles.</Card>
+          <Card title="2 · Données">Jeux de données, étiquettes, classificateurs, et comment fonctionne l&apos;apprentissage supervisé.</Card>
+          <Card title="3 · Images">Pixels, RVB, résolution, matrices, et caractéristiques.</Card>
+          <Card title="4 · Réseaux">Neurones, poids, activation, passes avant et arrière.</Card>
+          <Card title="5 · CNN">Convolution, pooling, cartes de caractéristiques, et couches.</Card>
+          <Card title="6 · Entraînement">Découpages, surapprentissage, apprentissage par transfert, perte et précision.</Card>
+          <Card title="7 · TinyML">Quantification, déploiement, et inférence sur le XIAO.</Card>
+          <Card title="Réalisation" tone="positive">Un classificateur pierre-feuille-ciseaux, des données jusqu&apos;à l&apos;appareil.</Card>
+        </div>
+      </div>
+    ),
+  },
 ]
