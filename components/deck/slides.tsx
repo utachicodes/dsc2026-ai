@@ -200,4 +200,40 @@ ALORS chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'ai-ml-dl',
+    chapter: "Qu'est-ce que l'IA",
+    kicker: 'Partie 2 · Vocabulaire',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Trois mots que les élèves confondent</Kicker>
+        <Title>L&apos;IA contient l&apos;apprentissage automatique, qui contient l&apos;apprentissage profond</Title>
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
+          <div className="rounded-xl border bg-card p-6">
+            <div className="rounded-xl border border-border p-5">
+              <div className="font-mono text-sm text-foreground">Intelligence artificielle</div>
+              <div className="mt-4 rounded-xl border border-muted-foreground/30 p-5">
+                <div className="font-mono text-sm text-foreground">Apprentissage automatique</div>
+                <div className="mt-4 rounded-xl border border-primary/50 bg-primary/5 p-5">
+                  <div className="font-mono text-sm text-primary">Apprentissage profond</div>
+                  <p className="mt-1 text-xs text-muted-foreground">Les CNN vivent ici</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3">
+            <Card title="Intelligence artificielle">
+              Toute machine se comportant intelligemment : un moteur d&apos;échecs, une voiture autonome, un assistant vocal.
+            </Card>
+            <Card title="Apprentissage automatique">
+              Un sous-ensemble de l&apos;IA. Au lieu de programmer des règles, la machine les apprend à partir d&apos;exemples.
+            </Card>
+            <Card title="Apprentissage profond" tone="positive">
+              Un sous-ensemble du ML utilisant de grands réseaux de neurones. Idéal pour les images, la parole, le texte et la vidéo.
+            </Card>
+          </div>
+        </div>
+      </div>
+    ),
+  },
 ]
