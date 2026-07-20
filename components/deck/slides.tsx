@@ -748,4 +748,33 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'neuron',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 14 · Neurones',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Le bloc de construction</Kicker>
+        <Title>Un neurone artificiel multiplie, additionne, puis décide</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="Inspiration biologique">
+            <Flow direction="horizontal" steps={[{ label: 'Signaux' }, { label: 'Cellule cérébrale' }, { label: 'Sortie', strong: true }]} />
+          </Card>
+          <Card title="Neurone artificiel" tone="positive">
+            <Flow
+              steps={[
+                { label: 'Nombres en entrée' },
+                { label: 'Multiplier par les poids' },
+                { label: 'Additionner + biais' },
+                { label: 'Activation' },
+                { label: 'Sortie', strong: true },
+              ]}
+            />
+          </Card>
+        </div>
+        <NeuronPulse className="lg:max-w-md" />
+        <Prose>Empilez des millions de ces neurones en couches et vous obtenez un réseau de neurones.</Prose>
+      </div>
+    ),
+  },
 ]
