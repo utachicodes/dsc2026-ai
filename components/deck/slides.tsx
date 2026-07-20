@@ -1200,4 +1200,21 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'training-demo',
+    chapter: 'Bien entraîner',
+    kicker: 'Démo · Entraînement',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif · Parties 18-21</Kicker>
+        <Title className="text-2xl md:text-4xl">Entraînez un modèle et regardez la perte descendre pendant que la précision monte</Title>
+        <Prose>
+          Choisissez un taux d&apos;apprentissage, puis appuyez sur <Mono>Entraîner le modèle</Mono>. Découvrez
+          pourquoi trop petit rampe, trop grand rebondit, et juste bien s&apos;installe sur une précision haute et
+          stable.
+        </Prose>
+        <TrainingSimulator />
+      </div>
+    ),
+  },
 ]
