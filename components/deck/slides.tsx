@@ -913,4 +913,25 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'training-epochs',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 12 & 13 · Entraînement et époques',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Répétition</Kicker>
+        <Title>L&apos;entraînement boucle sur le jeu de données de nombreuses fois</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="La boucle">
+            <Flow steps={[{ label: 'Montrer l’image' }, { label: 'Prédire' }, { label: 'Comparer + ajuster' }, { label: 'Répéter', strong: true }]} />
+          </Card>
+          <Card title="Une époque" tone="positive">
+            Une époque signifie que le modèle a vu tout le jeu de données une fois. Avec 1 000 images, l&apos;époque 1
+            montre les 1 000, l&apos;époque 2 les montre à nouveau, et ainsi de suite pendant de nombreuses époques
+            jusqu&apos;à ce que le modèle cesse de s&apos;améliorer.
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
