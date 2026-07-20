@@ -405,4 +405,40 @@ Sara   20   165`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'dataset',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 4 · Jeux de données',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La collection d&apos;exemples</Kicker>
+        <Title>Un jeu de données est un ensemble de dossiers, un par classe</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <CodeBlock>{`Pomme/    500 images
+Orange/   500 images
+Banane/   500 images`}</CodeBlock>
+            <p className="mt-3 text-sm text-muted-foreground">Chaque nom de dossier est une classe. Le modèle compare entre elles toutes.</p>
+          </Card>
+          <div className="grid gap-3">
+            <Card title="Bon jeu de données" tone="positive">
+              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                {['Volumineux', 'Diversifié', 'Équilibré', 'Correctement étiqueté'].map((t) => (
+                  <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </Card>
+            <Card title="Mauvais jeu de données" tone="negative">
+              <p className="text-sm text-muted-foreground">
+                1000 chats mais seulement 20 chiens rend le modèle biaisé. Que des chats blancs le fait échouer sur les
+                chats noirs. L&apos;équilibre et la variété comptent.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    ),
+  },
 ]
