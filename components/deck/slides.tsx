@@ -1081,4 +1081,23 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'cnn-layers',
+    chapter: 'CNN',
+    kicker: 'Partie 21 · Anatomie',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>La pile complète</Kicker>
+        <Title>Les couches d&apos;un CNN, du début à la fin</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Card title="Entrée">Reçoit les pixels.</Card>
+          <Card title="Convolution">Détecte des motifs avec des filtres glissants.</Card>
+          <Card title="Activation">Ajoute de la non-linéarité, généralement ReLU.</Card>
+          <Card title="Pooling">Compresse, en gardant les caractéristiques clés.</Card>
+          <Card title="Aplatissement">Transforme les cartes de caractéristiques en un long vecteur.</Card>
+          <Card title="Dense + Sortie" tone="positive">Combine tout et produit des probabilités softmax.</Card>
+        </div>
+      </div>
+    ),
+  },
 ]
