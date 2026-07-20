@@ -297,4 +297,32 @@ et queue == longue`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- APPRENTISSAGE & DONNÉES
+  {
+    id: 'supervised',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 4 · Apprentissage supervisé',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Comment Edge Impulse apprend</Kicker>
+        <Title>Chaque exemple porte sa bonne réponse</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow
+              direction="horizontal"
+              steps={[{ label: 'Image' }, { label: 'Chien', strong: true }]}
+            />
+            <div className="mt-3">
+              <Flow direction="horizontal" steps={[{ label: 'Image' }, { label: 'Chat', strong: true }]} />
+            </div>
+          </Card>
+          <Card title="Le signal d'apprentissage" tone="positive">
+            Le modèle fait une supposition, puis la compare à la vérité. La différence entre la prédiction et la
+            vérité est l&apos;<Term>erreur</Term>, et réduire cette erreur, c&apos;est exactement ce que fait
+            l&apos;entraînement.
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
