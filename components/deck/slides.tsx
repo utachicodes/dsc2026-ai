@@ -464,4 +464,43 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'classifier',
+    chapter: 'Apprentissage & Données',
+    kicker: 'Partie 3 · Classificateurs',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Un seul travail</Kicker>
+        <Title>Un classificateur répond : quelle est cette catégorie ?</Title>
+        <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
+          <Card>
+            <Flow
+              steps={[
+                { label: 'Image caméra', hint: 'entrée' },
+                { label: 'Classificateur' },
+                { label: 'Classe + confiance', strong: true, hint: 'sortie' },
+              ]}
+            />
+          </Card>
+          <Card title="Exemple de sortie" tone="positive">
+            <div className="space-y-2 font-mono text-sm">
+              <div className="flex items-center justify-between">
+                <span className="text-primary">Main ouverte</span>
+                <span>97%</span>
+              </div>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>Main fermée</span>
+                <span>2%</span>
+              </div>
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span>Inconnu</span>
+                <span>1%</span>
+              </div>
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">La classe avec la plus haute probabilité l&apos;emporte.</p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
