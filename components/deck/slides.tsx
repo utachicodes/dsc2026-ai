@@ -887,4 +887,30 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'gradient-descent',
+    chapter: 'Réseaux de neurones',
+    kicker: 'Partie 18 & 19 · Descente de gradient',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Marcher vers le bas</Kicker>
+        <Title>Trouvez l&apos;erreur la plus basse en descendant toujours la pente</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
+            <Flow steps={[{ label: 'Perte élevée' }, { label: 'un pas en bas' }, { label: 'un pas en bas' }, { label: 'Minimum', strong: true }]} />
+          </Card>
+          <Card title="Le taux d'apprentissage contrôle la taille du pas" tone="positive">
+            <BulletList
+              items={[
+                <>Pas trop <Term>petits</Term> : apprentissage douloureusement lent</>,
+                <>Pas trop <Term>grands</Term> : on dépasse la cible et on rebondit</>,
+                <>Juste ce qu&apos;il faut : convergence rapide et stable</>,
+              ]}
+            />
+            <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
+          </Card>
+        </div>
+      </div>
+    ),
+  },
 ]
