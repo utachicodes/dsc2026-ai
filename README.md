@@ -14,6 +14,10 @@ Five interactive demos are built into the deck:
 - A confusion matrix you can fill in by classifying sample images
 - An object detection demo comparing single-label classification against a grid based centroid detector
 
+A few key concept slides also include predict-then-reveal challenges: pick an answer before the mechanism is
+explained, and a running score shows in the footer. The Edge Impulse workflow and the final rock, paper, scissors
+build slide use a checklist instead of static bullet points, with progress saved locally as steps get checked off.
+
 ## Running it
 
 ```
