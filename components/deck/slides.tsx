@@ -1211,6 +1211,35 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'fomo-limits',
+    chapter: "Détection d'objets",
+    kicker: 'Rien n’est gratuit',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce que FOMO ne fait pas</Kicker>
+        <Title>Un centre, pas une boîte, et pas deux objets collés</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Card title="Pas de taille" tone="negative">
+            FOMO donne un point, jamais une largeur ni une hauteur. Impossible de savoir si l&apos;objet est petit ou
+            grand rien qu&apos;avec sa sortie.
+          </Card>
+          <Card title="Objets collés" tone="negative">
+            Deux objets de la même classe très proches peuvent fusionner en un seul centroïde détecté, surtout s&apos;ils
+            se touchent dans la grille.
+          </Card>
+          <Card title="Le bon usage" tone="positive">
+            Compter, trier, repérer une présence ou une position approximative : exactement ce dont un projet TinyML
+            a besoin la plupart du temps.
+          </Card>
+        </div>
+        <Prose>
+          Ce compromis est délibéré. FOMO échange de la précision géométrique contre un modèle qui tient réellement
+          dans la mémoire d&apos;un microcontrôleur, ce qui est le seul objectif qui compte ici.
+        </Prose>
+      </div>
+    ),
+  },
   // ---------------------------------------------------------------- BIEN ENTRAÎNER
   {
     id: 'splits',
