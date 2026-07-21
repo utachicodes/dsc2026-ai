@@ -1180,6 +1180,37 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'fomo-numbers',
+    chapter: "Détection d'objets",
+    kicker: 'Les chiffres qui comptent',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce que ça coûte vraiment</Kicker>
+        <Title>Assez léger pour tourner sur une carte de la taille d&apos;une pièce</Title>
+        <Card>
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Image 96x96', hint: 'niveaux de gris' },
+              { label: 'Blocs de 8x8', hint: 'facteur de découpe' },
+              { label: 'Grille 12x12', strong: true, hint: 'une probabilité par cellule' },
+            ]}
+          />
+        </Card>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Stat value="~250" unit="Ko" label="RAM utilisée" />
+          <Stat value="~80" unit="Ko" label="ROM (flash) utilisée" />
+          <Stat value="~143" unit="ms" label="latence par image" />
+          <Stat value="~7" unit="img/s" label="cadence en direct" />
+        </div>
+        <Prose>
+          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de score
+          F1, avec un budget mémoire largement sous la barre du mégaoctet.
+        </Prose>
+      </div>
+    ),
+  },
   // ---------------------------------------------------------------- BIEN ENTRAÎNER
   {
     id: 'splits',
