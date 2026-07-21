@@ -990,6 +990,11 @@ chat1.jpg   ->  Chat`}</CodeBlock>
     content: (
       <div className="flex flex-col gap-8">
         <Kicker>Le bon outil pour les images</Kicker>
+        <Callout label="Rappel">
+          Tout ce chapitre construit encore un <Term>classificateur</Term>, la machine qui répond « quelle catégorie
+          est-ce ? » vue plus tôt. La seule différence, c&apos;est qu&apos;un CNN apprend à répondre directement à
+          partir des pixels, au lieu de caractéristiques déjà résumées pour lui.
+        </Callout>
         <Title>Les pixels voisins sont liés, et les CNN exploitent ça</Title>
         <PredictReveal
           id="why-cnn-params"
@@ -1131,8 +1136,14 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           <Card title="Activation">Ajoute de la non-linéarité, généralement ReLU.</Card>
           <Card title="Pooling">Compresse, en gardant les caractéristiques clés.</Card>
           <Card title="Aplatissement">Transforme les cartes de caractéristiques en un long vecteur.</Card>
-          <Card title="Dense + Sortie" tone="positive">Combine tout et produit des probabilités softmax.</Card>
+          <Card title="Dense + Sortie" tone="positive">
+            La partie classificateur : combine tout et produit une probabilité par classe.
+          </Card>
         </div>
+        <Prose>
+          Tout ce qui précède, convolution, activation, pooling, sert à préparer l&apos;information. C&apos;est
+          seulement à la toute fin qu&apos;un classificateur classique prend le relais et rend sa décision.
+        </Prose>
       </div>
     ),
   },
@@ -1144,6 +1155,10 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       <div className="flex flex-col gap-8">
         <Kicker>La réponse finale</Kicker>
         <Title>La couche de sortie donne une probabilité par classe</Title>
+        <Callout label="Rappel">
+          C&apos;est exactement le rôle d&apos;un <Term>classificateur</Term> : une réponse, une catégorie. Le CNN a
+          juste fait tout le travail de préparation avant que cette dernière couche ne tranche.
+        </Callout>
         <Card title="Classificateur de fruits" tone="positive">
           <div className="space-y-3">
             {[
