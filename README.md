@@ -4,14 +4,15 @@ A slide deck for the DAUST Summer Camp 2026 AI class. It walks through how machi
 
 ## What is in it
 
-54 slides across 8 chapters: Départ, Qu'est-ce que l'IA, Apprentissage & Données, Images, Réseaux de neurones, CNN, Bien entraîner, and TinyML & XIAO.
+58 slides across 9 chapters: Départ, Qu'est-ce que l'IA, Apprentissage & Données, Images, Réseaux de neurones, CNN, Détection d'objets, Bien entraîner, and TinyML & XIAO.
 
-Four interactive demos are built into the deck:
+Five interactive demos are built into the deck:
 
 - A pixel and RGB explorer that bursts a photo into its individual pixels
 - A convolution demo where you slide a 3x3 filter across an image and watch a feature map form
 - A training simulator that shows loss and accuracy curves for different learning rates
 - A confusion matrix you can fill in by classifying sample images
+- An object detection demo comparing single-label classification against a grid based centroid detector
 
 ## Running it
 
@@ -34,7 +35,7 @@ builds and serves a production version.
 ```
 app/                 Next.js app router entry point, global styles
 components/deck/      Slide deck shell, shared slide building blocks, slide content
-components/demos/     The four interactive demo components
+components/demos/     The interactive demo components
 components/ui/        Base UI primitives, including an 8-bit accent set for buttons and progress bars
 lib/                  Small shared utilities
 public/                Static assets
