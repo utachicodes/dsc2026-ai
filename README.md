@@ -4,7 +4,7 @@ A slide deck for the DAUST Summer Camp 2026 AI class. It walks through how machi
 
 ## What is in it
 
-58 slides across 9 chapters: Départ, Qu'est-ce que l'IA, Apprentissage & Données, Images, Réseaux de neurones, CNN, Détection d'objets, Bien entraîner, and TinyML & XIAO.
+57 slides across 8 core chapters (Départ, Qu'est-ce que l'IA, Apprentissage & Données, Images, Réseaux de neurones, CNN, Bien entraîner, TinyML & XIAO) plus an optional bonus chapter on object detection at the end, for anyone who finishes early.
 
 Five interactive demos are built into the deck:
 

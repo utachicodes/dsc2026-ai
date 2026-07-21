@@ -39,9 +39,9 @@ export const CHAPTERS = [
   'Images',
   'Réseaux de neurones',
   'CNN',
-  "Détection d'objets",
   'Bien entraîner',
   'TinyML & XIAO',
+  "Bonus : détection d'objets",
 ] as const
 
 export const slides: Slide[] = [
@@ -821,10 +821,9 @@ chat1.jpg   ->  Chat`}</CodeBlock>
         <Kicker>Où vit la non-linéarité magique</Kicker>
         <Title>Sans fonctions d&apos;activation, l&apos;apprentissage profond s&apos;effondrerait</Title>
         <Callout label="Pourquoi c'est nécessaire">
-          Multiplier et additionner, encore et encore, ça reste au fond une seule grande règle toute droite, même
-          avec mille couches empilées. Une fonction d&apos;activation ajoute exprès un petit coude, une courbe, entre
-          chaque couche. C&apos;est ce petit coude répété qui permet au réseau d&apos;apprendre des motifs vraiment
-          tordus, pas juste des lignes.
+          Sans ce petit coude ajouté entre les couches, empiler mille couches reviendrait à une seule grande règle
+          toute droite. Une fonction d&apos;activation, c&apos;est ce qui permet au réseau d&apos;apprendre des
+          motifs vraiment tordus.
         </Callout>
         <div className="grid gap-3 lg:grid-cols-3">
           <Card title="ReLU">
@@ -878,52 +877,36 @@ chat1.jpg   ->  Chat`}</CodeBlock>
   {
     id: 'backprop',
     chapter: 'Réseaux de neurones',
-    kicker: 'Partie 17 · Rétropropagation',
+    kicker: 'Parties 17-19 · Apprendre de l’erreur',
     content: (
       <div className="flex flex-col gap-8">
         <Kicker>Apprendre de l&apos;erreur</Kicker>
-        <Title>L&apos;erreur voyage vers l&apos;arrière, ajustant chaque poids</Title>
+        <Title>Le modèle corrige ses poids, un petit pas à la fois</Title>
         <Card>
           <Flow
             direction="horizontal"
             steps={[
               { label: 'Prédiction vs vérité' },
               { label: 'Mesurer l’erreur' },
-              { label: 'Renvoyer l’erreur en arrière' },
-              { label: 'Ajuster chaque poids', strong: true },
+              { label: 'Ajuster chaque poids, un petit pas', strong: true },
             ]}
           />
         </Card>
-        <Callout label="Le moteur de l&apos;apprentissage profond">
-          La rétropropagation détermine combien chaque poids a contribué à l&apos;erreur et l&apos;ajuste dans la
-          direction qui aurait réduit cette erreur. Répétez ceci des millions de fois et le réseau devient performant.
+        <Callout label="En une phrase">
+          Le réseau regarde combien il s&apos;est trompé, puis ajuste chaque poids dans la direction qui aurait
+          réduit cette erreur, un peu comme descendre une pente les yeux fermés. Répétez ça des millions de fois et
+          le réseau s&apos;améliore. Edge Impulse fait tout ce calcul pour vous.
         </Callout>
-      </div>
-    ),
-  },
-  {
-    id: 'gradient-descent',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 18 & 19 · Descente de gradient',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Marcher vers le bas</Kicker>
-        <Title>Trouvez l&apos;erreur la plus basse en descendant toujours la pente</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow steps={[{ label: 'Perte élevée' }, { label: 'un pas en bas' }, { label: 'un pas en bas' }, { label: 'Minimum', strong: true }]} />
-          </Card>
-          <Card title="Le taux d'apprentissage contrôle la taille du pas" tone="positive">
-            <BulletList
-              items={[
-                <>Pas trop <Term>petits</Term>{' '}: apprentissage douloureusement lent</>,
-                <>Pas trop <Term>grands</Term>{' '}: on dépasse la cible et on rebondit</>,
-                <>Juste ce qu&apos;il faut : ça <Term>converge</Term>{' '}(la perte descend puis se stabilise) vite et sans rebondir</>,
-              ]}
-            />
-            <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
-          </Card>
-        </div>
+        <Card title="La taille du pas s'appelle le taux d'apprentissage" tone="positive">
+          <BulletList
+            items={[
+              <>Pas trop <Term>petit</Term>{' '}: apprentissage douloureusement lent</>,
+              <>Pas trop <Term>grand</Term>{' '}: on dépasse la cible et on rebondit</>,
+              <>Juste ce qu&apos;il faut : la perte descend vite puis se stabilise</>,
+            ]}
+          />
+          <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
+        </Card>
         <PredictReveal
           id="gradient-descent-lr"
           question="Un taux d'apprentissage 100 fois plus grand que d'habitude va probablement..."
@@ -1185,133 +1168,6 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           </div>
         </Card>
         <Prose>La plus haute probabilité l&apos;emporte. Ce choix unique est la décision du classificateur.</Prose>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- DÉTECTION D'OBJETS
-  {
-    id: 'why-detection',
-    chapter: "Détection d'objets",
-    kicker: 'Démo · Un cran plus loin que la classification',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif</Kicker>
-        <Title className="text-2xl md:text-4xl">Une photo peut cacher plusieurs objets à la fois</Title>
-        <Prose>
-          Jusqu&apos;ici, chaque classificateur regardait une image et rendait un seul label. Mais posez une pomme,
-          une banane et une patate côte à côte, et un classificateur ne peut toujours dire qu&apos;une seule chose.
-          Basculez entre les deux modes ci-dessous pour voir où ça casse, et ce qu&apos;une vraie détection change.
-        </Prose>
-        <FomoDetector />
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-intro',
-    chapter: "Détection d'objets",
-    kicker: 'Une idée née pour les petits appareils',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>FOMO, Faster Objects, More Objects</Kicker>
-        <Title>Les détecteurs classiques sont trop lourds pour un microcontrôleur</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="YOLO, MobileNet SSD..." tone="negative">
-            <p className="leading-relaxed text-muted-foreground">
-              Ces modèles prédisent une boîte englobante complète pour chaque objet : position, largeur, hauteur.
-              Puissant, mais ça demande plusieurs mégaoctets de mémoire, largement plus que ce qu&apos;a un XIAO.
-            </p>
-          </Card>
-          <Card title="FOMO" tone="positive">
-            <p className="leading-relaxed text-muted-foreground">
-              Edge Impulse a conçu FOMO spécifiquement pour ce problème. En abandonnant la boîte pour ne garder que
-              la position, il tourne avec environ <Term>30 fois moins</Term>{' '}de mémoire et d&apos;énergie qu&apos;un
-              détecteur classique.
-            </p>
-          </Card>
-        </div>
-        <Callout label="Le compromis">
-          FOMO ne dit pas la taille d&apos;un objet, seulement où se trouve son centre. Pour compter des pièces, trier
-          des fruits, ou déclencher un geste, c&apos;est largement suffisant, et c&apos;est ce qui tient enfin dans un
-          microcontrôleur.
-        </Callout>
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-numbers',
-    chapter: "Détection d'objets",
-    kicker: 'Les chiffres qui comptent',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce que ça coûte vraiment</Kicker>
-        <Title>Assez léger pour tourner sur une carte de la taille d&apos;une pièce</Title>
-        <Card>
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Image 96x96', hint: 'niveaux de gris' },
-              { label: 'Blocs de 8x8', hint: 'facteur de découpe' },
-              { label: 'Grille 12x12', strong: true, hint: 'une probabilité par cellule' },
-            ]}
-          />
-        </Card>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat value="~250" unit="Ko" label="RAM utilisée" />
-          <Stat value="~80" unit="Ko" label="ROM (flash) utilisée" />
-          <Stat value="~143" unit="ms" label="latence par image" />
-          <Stat value="~7" unit="img/s" label="cadence en direct" />
-        </div>
-        <Prose>
-          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de{' '}
-          <Term>score F1</Term> (une note unique qui mélange deux mesures de qualité, utile quand il y a plusieurs
-          classes), avec un budget mémoire largement sous la barre du mégaoctet.
-        </Prose>
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-limits',
-    chapter: "Détection d'objets",
-    kicker: 'Rien n’est gratuit',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce que FOMO ne fait pas</Kicker>
-        <Title>Un centre, pas une boîte, et pas deux objets collés</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="Pas de taille" tone="negative">
-            FOMO donne un point, jamais une largeur ni une hauteur. Impossible de savoir si l&apos;objet est petit ou
-            grand rien qu&apos;avec sa sortie.
-          </Card>
-          <Card title="Objets collés" tone="negative">
-            Deux objets de la même classe très proches peuvent fusionner en un seul centroïde détecté, surtout s&apos;ils
-            se touchent dans la grille.
-          </Card>
-          <Card title="Le bon usage" tone="positive">
-            Compter, trier, repérer une présence ou une position approximative : exactement ce dont un projet TinyML
-            a besoin la plupart du temps.
-          </Card>
-        </div>
-        <Prose>
-          Ce compromis est délibéré. FOMO échange de la précision géométrique contre un modèle qui tient réellement
-          dans la mémoire d&apos;un microcontrôleur, ce qui est le seul objectif qui compte ici.
-        </Prose>
-        <PredictReveal
-          id="fomo-overlap"
-          question="Deux pommes identiques posées l'une contre l'autre, dans la même cellule de la grille. Que va probablement rendre FOMO ?"
-          options={[
-            { label: 'Deux centroïdes bien séparés' },
-            { label: 'Un seul centroïde fusionné' },
-            { label: 'Aucune détection' },
-          ]}
-          correctIndex={1}
-          explanation={
-            <p>
-              FOMO regarde des probabilités par cellule et fusionne les zones voisines à forte probabilité en un seul
-              point. Deux objets identiques qui se touchent tombent souvent dans les mêmes cellules et se fondent en
-              un centroïde unique, c&apos;est la limite du modèle, pas un bug.
-            </p>
-          }
-        />
       </div>
     ),
   },
@@ -1689,6 +1545,134 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- BONUS : DÉTECTION D'OBJETS
+  {
+    id: 'why-detection',
+    chapter: "Bonus : détection d'objets",
+    kicker: 'Démo · Un cran plus loin que la classification',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif · Pour aller plus loin</Kicker>
+        <Title className="text-2xl md:text-4xl">Une photo peut cacher plusieurs objets à la fois</Title>
+        <Prose>
+          Jusqu&apos;ici, chaque classificateur regardait une image et rendait un seul label. Mais posez une pomme,
+          une banane et une patate côte à côte, et un classificateur ne peut toujours dire qu&apos;une seule chose.
+          Basculez entre les deux modes ci-dessous pour voir où ça casse, et ce qu&apos;une vraie détection change.
+        </Prose>
+        <FomoDetector />
+      </div>
+    ),
+  },
+  {
+    id: 'fomo-intro',
+    chapter: "Bonus : détection d'objets",
+    kicker: 'Une idée née pour les petits appareils',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>FOMO, Faster Objects, More Objects</Kicker>
+        <Title>Les détecteurs classiques sont trop lourds pour un microcontrôleur</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="YOLO, MobileNet SSD..." tone="negative">
+            <p className="leading-relaxed text-muted-foreground">
+              Ces modèles prédisent une boîte englobante complète pour chaque objet : position, largeur, hauteur.
+              Puissant, mais ça demande plusieurs mégaoctets de mémoire, largement plus que ce qu&apos;a un XIAO.
+            </p>
+          </Card>
+          <Card title="FOMO" tone="positive">
+            <p className="leading-relaxed text-muted-foreground">
+              Edge Impulse a conçu FOMO spécifiquement pour ce problème. En abandonnant la boîte pour ne garder que
+              la position, il tourne avec environ <Term>30 fois moins</Term>{' '}de mémoire et d&apos;énergie qu&apos;un
+              détecteur classique.
+            </p>
+          </Card>
+        </div>
+        <Callout label="Le compromis">
+          FOMO ne dit pas la taille d&apos;un objet, seulement où se trouve son centre. Pour compter des pièces, trier
+          des fruits, ou déclencher un geste, c&apos;est largement suffisant, et c&apos;est ce qui tient enfin dans un
+          microcontrôleur.
+        </Callout>
+      </div>
+    ),
+  },
+  {
+    id: 'fomo-numbers',
+    chapter: "Bonus : détection d'objets",
+    kicker: 'Les chiffres qui comptent',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce que ça coûte vraiment</Kicker>
+        <Title>Assez léger pour tourner sur une carte de la taille d&apos;une pièce</Title>
+        <Card>
+          <Flow
+            direction="horizontal"
+            steps={[
+              { label: 'Image 96x96', hint: 'niveaux de gris' },
+              { label: 'Blocs de 8x8', hint: 'facteur de découpe' },
+              { label: 'Grille 12x12', strong: true, hint: 'une probabilité par cellule' },
+            ]}
+          />
+        </Card>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Stat value="~250" unit="Ko" label="RAM utilisée" />
+          <Stat value="~80" unit="Ko" label="ROM (flash) utilisée" />
+          <Stat value="~143" unit="ms" label="latence par image" />
+          <Stat value="~7" unit="img/s" label="cadence en direct" />
+        </div>
+        <Prose>
+          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de{' '}
+          <Term>score F1</Term> (une note unique qui mélange deux mesures de qualité, utile quand il y a plusieurs
+          classes), avec un budget mémoire largement sous la barre du mégaoctet.
+        </Prose>
+      </div>
+    ),
+  },
+  {
+    id: 'fomo-limits',
+    chapter: "Bonus : détection d'objets",
+    kicker: 'Rien n’est gratuit',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>Ce que FOMO ne fait pas</Kicker>
+        <Title>Un centre, pas une boîte, et pas deux objets collés</Title>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <Card title="Pas de taille" tone="negative">
+            FOMO donne un point, jamais une largeur ni une hauteur. Impossible de savoir si l&apos;objet est petit ou
+            grand rien qu&apos;avec sa sortie.
+          </Card>
+          <Card title="Objets collés" tone="negative">
+            Deux objets de la même classe très proches peuvent fusionner en un seul centroïde détecté, surtout s&apos;ils
+            se touchent dans la grille.
+          </Card>
+          <Card title="Le bon usage" tone="positive">
+            Compter, trier, repérer une présence ou une position approximative : exactement ce dont un projet TinyML
+            a besoin la plupart du temps.
+          </Card>
+        </div>
+        <Prose>
+          Ce compromis est délibéré. FOMO échange de la précision géométrique contre un modèle qui tient réellement
+          dans la mémoire d&apos;un microcontrôleur, ce qui est le seul objectif qui compte ici.
+        </Prose>
+        <PredictReveal
+          id="fomo-overlap"
+          question="Deux pommes identiques posées l'une contre l'autre, dans la même cellule de la grille. Que va probablement rendre FOMO ?"
+          options={[
+            { label: 'Deux centroïdes bien séparés' },
+            { label: 'Un seul centroïde fusionné' },
+            { label: 'Aucune détection' },
+          ]}
+          correctIndex={1}
+          explanation={
+            <p>
+              FOMO regarde des probabilités par cellule et fusionne les zones voisines à forte probabilité en un seul
+              point. Deux objets identiques qui se touchent tombent souvent dans les mêmes cellules et se fondent en
+              un centroïde unique, c&apos;est la limite du modèle, pas un bug.
+            </p>
+          }
+        />
+      </div>
+    ),
+  },
+  // ---------------------------------------------------------------- CONCLUSION
   {
     id: 'close',
     chapter: 'TinyML & XIAO',
