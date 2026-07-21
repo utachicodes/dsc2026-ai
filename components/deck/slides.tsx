@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import Image from 'next/image'
 import {
   BulletList,
   Callout,
@@ -21,6 +22,8 @@ import { PixelBurstHero } from '@/components/demos/pixel-burst-hero'
 import { NeuronPulse } from '@/components/demos/neuron-pulse'
 import { FomoDetector } from '@/components/demos/fomo-detector'
 import { Badge as BitBadge } from '@/components/ui/8bit/badge'
+import { PredictReveal } from './predict-reveal'
+import { Checklist } from './checklist'
 
 export type Slide = {
   id: string
@@ -49,6 +52,7 @@ export const slides: Slide[] = [
     kicker: 'DAUST Summer Camp 2026 · AI Robot Mission',
     content: (
       <div className="flex flex-col gap-8">
+        <Image src="/daust-logo.png" alt="DAUST" width={2200} height={337} className="h-8 w-auto self-start" priority />
         <div className="flex flex-wrap items-center gap-3">
           <BitBadge font="normal" className="mx-1.5 text-[10px] tracking-wider">
             AI ROBOT MISSION
@@ -912,6 +916,23 @@ chat1.jpg   ->  Chat`}</CodeBlock>
             <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
           </Card>
         </div>
+        <PredictReveal
+          id="gradient-descent-lr"
+          question="Un taux d'apprentissage 100 fois plus grand que d'habitude va probablement..."
+          options={[
+            { label: 'Apprendre plus vite, sans souci' },
+            { label: 'Rebondir sans jamais se stabiliser' },
+            { label: "Ne rien changer" },
+          ]}
+          correctIndex={1}
+          explanation={
+            <p>
+              Un pas trop grand dépasse le minimum à chaque fois. La perte oscille au lieu de descendre, et le
+              modèle peut même empirer. C&apos;est exactement ce que vous pourrez déclencher vous-même dans le
+              simulateur d&apos;entraînement, un peu plus loin.
+            </p>
+          }
+        />
       </div>
     ),
   },
@@ -970,6 +991,19 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       <div className="flex flex-col gap-8">
         <Kicker>Le bon outil pour les images</Kicker>
         <Title>Les pixels voisins sont liés, et les CNN exploitent ça</Title>
+        <PredictReveal
+          id="why-cnn-params"
+          question="Une image de 224x224 pixels en couleur. Combien de nombres faut-il connecter à un seul neurone pour qu'il voie toute l'image d'un coup ?"
+          options={[{ label: 'Environ 500' }, { label: 'Environ 20 000' }, { label: 'Plus de 150 000' }]}
+          correctIndex={2}
+          explanation={
+            <p>
+              150 528 exactement (224 x 224 x 3 canaux de couleur). Et ça, c&apos;est pour un seul neurone de la
+              première couche. Un réseau classique a besoin de ça pour chaque neurone, ce qui explose vite. Un CNN
+              résout ce problème avec de petits filtres réutilisés partout dans l&apos;image.
+            </p>
+          }
+        />
         <div className="grid gap-6 lg:grid-cols-2">
           <Card title="Un réseau classique sur une image 224x224" tone="negative">
             <Stat value="150 528" label="nombres connectés à chaque neurone" />
@@ -1237,6 +1271,23 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           Ce compromis est délibéré. FOMO échange de la précision géométrique contre un modèle qui tient réellement
           dans la mémoire d&apos;un microcontrôleur, ce qui est le seul objectif qui compte ici.
         </Prose>
+        <PredictReveal
+          id="fomo-overlap"
+          question="Deux pommes identiques posées l'une contre l'autre, dans la même cellule de la grille. Que va probablement rendre FOMO ?"
+          options={[
+            { label: 'Deux centroïdes bien séparés' },
+            { label: 'Un seul centroïde fusionné' },
+            { label: 'Aucune détection' },
+          ]}
+          correctIndex={1}
+          explanation={
+            <p>
+              FOMO regarde des probabilités par cellule et fusionne les zones voisines à forte probabilité en un seul
+              point. Deux objets identiques qui se touchent tombent souvent dans les mêmes cellules et se fondent en
+              un centroïde unique, c&apos;est la limite du modèle, pas un bug.
+            </p>
+          }
+        />
       </div>
     ),
   },
@@ -1280,6 +1331,23 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           </Card>
         </div>
         <Prose>Un bon entraînement trouve l&apos;équilibre entre ces deux extrêmes, et l&apos;ensemble de validation permet de trouver cet équilibre.</Prose>
+        <PredictReveal
+          id="overfitting-scenario"
+          question="Un modèle obtient 99% de précision sur les images d'entraînement, mais seulement 60% sur des photos jamais vues. Que se passe-t-il ?"
+          options={[
+            { label: 'Surapprentissage' },
+            { label: 'Sous-apprentissage' },
+            { label: 'Tout va bien' },
+          ]}
+          correctIndex={0}
+          explanation={
+            <p>
+              Un tel écart entre l&apos;entraînement et le reste est la signature du surapprentissage : le modèle a
+              mémorisé les exemples au lieu d&apos;apprendre le motif général. La solution passe par plus de données,
+              de l&apos;augmentation, ou un modèle plus simple, pas par plus d&apos;entraînement sur les mêmes images.
+            </p>
+          }
+        />
       </div>
     ),
   },
@@ -1437,24 +1505,31 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       <div className="flex flex-col gap-8">
         <Kicker>Jour 6 · Edge Impulse</Kicker>
         <Title>Le flux de travail, des photos jusqu&apos;à un modèle déployable</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            'Créer un projet',
-            'Connecter le XIAO, un téléphone, ou une webcam',
-            'Collecter des images par classe',
-            'Étiqueter chaque image',
-            'Découper en entraînement et test',
-            'Construire un impulse de classification d’images',
-            'Générer les caractéristiques d’image',
-            'Entraîner le réseau de neurones',
-            'Vérifier la précision et la matrice de confusion',
-            'Déployer le modèle',
-          ].map((t, i) => (
-            <Card key={t} title={`Étape ${i + 1}`}>
-              {t}
-            </Card>
-          ))}
-        </div>
+        <Prose>
+          Cochez chaque étape au fur et à mesure que vous l&apos;accomplissez dans Edge Impulse. Votre progression
+          reste enregistrée si vous quittez cette diapositive.
+        </Prose>
+        <Checklist
+          id="edge-impulse-workflow"
+          title="Pratique · De la caméra au modèle"
+          steps={[
+            { id: 'project', label: 'Créer un projet', detail: 'Sur studio.edgeimpulse.com, nouveau projet, choisir "Images".' },
+            { id: 'connect', label: 'Connecter le XIAO, un téléphone, ou une webcam', detail: 'Le flux vidéo doit apparaître dans l’onglet Data acquisition.' },
+            { id: 'collect', label: 'Collecter des images par classe', detail: 'Visez au moins 50 à 100 images par classe, sous des angles variés.' },
+            { id: 'label', label: 'Étiqueter chaque image', detail: 'Chaque image doit porter le nom exact de sa classe.' },
+            { id: 'split', label: 'Découper en entraînement et test', detail: 'Edge Impulse propose un découpage automatique, environ 80/20.' },
+            { id: 'impulse', label: 'Construire un impulse de classification d’images', detail: 'Ajouter un bloc "Image" puis un bloc "Transfer Learning".' },
+            { id: 'features', label: 'Générer les caractéristiques d’image', detail: 'Onglet Image, cliquer sur "Generate features" et vérifier la séparation des classes.' },
+            { id: 'train', label: 'Entraîner le réseau de neurones', detail: 'Onglet Transfer Learning, lancer l’entraînement, surveiller la perte.' },
+            { id: 'evaluate', label: 'Vérifier la précision et la matrice de confusion', detail: 'Onglet Model testing, viser une précision élevée et une diagonale propre.' },
+            {
+              id: 'deploy',
+              label: 'Déployer le modèle',
+              detail: 'Onglet Deployment, choisir "Arduino library", puis inclure le .zip généré dans l’IDE Arduino.',
+              code: '#include <votre-projet_inferencing.h>',
+            },
+          ]}
+        />
       </div>
     ),
   },
@@ -1520,16 +1595,34 @@ chat1.jpg   ->  Chat`}</CodeBlock>
         <Kicker>Tout le cycle de vie en un seul projet</Kicker>
         <Title>Pierre, feuille, ciseaux sur le XIAO</Title>
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <BulletList
-              items={[
-                <>Collectez 100 à 200 images de chacun de pierre, feuille et ciseaux, sous des éclairages et arrière-plans variés</>,
-                <>Entraînez le modèle dans Edge Impulse par apprentissage par transfert</>,
-                <>Déployez sur le XIAO équipé d&apos;une caméra</>,
-                <>La carte classe le geste en temps réel et allume une LED correspondante ou affiche la classe</>,
-              ]}
-            />
-          </Card>
+          <Checklist
+            id="rps-build"
+            title="Pratique · Votre build"
+            steps={[
+              {
+                id: 'collect',
+                label: 'Collectez vos images',
+                detail: '100 à 200 images de chacun de pierre, feuille et ciseaux, sous des éclairages et arrière-plans variés.',
+              },
+              {
+                id: 'train',
+                label: 'Entraînez par apprentissage par transfert',
+                detail: 'Dans Edge Impulse, bloc Transfer Learning, puis vérifiez la matrice de confusion.',
+              },
+              {
+                id: 'deploy',
+                label: 'Déployez sur le XIAO',
+                detail: 'XIAO équipé d’une caméra, bibliothèque Arduino générée par Edge Impulse.',
+                code: 'ei_impulse_result_t result;\nrun_classifier(&signal, &result, false);',
+              },
+              {
+                id: 'react',
+                label: 'Réagissez à la classe détectée',
+                detail: 'Allumez une LED correspondante, ou affichez la classe sur l’écran ou le port série.',
+                code: 'if (result.classification[0].value > 0.8) {\n  digitalWrite(LED_ROCK, HIGH);\n}',
+              },
+            ]}
+          />
           <Callout label="Pourquoi ce projet">
             Il touche à chaque idée de ces deux jours : collecte de données, étiquetage, entraînement, évaluation, et
             inférence sur l&apos;appareil, dans quelque chose que les élèves peuvent construire et comprendre
