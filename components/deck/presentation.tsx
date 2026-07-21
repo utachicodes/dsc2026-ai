@@ -1,12 +1,23 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button as BitButton } from '@/components/ui/8bit/button'
+import { Badge as BitBadge } from '@/components/ui/8bit/badge'
 import { CHAPTERS, slides } from './slides'
+import { QuizProvider, useQuiz } from './quiz-context'
 
 export function Presentation() {
+  return (
+    <QuizProvider>
+      <DeckView />
+    </QuizProvider>
+  )
+}
+
+function DeckView() {
+  const { correct: quizCorrect, total: quizTotal } = useQuiz()
   const [index, setIndex] = useState(0)
   const scrollRef = useRef<HTMLDivElement | null>(null)
   const total = slides.length
@@ -155,10 +166,17 @@ export function Presentation() {
       {/* Footer controls */}
       <footer className="shrink-0 border-t bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8">
-          <div className="font-mono text-sm text-muted-foreground">
-            <span className="text-foreground">{String(index + 1).padStart(2, '0')}</span>
-            <span className="mx-1 opacity-50">/</span>
-            {String(total).padStart(2, '0')}
+          <div className="flex items-center gap-3">
+            <div className="font-mono text-sm text-muted-foreground">
+              <span className="text-foreground">{String(index + 1).padStart(2, '0')}</span>
+              <span className="mx-1 opacity-50">/</span>
+              {String(total).padStart(2, '0')}
+            </div>
+            {quizTotal > 0 ? (
+              <BitBadge font="normal" className="text-[10px] tracking-wider">
+                <Trophy className="mr-1 h-3 w-3" /> {quizCorrect}/{quizTotal}
+              </BitBadge>
+            ) : null}
           </div>
 
           <div className="hidden font-mono text-xs uppercase tracking-wider text-muted-foreground sm:block">
