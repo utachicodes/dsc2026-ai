@@ -127,7 +127,7 @@ export const slides: Slide[] = [
           ))}
         </div>
         <Callout label="Cadrage honnête">
-          L&apos;IA d&apos;aujourd&apos;hui ne recrée que <Term>certaines</Term> de ces capacités, et elle ne pense pas
+          L&apos;IA d&apos;aujourd&apos;hui ne recrée que <Term>certaines</Term>{' '}de ces capacités, et elle ne pense pas
           comme vous. Elle trouve des motifs mathématiques dans d&apos;énormes quantités de données. C&apos;est
           puissant, et c&apos;est aussi sa principale limite.
         </Callout>
@@ -619,7 +619,7 @@ chat1.jpg   ->  Chat`}</CodeBlock>
               items={[
                 <>Plus de détails aide la précision</>,
                 <>Mais chaque pixel supplémentaire coûte de la mémoire et du calcul</>,
-                <>Les microcontrôleurs ont très peu de RAM, donc le TinyML utilise souvent <Mono>96x96</Mono> ou <Mono>160x120</Mono></>,
+                <>Les microcontrôleurs ont très peu de RAM, donc le TinyML utilise souvent <Mono>96x96</Mono>{' '}ou{' '}<Mono>160x120</Mono></>,
               ]}
             />
           </Card>
@@ -741,7 +741,7 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           </Card>
           <Callout label="Important">
             Le modèle ne stocke pas les images d&apos;entraînement. Il stocke des millions de nombres appris appelés{' '}
-            <Term>poids</Term> qui capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut
+            <Term>poids</Term>{' '}qui capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut
             reconnaître des choses qu&apos;il n&apos;a jamais vues.
           </Callout>
         </div>
@@ -902,8 +902,8 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           <Card title="Le taux d'apprentissage contrôle la taille du pas" tone="positive">
             <BulletList
               items={[
-                <>Pas trop <Term>petits</Term> : apprentissage douloureusement lent</>,
-                <>Pas trop <Term>grands</Term> : on dépasse la cible et on rebondit</>,
+                <>Pas trop <Term>petits</Term>{' '}: apprentissage douloureusement lent</>,
+                <>Pas trop <Term>grands</Term>{' '}: on dépasse la cible et on rebondit</>,
                 <>Juste ce qu&apos;il faut : convergence rapide et stable</>,
               ]}
             />
@@ -951,7 +951,7 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           </Card>
           <Card title="Précision" tone="positive">
             <p className="leading-relaxed text-muted-foreground">
-              La part des prédictions correctes. 96 correctes sur 100 images donne <Mono>96%</Mono> de précision.
+              La part des prédictions correctes. 96 correctes sur 100 images donne <Mono>96%</Mono>{' '}de précision.
               Facile à lire, mais comme vous le verrez, ça peut cacher des problèmes.
             </p>
           </Card>
@@ -1023,7 +1023,7 @@ chat1.jpg   ->  Chat`}</CodeBlock>
         <Title className="text-2xl md:text-4xl">Faites glisser un filtre 3x3 et regardez une carte de caractéristiques apparaître</Title>
         <Prose>
           Une convolution est une petite fenêtre qui se déplace sur l&apos;image. Chaque filtre chasse un motif
-          précis. Appuyez sur <Mono>Lancer le balayage</Mono> et changez de filtre pour voir les contours
+          précis. Appuyez sur <Mono>Lancer le balayage</Mono>{' '}et changez de filtre pour voir les contours
           s&apos;illuminer dans la carte de caractéristiques à droite.
         </Prose>
         <ConvolutionDemo />
