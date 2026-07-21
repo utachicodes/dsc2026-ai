@@ -1149,6 +1149,37 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  {
+    id: 'fomo-intro',
+    chapter: "Détection d'objets",
+    kicker: 'Une idée née pour les petits appareils',
+    content: (
+      <div className="flex flex-col gap-8">
+        <Kicker>FOMO, Faster Objects, More Objects</Kicker>
+        <Title>Les détecteurs classiques sont trop lourds pour un microcontrôleur</Title>
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card title="YOLO, MobileNet SSD..." tone="negative">
+            <p className="leading-relaxed text-muted-foreground">
+              Ces modèles prédisent une boîte englobante complète pour chaque objet : position, largeur, hauteur.
+              Puissant, mais ça demande plusieurs mégaoctets de mémoire, largement plus que ce qu&apos;a un XIAO.
+            </p>
+          </Card>
+          <Card title="FOMO" tone="positive">
+            <p className="leading-relaxed text-muted-foreground">
+              Edge Impulse a conçu FOMO spécifiquement pour ce problème. En abandonnant la boîte pour ne garder que
+              la position, il tourne avec environ <Term>30 fois moins</Term>{' '}de mémoire et d&apos;énergie qu&apos;un
+              détecteur classique.
+            </p>
+          </Card>
+        </div>
+        <Callout label="Le compromis">
+          FOMO ne dit pas la taille d&apos;un objet, seulement où se trouve son centre. Pour compter des pièces, trier
+          des fruits, ou déclencher un geste, c&apos;est largement suffisant, et c&apos;est ce qui tient enfin dans un
+          microcontrôleur.
+        </Callout>
+      </div>
+    ),
+  },
   // ---------------------------------------------------------------- BIEN ENTRAÎNER
   {
     id: 'splits',
