@@ -72,11 +72,12 @@ export const slides: Slide[] = [
           </div>
           <PixelBurstHero />
         </div>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Card title="Jour 5">Comment les classificateurs apprennent, les jeux de données, et votre premier modèle.</Card>
-          <Card title="Jour 6">Entraînez un modèle sur mesure et déployez-le sur le XIAO.</Card>
-          <Card title="Quatre démos en direct" tone="positive">
-            Pixels, convolution, entraînement, et une matrice de confusion à explorer.
+          <Card title="Jour 6">Collectez et étiquetez vos données, puis entraînez un modèle sur mesure.</Card>
+          <Card title="Jour 7">Déployez ce modèle sur le XIAO et voyez-le fonctionner en vrai.</Card>
+          <Card title="Cinq démos en direct" tone="positive">
+            Pixels, convolution, détection, entraînement, et une matrice de confusion à explorer.
           </Card>
         </div>
         <p className="font-mono text-sm text-muted-foreground">
@@ -747,8 +748,9 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           </Card>
           <Callout label="Important">
             Le modèle ne stocke pas les images d&apos;entraînement. Il stocke des millions de nombres appris appelés{' '}
-            <Term>poids</Term>{' '}qui capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut
-            reconnaître des choses qu&apos;il n&apos;a jamais vues.
+            <Term>poids</Term>{' '}(vous entendrez aussi le mot <Term>paramètres</Term>, c&apos;est la même chose) qui
+            capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut reconnaître des choses
+            qu&apos;il n&apos;a jamais vues.
           </Callout>
         </div>
       </div>
@@ -802,8 +804,8 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           <Card title="Biais" tone="positive">
             <CodeBlock>{`sortie = poids x entrée + biais`}</CodeBlock>
             <p className="mt-3 text-sm text-muted-foreground">
-              Le biais est un réglage supplémentaire qui décale la frontière de décision, pour qu&apos;un neurone
-              puisse s&apos;activer plus tôt ou plus tard.
+              Le biais est un réglage supplémentaire, un peu comme un bouton de sensibilité : il rend le neurone plus
+              facile ou plus difficile à activer, indépendamment de ce que valent ses entrées.
             </p>
           </Card>
         </div>
@@ -818,6 +820,12 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       <div className="flex flex-col gap-8">
         <Kicker>Où vit la non-linéarité magique</Kicker>
         <Title>Sans fonctions d&apos;activation, l&apos;apprentissage profond s&apos;effondrerait</Title>
+        <Callout label="Pourquoi c'est nécessaire">
+          Multiplier et additionner, encore et encore, ça reste au fond une seule grande règle toute droite, même
+          avec mille couches empilées. Une fonction d&apos;activation ajoute exprès un petit coude, une courbe, entre
+          chaque couche. C&apos;est ce petit coude répété qui permet au réseau d&apos;apprendre des motifs vraiment
+          tordus, pas juste des lignes.
+        </Callout>
         <div className="grid gap-3 lg:grid-cols-3">
           <Card title="ReLU">
             Les négatifs deviennent 0, les positifs passent tels quels. Simple, rapide, et le choix par défaut dans les couches cachées.
@@ -910,7 +918,7 @@ chat1.jpg   ->  Chat`}</CodeBlock>
               items={[
                 <>Pas trop <Term>petits</Term>{' '}: apprentissage douloureusement lent</>,
                 <>Pas trop <Term>grands</Term>{' '}: on dépasse la cible et on rebondit</>,
-                <>Juste ce qu&apos;il faut : convergence rapide et stable</>,
+                <>Juste ce qu&apos;il faut : ça <Term>converge</Term>{' '}(la perte descend puis se stabilise) vite et sans rebondir</>,
               ]}
             />
             <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
@@ -1254,8 +1262,9 @@ chat1.jpg   ->  Chat`}</CodeBlock>
           <Stat value="~7" unit="img/s" label="cadence en direct" />
         </div>
         <Prose>
-          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de score
-          F1, avec un budget mémoire largement sous la barre du mégaoctet.
+          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de{' '}
+          <Term>score F1</Term> (une note unique qui mélange deux mesures de qualité, utile quand il y a plusieurs
+          classes), avec un budget mémoire largement sous la barre du mégaoctet.
         </Prose>
       </div>
     ),
@@ -1518,11 +1527,12 @@ chat1.jpg   ->  Chat`}</CodeBlock>
     kicker: 'Partie 24 & 27 · Flux de travail',
     content: (
       <div className="flex flex-col gap-8">
-        <Kicker>Jour 6 · Edge Impulse</Kicker>
+        <Kicker>Jour 6 & 7 · Edge Impulse</Kicker>
         <Title>Le flux de travail, des photos jusqu&apos;à un modèle déployable</Title>
         <Prose>
           Cochez chaque étape au fur et à mesure que vous l&apos;accomplissez dans Edge Impulse. Votre progression
-          reste enregistrée si vous quittez cette diapositive.
+          reste enregistrée si vous quittez cette diapositive. Les neuf premières étapes, jusqu&apos;à entraîner et
+          vérifier le modèle, se font le jour 6. Le déploiement final commence le jour 7.
         </Prose>
         <Checklist
           id="edge-impulse-workflow"
@@ -1687,14 +1697,18 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       <div className="flex flex-col gap-8">
         <Kicker>Vous pouvez maintenant expliquer</Kicker>
         <Title>D&apos;un seul pixel à un modèle sur le XIAO</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Card title="Récap jour 5">
-            Comment les images deviennent des nombres, comment les classificateurs apprennent à partir de jeux de
-            données étiquetés, et ce qu&apos;est vraiment un premier modèle.
+            Comment les images deviennent des nombres, comment les classificateurs et les CNN apprennent, et ce
+            qu&apos;est vraiment un premier modèle.
           </Card>
           <Card title="Récap jour 6">
-            Comment les CNN s&apos;entraînent, pourquoi l&apos;apprentissage par transfert et la quantification
-            comptent, et comment déployer sur le XIAO.
+            Collecter et étiqueter des données, entraîner un modèle sur mesure, et repérer le surapprentissage grâce
+            à la matrice de confusion.
+          </Card>
+          <Card title="Récap jour 7">
+            Pourquoi l&apos;apprentissage par transfert et la quantification comptent, et comment déployer un modèle
+            sur le XIAO.
           </Card>
           <Card title="Ensuite" tone="positive">
             Ouvrez Edge Impulse, collectez vos données pierre, feuille, ciseaux, et mettez un classificateur
