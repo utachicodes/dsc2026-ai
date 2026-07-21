@@ -19,6 +19,7 @@ import { TrainingSimulator } from '@/components/demos/training-simulator'
 import { ClassifierMatrix } from '@/components/demos/classifier-matrix'
 import { PixelBurstHero } from '@/components/demos/pixel-burst-hero'
 import { NeuronPulse } from '@/components/demos/neuron-pulse'
+import { FomoDetector } from '@/components/demos/fomo-detector'
 import { Badge as BitBadge } from '@/components/ui/8bit/badge'
 
 export type Slide = {
@@ -35,6 +36,7 @@ export const CHAPTERS = [
   'Images',
   'Réseaux de neurones',
   'CNN',
+  "Détection d'objets",
   'Bien entraîner',
   'TinyML & XIAO',
 ] as const
