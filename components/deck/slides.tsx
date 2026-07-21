@@ -1131,6 +1131,24 @@ chat1.jpg   ->  Chat`}</CodeBlock>
       </div>
     ),
   },
+  // ---------------------------------------------------------------- DÉTECTION D'OBJETS
+  {
+    id: 'why-detection',
+    chapter: "Détection d'objets",
+    kicker: 'Démo · Un cran plus loin que la classification',
+    content: (
+      <div className="flex flex-col gap-6">
+        <Kicker>Interactif</Kicker>
+        <Title className="text-2xl md:text-4xl">Une photo peut cacher plusieurs objets à la fois</Title>
+        <Prose>
+          Jusqu&apos;ici, chaque classificateur regardait une image et rendait un seul label. Mais posez une pomme,
+          une banane et une patate côte à côte, et un classificateur ne peut toujours dire qu&apos;une seule chose.
+          Basculez entre les deux modes ci-dessous pour voir où ça casse, et ce qu&apos;une vraie détection change.
+        </Prose>
+        <FomoDetector />
+      </div>
+    ),
+  },
   // ---------------------------------------------------------------- BIEN ENTRAÎNER
   {
     id: 'splits',
