@@ -39,7 +39,7 @@ export function Kicker({ children }: { children: ReactNode }) {
 
 export function Title({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <h2 className={cn('text-balance text-3xl font-bold leading-[1.1] tracking-tight md:text-5xl', className)}>
+    <h2 className={cn('text-balance text-2xl font-bold leading-[1.08] tracking-tight md:text-4xl xl:text-[2.65rem]', className)}>
       {children}
     </h2>
   )
@@ -47,7 +47,7 @@ export function Title({ children, className }: { children: ReactNode; className?
 
 export function Lead({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p className={cn('max-w-3xl text-pretty text-lg leading-relaxed text-muted-foreground md:text-xl', className)}>
+    <p className={cn('max-w-4xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg', className)}>
       {children}
     </p>
   )
@@ -55,7 +55,7 @@ export function Lead({ children, className }: { children: ReactNode; className?:
 
 export function Prose({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p className={cn('max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg', className)}>
+    <p className={cn('max-w-4xl text-pretty text-sm leading-relaxed text-muted-foreground md:text-base', className)}>
       {children}
     </p>
   )
@@ -85,7 +85,7 @@ export function Card({
     <div
       ref={ref}
       className={cn(
-        'rounded-xl border bg-card p-5 transition-all duration-500 ease-out md:p-6',
+        'rounded-xl border bg-card p-4 transition-all duration-500 ease-out md:p-5',
         'hover:-translate-y-0.5 hover:shadow-md hover:shadow-black/5',
         visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0',
         tone === 'positive' && 'border-primary/40',
@@ -218,7 +218,7 @@ export function Stat({ value, label, unit }: { value: string; label: string; uni
     <div
       ref={ref}
       className={cn(
-        'rounded-xl border bg-card p-5 transition-all duration-500 ease-out',
+        'rounded-xl border bg-card p-4 transition-all duration-500 ease-out',
         visible ? 'scale-100 opacity-100' : 'scale-90 opacity-0',
       )}
     >
@@ -237,7 +237,7 @@ export function Callout({ children, label = 'Note' }: { children: ReactNode; lab
     <div
       ref={ref}
       className={cn(
-        'rounded-xl border border-primary/40 bg-primary/5 p-5 transition-all duration-500 ease-out',
+        'rounded-xl border border-primary/40 bg-primary/5 p-4 transition-all duration-500 ease-out',
         visible ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0',
       )}
     >
@@ -255,7 +255,7 @@ export function BulletList({ items }: { items: ReactNode[] }) {
         <li
           key={i}
           className={cn(
-            'group flex gap-3 text-base leading-relaxed text-muted-foreground transition-all duration-500 ease-out md:text-lg',
+            'group flex gap-3 text-sm leading-relaxed text-muted-foreground transition-all duration-500 ease-out md:text-base',
             visible ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0',
           )}
           style={{ transitionDelay: visible ? `${i * 80}ms` : '0ms' }}

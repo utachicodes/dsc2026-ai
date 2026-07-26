@@ -93,8 +93,8 @@ export function TrainingSimulator() {
   const done = epoch >= EPOCHS
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-      <div className="rounded-xl border bg-card p-4 md:p-5">
+    <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
+      <div className="rounded-xl border bg-card p-3 md:p-4">
         <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="Courbes d'entraînement : perte et précision au fil des époques">
           {/* gridlines */}
           {[0, 0.25, 0.5, 0.75, 1].map((t) => (
@@ -138,8 +138,8 @@ export function TrainingSimulator() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="rounded-xl border bg-card p-5">
+      <div className="flex flex-col gap-3">
+        <div className="rounded-xl border bg-card p-4">
           <div className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Taux d’apprentissage</div>
           <div className="flex flex-col gap-2">
             {RATES.map((r) => (

@@ -1,1710 +1,216 @@
 import type { ReactNode } from 'react'
 import Image from 'next/image'
-import {
-  BulletList,
-  Callout,
-  Card,
-  CodeBlock,
-  Flow,
-  Kicker,
-  Lead,
-  Mono,
-  Prose,
-  Stat,
-  Term,
-  Title,
-} from './primitives'
-import { PixelExplorer } from '@/components/demos/pixel-explorer'
-import { ConvolutionDemo } from '@/components/demos/convolution-demo'
-import { TrainingSimulator } from '@/components/demos/training-simulator'
-import { ClassifierMatrix } from '@/components/demos/classifier-matrix'
-import { PixelBurstHero } from '@/components/demos/pixel-burst-hero'
-import { NeuronPulse } from '@/components/demos/neuron-pulse'
-import { FomoDetector } from '@/components/demos/fomo-detector'
-import { Badge as BitBadge } from '@/components/ui/8bit/badge'
+import { BulletList, Callout, Card, Flow, Kicker, Lead, Prose, Stat, Term, Title } from './primitives'
 import { PredictReveal } from './predict-reveal'
-import { Checklist } from './checklist'
+import { Badge as BitBadge } from '@/components/ui/8bit/badge'
+import { PixelBurstHero } from '@/components/demos/pixel-burst-hero'
+import { PixelExplorer } from '@/components/demos/pixel-explorer'
+import { HistoryTimeline } from '@/components/demos/history-timeline'
+import { NeuronLab } from '@/components/demos/neuron-lab'
+import { TrainingSimulator } from '@/components/demos/training-simulator'
+import { ConvolutionDemo } from '@/components/demos/convolution-demo'
+import { GpuRace } from '@/components/demos/gpu-race'
+import { TokenPredictor } from '@/components/demos/token-predictor'
+import { FomoDetector } from '@/components/demos/fomo-detector'
 
 export type Slide = {
   id: string
   chapter: string
   kicker: string
+  minutes: number
+  kind: 'concept' | 'interaction' | 'milestone'
   content: ReactNode
 }
 
-export const CHAPTERS = [
-  'Départ',
-  "Qu'est-ce que l'IA",
-  'Apprentissage & Données',
-  'Images',
-  'Réseaux de neurones',
-  'CNN',
-  'Bien entraîner',
-  'TinyML & XIAO',
-  "Bonus : détection d'objets",
-] as const
+export const CHAPTERS = ['IA ?', 'Histoire', 'Apprendre', 'Réseaux', 'Déclic 2012', 'ChatGPT', 'Détection', 'Mission XIAO'] as const
+
+function ArchiveImage({
+  src,
+  alt,
+  caption,
+  credit,
+  className = '',
+  position = 'center',
+}: {
+  src: string
+  alt: string
+  caption: string
+  credit: string
+  className?: string
+  position?: string
+}) {
+  return (
+    <figure className={`relative min-h-48 overflow-hidden rounded-xl border bg-secondary ${className}`}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 1024px) 45vw, 100vw"
+        className="object-cover grayscale-[15%]"
+        style={{ objectPosition: position }}
+      />
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-4 pb-3 pt-12 text-white">
+        <figcaption className="text-sm font-semibold">{caption}</figcaption>
+        <p className="mt-0.5 font-mono text-[9px] uppercase tracking-wider text-white/70">{credit}</p>
+      </div>
+    </figure>
+  )
+}
 
 export const slides: Slide[] = [
-  // ---------------------------------------------------------------- DÉPART
   {
-    id: 'cover',
-    chapter: 'Départ',
-    kicker: 'DAUST Summer Camp 2026 · AI Robot Mission',
+    id: 'cover', chapter: 'IA ?', kicker: 'DAUST Summer Camp 2026 · AI Robot Mission', minutes: 1, kind: 'milestone',
     content: (
-      <div className="flex flex-col gap-8">
-        <Image src="/daust-logo.png" alt="DAUST" width={2200} height={337} className="h-8 w-auto self-start" priority />
-        <div className="flex flex-wrap items-center gap-3">
-          <BitBadge font="normal" className="mx-1.5 text-[10px] tracking-wider">
-            AI ROBOT MISSION
-          </BitBadge>
-          <Kicker>Seeed Studio XIAO · TinyML</Kicker>
-        </div>
-        <div className="grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center">
-          <div className="flex flex-col gap-5">
-            <h1 className="text-balance text-4xl font-bold leading-[1.05] tracking-tight md:text-7xl">
-              Voir comme une machine
-            </h1>
-            <Lead>
-              Comment un ordinateur transforme une photo en nombres, apprend ce que ces nombres signifient, puis fait
-              tourner cette intelligence sur une carte de la taille d&apos;une pièce de monnaie. On part d&apos;un
-              seul pixel et on termine avec un classificateur d&apos;images qui fonctionne sur le XIAO.
-            </Lead>
-          </div>
+      <div className="deck-slide">
+        <Image src="/daust-logo.png" alt="DAUST" width={2200} height={337} className="h-7 w-auto self-start" priority />
+        <div className="flex flex-wrap items-center gap-3"><BitBadge font="normal" className="text-[10px] tracking-wider">AI ROBOT MISSION</BitBadge><Kicker>De Turing à une caméra intelligente</Kicker></div>
+        <div className="grid items-center gap-6 lg:grid-cols-[1.35fr_0.8fr]">
+          <div><h1 className="text-balance text-4xl font-bold leading-none tracking-tight md:text-6xl">Comment une machine apprend-elle à voir ?</h1><Lead className="mt-4">Nous allons suivre 70 ans d’idées, ouvrir une image pixel par pixel, entraîner un réseau, puis détecter des objets sur un XIAO avec caméra.</Lead></div>
           <PixelBurstHero />
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card title="Jour 5">Comment les classificateurs apprennent, les jeux de données, et votre premier modèle.</Card>
-          <Card title="Jour 6">Collectez et étiquetez vos données, puis entraînez un modèle sur mesure.</Card>
-          <Card title="Jour 7">Déployez ce modèle sur le XIAO et voyez-le fonctionner en vrai.</Card>
-          <Card title="Cinq démos en direct" tone="positive">
-            Pixels, convolution, détection, entraînement, et une matrice de confusion à explorer.
-          </Card>
-        </div>
-        <p className="font-mono text-sm text-muted-foreground">
-          Utilisez les flèches du clavier, ou les boutons ci-dessous. Les diapositives longues défilent.
-        </p>
-      </div>
-    ),
-  },
-  {
-    id: 'roadmap',
-    chapter: 'Départ',
-    kicker: 'Le trajet',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Où on va</Kicker>
-        <Title>D&apos;un seul pixel à un modèle qui tourne sur un microcontrôleur</Title>
-        <Prose>
-          La plupart des tutoriels vous disent sur quels boutons cliquer. Celui-ci explique pourquoi chaque étape
-          fonctionne, dans l&apos;ordre qui construit la compréhension plutôt que l&apos;ordre imposé par le logiciel.
-        </Prose>
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          <Card title="1 · Qu'est-ce que l'IA">L&apos;intelligence, l&apos;apprentissage automatique, et pourquoi on laisse l&apos;ordinateur trouver les règles.</Card>
-          <Card title="2 · Données">Jeux de données, étiquettes, classificateurs, et comment fonctionne l&apos;apprentissage supervisé.</Card>
-          <Card title="3 · Images">Pixels, RVB, résolution, matrices, et caractéristiques.</Card>
-          <Card title="4 · Réseaux">Neurones, poids, activation, passes avant et arrière.</Card>
-          <Card title="5 · CNN">Convolution, pooling, cartes de caractéristiques, et couches.</Card>
-          <Card title="6 · Entraînement">Découpages, surapprentissage, apprentissage par transfert, perte et précision.</Card>
-          <Card title="7 · TinyML">Quantification, déploiement, et inférence sur le XIAO.</Card>
-          <Card title="Réalisation" tone="positive">Un classificateur pierre-feuille-ciseaux, des données jusqu&apos;à l&apos;appareil.</Card>
-        </div>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- QU'EST-CE QUE L'IA
-  {
-    id: 'intelligence',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 1 · Intelligence',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Avant les machines</Kicker>
-        <Title>Qu&apos;est-ce qui rend quelque chose intelligent ?</Title>
-        <Lead>Demandez d&apos;abord à la salle. L&apos;intelligence humaine est un ensemble de capacités, pas une seule chose.</Lead>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            'On apprend par l’expérience',
-            'On reconnaît des motifs',
-            'On se souvient des choses',
-            'On résout des problèmes',
-            'On s’adapte à de nouvelles situations',
-            'On décide avec des informations incomplètes',
-          ].map((t) => (
-            <Card key={t}>{t}</Card>
-          ))}
-        </div>
-        <Callout label="Cadrage honnête">
-          L&apos;IA d&apos;aujourd&apos;hui ne recrée que <Term>certaines</Term>{' '}de ces capacités, et elle ne pense pas
-          comme vous. Elle trouve des motifs mathématiques dans d&apos;énormes quantités de données. C&apos;est
-          puissant, et c&apos;est aussi sa principale limite.
-        </Callout>
-      </div>
-    ),
-  },
-  {
-    id: 'what-is-ai',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 1 · Définition',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Intelligence artificielle</Kicker>
-        <Title>Faire faire à des ordinateurs des choses qui demandent normalement l&apos;intelligence humaine</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            'Reconnaître des visages',
-            'Comprendre la parole',
-            'Traduire des langues',
-            'Conduire une voiture',
-            'Détecter des maladies',
-            'Identifier des objets dans une caméra',
-          ].map((t) => (
-            <Card key={t}>{t}</Card>
-          ))}
-        </div>
-        <Prose>
-          Remarquez que ce sont toutes des tâches où écrire chaque règle à la main est sans espoir. Cette difficulté
-          est la raison même de l&apos;existence du domaine.
-        </Prose>
-      </div>
-    ),
-  },
-  {
-    id: 'traditional-vs-ai',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 1 · Deux philosophies',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le basculement clé</Kicker>
-        <Title>La programmation traditionnelle écrit les règles. L&apos;IA les découvre.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Programmation traditionnelle">
-            <Flow
-              steps={[
-                { label: 'Règles + Données' },
-                { label: 'Programme' },
-                { label: 'Réponse', strong: true },
-              ]}
-            />
-            <CodeBlock className="mt-4">{`SI l'objet a 4 pattes
-ET dit "miaou"
-ALORS chat`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">Vous écrivez chaque règle à la main. Ça casse à la première exception.</p>
-          </Card>
-          <Card title="Apprentissage automatique" tone="positive">
-            <Flow
-              steps={[
-                { label: 'Données + Réponses' },
-                { label: 'Apprentissage' },
-                { label: 'Modèle', strong: true },
-              ]}
-            />
-            <p className="mt-4 leading-relaxed text-muted-foreground">
-              Au lieu de lui dire « les chats ont des moustaches », vous lui montrez des milliers de photos de chats
-              et vous le laissez déterminer ce qui fait qu&apos;un chat est un chat.
-            </p>
-          </Card>
+        <div className="grid grid-cols-4 gap-3">
+          <Card title="1 · Comprendre">Ce que l’IA fait vraiment.</Card><Card title="2 · Expérimenter">Prédire, manipuler, observer.</Card><Card title="3 · Relier">Données + GPU + réseaux.</Card><Card title="4 · Construire" tone="positive">Une détection embarquée.</Card>
         </div>
       </div>
     ),
   },
   {
-    id: 'ai-ml-dl',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 2 · Vocabulaire',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Trois mots que les élèves confondent</Kicker>
-        <Title>L&apos;IA contient l&apos;apprentissage automatique, qui contient l&apos;apprentissage profond</Title>
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-          <div className="rounded-xl border bg-card p-6">
-            <div className="rounded-xl border border-border p-5">
-              <div className="font-mono text-sm text-foreground">Intelligence artificielle</div>
-              <div className="mt-4 rounded-xl border border-muted-foreground/30 p-5">
-                <div className="font-mono text-sm text-foreground">Apprentissage automatique</div>
-                <div className="mt-4 rounded-xl border border-primary/50 bg-primary/5 p-5">
-                  <div className="font-mono text-sm text-primary">Apprentissage profond</div>
-                  <p className="mt-1 text-xs text-muted-foreground">Les CNN vivent ici</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <Card title="Intelligence artificielle">
-              Toute machine se comportant intelligemment : un moteur d&apos;échecs, une voiture autonome, un assistant vocal.
-            </Card>
-            <Card title="Apprentissage automatique">
-              Un sous-ensemble de l&apos;IA. Au lieu de programmer des règles, la machine les apprend à partir d&apos;exemples.
-            </Card>
-            <Card title="Apprentissage profond" tone="positive">
-              Un sous-ensemble du ML utilisant de grands réseaux de neurones. Idéal pour les images, la parole, le texte et la vidéo.
-            </Card>
-          </div>
-        </div>
-      </div>
-    ),
+    id: 'what-is-ai', chapter: 'IA ?', kicker: 'Point de départ · une définition utile', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Qu’est-ce que l’IA ?</Kicker><Title>Une machine réalise une tâche qui demande habituellement de percevoir, apprendre, raisonner ou décider</Title><div className="grid grid-cols-2 gap-4 lg:grid-cols-4"><Card title="Percevoir">Reconnaître une voix ou un objet.</Card><Card title="Apprendre">S’améliorer grâce à des exemples.</Card><Card title="Décider">Choisir une action selon une situation.</Card><Card title="Créer">Produire du texte, une image ou du son.</Card></div><Callout label="Cadrage honnête">Une IA n’est pas une personne numérique. Elle apprend des régularités mathématiques pour réussir une tâche précise.</Callout></div>,
   },
   {
-    id: 'what-is-ml',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 2 · Apprentissage automatique',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Apprendre comme un enfant</Kicker>
-        <Title>On n&apos;explique pas un chien. On en montre plein.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <div className="flex flex-wrap gap-2 font-mono text-sm">
-              {['Chien', 'Chien', 'Chien', 'Chien', 'Chat', 'Chat', 'Chat'].map((t, i) => (
-                <span
-                  key={i}
-                  className={`rounded-md border px-3 py-1.5 ${t === 'Chien' ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border bg-secondary text-muted-foreground'}`}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 leading-relaxed text-muted-foreground">
-              Finalement, l&apos;enfant reconnaît des chiens qu&apos;il n&apos;a jamais vus. Il a généralisé à partir d&apos;exemples.
-            </p>
-          </Card>
-          <Callout label="La définition qui reste">
-            L&apos;apprentissage automatique consiste à trouver des motifs dans des exemples pour pouvoir faire de
-            bonnes suppositions sur de nouveaux exemples jamais vus. Cette dernière partie, la généralisation, c&apos;est
-            tout l&apos;enjeu.
-          </Callout>
-        </div>
-      </div>
-    ),
+    id: 'ai-or-automation', chapter: 'IA ?', kicker: 'Interaction · vote de la classe', minutes: 2, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>IA ou simple automatisation ?</Kicker><Title>Si une machine suit seulement une règle fixe, apprend-elle vraiment ?</Title><PredictReveal id="thermostat-ai" question="Un thermostat classique allume la climatisation quand la température dépasse 25 °C. Est-ce de l’apprentissage automatique ?" options={[{ label: 'Oui, il décide' }, { label: 'Non, règle écrite' }, { label: 'Seulement avec Internet' }]} correctIndex={1} explanation={<p>La décision vient d’une règle écrite par un humain. Un thermostat qui apprendrait vos habitudes à partir de données utiliserait, lui, de l’apprentissage automatique.</p>} /><div className="grid grid-cols-3 gap-3"><Card>Filtre anti-spam qui s’adapte</Card><Card>Feu tricolore avec minuterie</Card><Card>Caméra qui reconnaît un visage</Card></div></div>,
   },
   {
-    id: 'why-ml',
-    chapter: "Qu'est-ce que l'IA",
-    kicker: 'Partie 3 · Pourquoi s’embêter',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le piège de l&apos;écriture de règles</Kicker>
-        <Title>Essayez de coder « chat » à la main et vous ne finirez jamais</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Vos règles">
-            <CodeBlock>{`si oreilles == pointues
-et moustaches == vrai
-et queue == longue`}</CodeBlock>
-          </Card>
-          <Card title="La réalité" tone="negative">
-            <div className="flex flex-wrap gap-2 font-mono text-sm text-muted-foreground">
-              {['chats endormis', 'chats noirs', 'chats poilus', 'vue de côté', 'à l’envers', 'chat de dessin animé'].map((t) => (
-                <span key={t} className="rounded-md border border-border bg-secondary px-3 py-1.5">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 leading-relaxed text-muted-foreground">Trop de cas. Impossible à la main. Alors on laisse la machine apprendre à la place.</p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'rules-vs-examples', chapter: 'IA ?', kicker: 'Le changement de méthode', minutes: 3, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Programmer ou faire apprendre</Kicker><Title>Avec un programme, nous écrivons les règles. Avec le ML, nous montrons des exemples.</Title><div className="grid gap-5 lg:grid-cols-2"><Card title="Programme classique"><Flow direction="horizontal" steps={[{ label: 'Règles' }, { label: 'Données' }, { label: 'Réponse', strong: true }]} /><p className="mt-3 text-sm text-muted-foreground">Parfait quand les règles sont claires : calculer un prix, trier des nombres.</p></Card><Card title="Apprentissage automatique" tone="positive"><Flow direction="horizontal" steps={[{ label: 'Exemples + réponses' }, { label: 'Entraînement' }, { label: 'Modèle', strong: true }]} /><p className="mt-3 text-sm text-muted-foreground">Utile quand les règles seraient impossibles à écrire : reconnaître tous les chats possibles.</p></Card></div><Callout label="Analogie courte">Au lieu de donner une recette complète, on corrige un élève après de nombreux exercices jusqu’à ce qu’il trouve la méthode.</Callout></div>,
   },
-  // ---------------------------------------------------------------- APPRENTISSAGE & DONNÉES
+
   {
-    id: 'supervised',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 4 · Apprentissage supervisé',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Comment Edge Impulse apprend</Kicker>
-        <Title>Chaque exemple porte sa bonne réponse</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow
-              direction="horizontal"
-              steps={[{ label: 'Image' }, { label: 'Chien', strong: true }]}
-            />
-            <div className="mt-3">
-              <Flow direction="horizontal" steps={[{ label: 'Image' }, { label: 'Chat', strong: true }]} />
-            </div>
-          </Card>
-          <Card title="Le signal d'apprentissage" tone="positive">
-            Le modèle fait une supposition, puis la compare à la vérité. La différence entre la prédiction et la
-            vérité est l&apos;<Term>erreur</Term>, et réduire cette erreur, c&apos;est exactement ce que fait
-            l&apos;entraînement.
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'turing-dartmouth', chapter: 'Histoire', kicker: '1950–1956 · la question devient un domaine', minutes: 2, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>Avant les grands modèles</Kicker><Title>Tout commence par une question : une machine peut-elle montrer un comportement intelligent ?</Title><div className="grid gap-4 lg:grid-cols-[0.72fr_1.28fr]"><ArchiveImage src="/history/alan-turing.jpg" alt="Portrait en noir et blanc d’Alan Turing à Princeton en 1936" caption="Alan Turing à Princeton, 1936" credit="Wikimedia Commons · domaine public" className="h-56 lg:h-full" position="center 28%" /><div className="grid gap-3"><Card title="1950 · Le test de Turing"><p className="text-muted-foreground">Turing propose d’évaluer une machine par une conversation : peut-elle produire des réponses difficiles à distinguer de celles d’un humain ?</p></Card><Card title="1956 · Dartmouth" tone="positive"><p className="text-muted-foreground">Des chercheurs donnent un nom au projet : <Term>intelligence artificielle</Term>. Leur ambition est immense, les ordinateurs encore minuscules.</p></Card></div></div><Prose>Le test de Turing n’est pas une preuve de conscience : c’est une manière d’observer un comportement.</Prose></div>,
   },
   {
-    id: 'learning-types',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 5 · Autres saveurs',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Tout n&apos;est pas un classificateur</Kicker>
-        <Title>Trois façons pour une machine d&apos;apprendre</Title>
-        <div className="grid gap-3 lg:grid-cols-3">
-          <Card title="Supervisé">
-            Les données viennent avec des étiquettes : chat, chien, voiture. Le modèle apprend la correspondance entre
-            l&apos;entrée et la réponse connue. C&apos;est ce qu&apos;on utilise au camp.
-          </Card>
-          <Card title="Non supervisé">
-            Pas d&apos;étiquettes. Videz mille pièces de LEGO sur une table et le modèle les regroupe par couleur et
-            taille tout seul.
-          </Card>
-          <Card title="Par renforcement">
-            Pas d&apos;étiquettes, juste des récompenses. Un bon coup rapporte des points, un mauvais en fait perdre.
-            Utilisé pour les robots, les jeux et les drones.
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'perceptron-winters', chapter: 'Histoire', kicker: '1958–1990 · enthousiasme, limites, retours', minutes: 2, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>Une idée en avance sur ses moyens</Kicker><Title>Le neurone artificiel apprend tôt, mais la puissance et les données ne suivent pas</Title><div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]"><ArchiveImage src="/history/mark-i-perceptron.jpg" alt="Le Mark I Perceptron, machine expérimentale de reconnaissance visuelle" caption="Le Mark I Perceptron et son « œil » de photocellules" credit="U.S. Navy · domaine public" className="h-56 lg:h-full" position="center 42%" /><div className="grid gap-3"><Card title="1958 · Perceptron" tone="positive">Une machine ajuste des poids pour séparer des exemples simples.</Card><Card title="Années 1970–1980" tone="negative">Les résultats déçoivent. Les financements baissent : ce sont les « hivers de l’IA ».</Card><Card title="Années 1980">Les systèmes experts reviennent avec des milliers de règles humaines, mais restent fragiles et coûteux.</Card></div></div><Callout label="À retenir">Une bonne idée ne suffit pas. Il faut aussi des données, des machines capables de calculer et une méthode qui passe à grande échelle.</Callout></div>,
   },
   {
-    id: 'data-food',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 6 · Données',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le carburant du modèle</Kicker>
-        <Title>Les données sont à l&apos;IA ce que la nourriture est pour vous</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="grid gap-3">
-            <Card>
-              <Flow direction="horizontal" steps={[{ label: 'Humain' }, { label: 'Nourriture' }, { label: 'Énergie', strong: true }]} />
-            </Card>
-            <Card>
-              <Flow direction="horizontal" steps={[{ label: 'IA' }, { label: 'Données' }, { label: 'Connaissance', strong: true }]} />
-            </Card>
-          </div>
-          <Callout label="Ordures en entrée, ordures en sortie">
-            Si vous nourrissez un modèle avec des données désordonnées, biaisées ou mal étiquetées, vous obtenez un
-            modèle désordonné, biaisé et faux. Aucun algorithme malin ne rattrape de mauvaises données. La qualité des
-            données bat presque toujours l&apos;ingéniosité du modèle.
-          </Callout>
-        </div>
-      </div>
-    ),
+    id: 'history-game', chapter: 'Histoire', kicker: 'Interaction · reconstruire le temps', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Mission chronologie</Kicker><Title className="text-2xl md:text-3xl">Replacez les cinq tournants qui nous conduisent jusqu’aux réseaux modernes</Title><HistoryTimeline /></div>,
+  },
+
+  {
+    id: 'what-learning-means', chapter: 'Apprendre', kicker: 'Les bases · généraliser', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Apprendre à partir d’exemples</Kicker><Title>Le but n’est pas de mémoriser. C’est de réussir sur un exemple jamais vu.</Title><div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]"><Card><Flow direction="horizontal" steps={[{ label: 'Exemples connus' }, { label: 'Motifs appris' }, { label: 'Nouvelle image', strong: true }, { label: 'Prédiction' }]} /></Card><Callout label="Le mot important"><Term>Généraliser</Term>, c’est reconnaître un chien nouveau, sous un angle nouveau, parce qu’on a appris ce qui compte au-delà des photos mémorisées.</Callout></div></div>,
   },
   {
-    id: 'structured-unstructured',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 7 · Types de données',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Deux formes de données</Kicker>
-        <Title>Structurées ressemblent à un tableur. Non structurées, non.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Structurées">
-            <CodeBlock>{`Nom    Âge  Taille
-John   18   172
-Sara   20   165`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">Des lignes et colonnes bien nettes, comme Excel.</p>
-          </Card>
-          <Card title="Non structurées" tone="positive">
-            <div className="flex flex-wrap gap-2 font-mono text-sm text-muted-foreground">
-              {['Images', 'Audio', 'Vidéo', 'Courriels', 'PDF'].map((t) => (
-                <span key={t} className="rounded-md border border-border bg-secondary px-3 py-1.5">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">Les CNN se spécialisent dans les données d&apos;images non structurées, ce vers quoi on se dirige.</p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'supervised-loop', chapter: 'Apprendre', kicker: 'Les bases · apprentissage supervisé', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Une réponse accompagne chaque exemple</Kicker><Title>Prédire, comparer, corriger, recommencer</Title><Flow direction="horizontal" steps={[{ label: 'Image + étiquette' }, { label: 'Prédiction' }, { label: 'Erreur' }, { label: 'Ajuster', strong: true }, { label: 'Répéter' }]} /><PredictReveal id="unseen-cat" question="Après 1 000 chats vus de face, le modèle reçoit un chat vu de dos. Quel risque est le plus probable ?" options={[{ label: 'Aucun risque' }, { label: 'Il peut se tromper' }, { label: 'Il refuse toujours' }]} correctIndex={1} explanation={<p>Si les données manquent de variété, le modèle apprend des raccourcis. Il faut varier angles, lumières, arrière-plans et individus.</p>} /></div>,
   },
   {
-    id: 'dataset',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 4 · Jeux de données',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La collection d&apos;exemples</Kicker>
-        <Title>Un jeu de données est un ensemble de dossiers, un par classe</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CodeBlock>{`Pomme/    500 images
-Orange/   500 images
-Banane/   500 images`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">Chaque nom de dossier est une classe. Le modèle compare entre elles toutes.</p>
-          </Card>
-          <div className="grid gap-3">
-            <Card title="Bon jeu de données" tone="positive">
-              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                {['Volumineux', 'Diversifié', 'Équilibré', 'Correctement étiqueté'].map((t) => (
-                  <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </Card>
-            <Card title="Mauvais jeu de données" tone="negative">
-              <p className="text-sm text-muted-foreground">
-                1000 chats mais seulement 20 chiens rend le modèle biaisé. Que des chats blancs le fait échouer sur les
-                chats noirs. L&apos;équilibre et la variété comptent.
-              </p>
-            </Card>
-          </div>
-        </div>
-      </div>
-    ),
+    id: 'data-labels', chapter: 'Apprendre', kicker: 'Les bases · qualité des données', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Les données sont l’expérience du modèle</Kicker><Title>Un modèle apprend les exemples qu’on lui donne, y compris leurs erreurs</Title><div className="grid grid-cols-3 gap-4"><Card title="Variées">Angles, distances, lumières et arrière-plans différents.</Card><Card title="Bien étiquetées">Chaque image porte la bonne classe ou la bonne position.</Card><Card title="Équilibrées" tone="positive">Assez d’exemples pour chaque objet, sans classe dominante.</Card></div><Callout label="Piège">Si toutes les bananes sont photographiées sur une table rouge, le modèle peut apprendre « table rouge » au lieu de « banane ».</Callout></div>,
   },
   {
-    id: 'labels',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 5 · Étiquettes',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La vérité attachée à chaque exemple</Kicker>
-        <Title>Sans étiquettes, l&apos;apprentissage supervisé est impossible</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CodeBlock>{`chien1.jpg  ->  Chien
-chien2.jpg  ->  Chien
-chat1.jpg   ->  Chat`}</CodeBlock>
-          </Card>
-          <Prose>
-            L&apos;étiquette est la vérité terrain que le modèle utilise pour se vérifier. Une image mal étiquetée
-            enseigne activement quelque chose de faux au modèle, donc un étiquetage soigné n&apos;est pas une corvée,
-            c&apos;est le fondement.
-          </Prose>
-        </div>
-      </div>
-    ),
+    id: 'images-are-numbers', chapter: 'Apprendre', kicker: 'Vision · passer du monde aux nombres', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Que voit l’ordinateur ?</Kicker><Title>Une image est une grille. Chaque pixel contient trois nombres : rouge, vert, bleu.</Title><div className="grid grid-cols-3 gap-4"><Stat value="0–255" label="valeur de chaque canal" /><Stat value="3" label="canaux R, V et B" /><Stat value="224×224" label="taille courante d’entrée" /></div><Card><Flow direction="horizontal" steps={[{ label: 'Lumière' }, { label: 'Capteur caméra' }, { label: 'Pixels RVB' }, { label: 'Matrice de nombres', strong: true }]} /></Card></div>,
   },
   {
-    id: 'classifier',
-    chapter: 'Apprentissage & Données',
-    kicker: 'Partie 3 · Classificateurs',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Un seul travail</Kicker>
-        <Title>Un classificateur répond : quelle est cette catégorie ?</Title>
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.1fr]">
-          <Card>
-            <Flow
-              steps={[
-                { label: 'Image caméra', hint: 'entrée' },
-                { label: 'Classificateur' },
-                { label: 'Classe + confiance', strong: true, hint: 'sortie' },
-              ]}
-            />
-          </Card>
-          <Card title="Exemple de sortie" tone="positive">
-            <div className="space-y-2 font-mono text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-primary">Main ouverte</span>
-                <span>97%</span>
-              </div>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>Main fermée</span>
-                <span>2%</span>
-              </div>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>Inconnu</span>
-                <span>1%</span>
-              </div>
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">La classe avec la plus haute probabilité l&apos;emporte.</p>
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- IMAGES
-  {
-    id: 'what-is-image',
-    chapter: 'Images',
-    kicker: 'Partie 6 · Images',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La grande révélation</Kicker>
-        <Title>Un ordinateur ne voit jamais une image. Il voit des nombres.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Ce que vous voyez">
-            <div className="grid w-40 grid-cols-3 gap-1">
-              {[1, 1, 1, 0, 0, 1, 1, 0, 1].map((v, i) => (
-                <div
-                  key={i}
-                  className="aspect-square rounded"
-                  style={{ backgroundColor: v ? 'var(--foreground)' : 'var(--secondary)' }}
-                />
-              ))}
-            </div>
-            <p className="mt-3 text-sm text-muted-foreground">Une petite forme.</p>
-          </Card>
-          <Card title="Ce que l'ordinateur voit" tone="positive">
-            <CodeBlock>{`255 255 255
-  0   0 255
-255   0 255`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">Ce ne sont que des nombres, du début à la fin.</p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'pixel-explorer', chapter: 'Apprendre', kicker: 'Interaction · ouvrir une image', minutes: 4, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Exploration des pixels</Kicker><Title className="text-2xl md:text-3xl">Explosez l’image, puis inspectez ce que la machine reçoit réellement</Title><PixelExplorer /></div>,
   },
   {
-    id: 'pixels',
-    chapter: 'Images',
-    kicker: 'Partie 7 · Pixels',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Élément d&apos;image</Kicker>
-        <Title>Chaque image est une grille de minuscules carrés colorés</Title>
-        <Prose>Un pixel est le plus petit carré d&apos;une image. Une image, ce sont juste des millions d&apos;entre eux alignés en grille.</Prose>
-        <div className="grid gap-3 sm:grid-cols-3">
-          <Stat value="100 x 100" unit="px" label="10 000 pixels" />
-          <Stat value="96 x 96" unit="px" label="9 216 pixels, courant en TinyML" />
-          <Stat value="4000 x 3000" unit="px" label="12 millions de pixels, une photo de téléphone" />
-        </div>
-      </div>
-    ),
+    id: 'model-inference', chapter: 'Apprendre', kicker: 'Les bases · deux moments différents', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Entraînement ≠ utilisation</Kicker><Title>On apprend sur une grosse machine, puis on exécute le modèle sur le XIAO</Title><div className="grid gap-5 lg:grid-cols-2"><Card title="Entraînement"><BulletList items={[<>Beaucoup d’images étiquetées</>, <>Calculs répétés et coûteux</>, <>Les poids changent</>]} /></Card><Card title="Inférence" tone="positive"><BulletList items={[<>Une nouvelle image de caméra</>, <>Un seul passage rapide</>, <>Les poids restent fixes</>]} /></Card></div><Prose>Le fichier du modèle contient des poids appris, pas un album des images originales.</Prose></div>,
+  },
+
+  {
+    id: 'neural-network', chapter: 'Réseaux', kicker: 'Réseaux de neurones · structure', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Des calculs organisés en couches</Kicker><Title>Chaque couche transforme les nombres et transmet ce qu’elle juge utile</Title><Card><Flow direction="horizontal" steps={[{ label: 'Pixels' }, { label: 'Couche 1', hint: 'contours' }, { label: 'Couche 2', hint: 'textures' }, { label: 'Couche 3', hint: 'formes' }, { label: 'Objet', strong: true }]} /></Card><div className="grid grid-cols-3 gap-3"><Card title="Entrées">Les nombres reçus.</Card><Card title="Poids">L’importance de chaque connexion.</Card><Card title="Activation">Le signal transmis à la suite.</Card></div></div>,
   },
   {
-    id: 'rgb',
-    chapter: 'Images',
-    kicker: 'Partie 8 · RVB',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Trois nombres par pixel</Kicker>
-        <Title>Rouge, vert et bleu, chacun de 0 à 255</Title>
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {[
-            { n: 'Rouge', c: 'rgb(220,40,40)', v: '255, 0, 0' },
-            { n: 'Vert', c: 'rgb(40,190,90)', v: '0, 255, 0' },
-            { n: 'Bleu', c: 'rgb(60,110,230)', v: '0, 0, 255' },
-            { n: 'Jaune', c: 'rgb(230,200,40)', v: '255, 255, 0' },
-            { n: 'Blanc', c: 'rgb(245,245,245)', v: '255, 255, 255' },
-            { n: 'Noir', c: 'rgb(20,20,24)', v: '0, 0, 0' },
-          ].map((s) => (
-            <div key={s.n} className="rounded-xl border bg-card p-3">
-              <div className="mb-2 aspect-square rounded-lg border" style={{ backgroundColor: s.c }} aria-hidden />
-              <div className="text-sm font-medium text-foreground">{s.n}</div>
-              <div className="font-mono text-xs text-muted-foreground">{s.v}</div>
-            </div>
-          ))}
-        </div>
-        <Callout>
-          Mélanger trois canaux de 0 à 255 donne environ 16,7 millions de couleurs possibles par pixel. C&apos;est
-          pourquoi la démo suivante peut reconstruire un perroquet en couleurs à partir de rien d&apos;autre que des
-          triplets de nombres.
-        </Callout>
-      </div>
-    ),
+    id: 'neuron-lab', chapter: 'Réseaux', kicker: 'Interaction · régler une connexion', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Dans un neurone artificiel</Kicker><Title className="text-2xl md:text-3xl">Déplacez le poids : le même signal peut être renforcé, ignoré ou freiné</Title><NeuronLab /><Callout label="Pas de magie">Un neurone multiplie, additionne puis applique un seuil ou une fonction. La puissance vient de millions de petits réglages reliés.</Callout></div>,
   },
   {
-    id: 'pixel-demo',
-    chapter: 'Images',
-    kicker: 'Démo · Explorateur de pixels & RVB',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif</Kicker>
-        <Title className="text-2xl md:text-4xl">Faites exploser l&apos;image et découvrez ce qu&apos;est vraiment un pixel</Title>
-        <Prose>
-          Appuyez sur <Mono>Exploser en pixels</Mono>, changez la résolution, puis survolez n&apos;importe quel
-          carré. L&apos;image que vous reconnaissez se dissout dans les trois nombres avec lesquels la machine
-          travaille réellement.
-        </Prose>
-        <PixelExplorer />
-      </div>
-    ),
+    id: 'deep-layers', chapter: 'Réseaux', kicker: 'Réseaux de neurones · profondeur', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Pourquoi « deep learning » ?</Kicker><Title>Profond signifie simplement : beaucoup de couches de transformations</Title><div className="grid grid-cols-4 gap-3"><Card title="Pixels">Valeurs brutes</Card><Card title="Début">Bords et couleurs</Card><Card title="Milieu">Textures et parties</Card><Card title="Fin" tone="positive">Objet complet</Card></div><Prose>Personne ne programme « cherche une oreille ». Pendant l’entraînement, les couches découvrent les caractéristiques utiles pour réduire l’erreur.</Prose></div>,
   },
   {
-    id: 'resolution',
-    chapter: 'Images',
-    kicker: 'Partie 9 · Résolution',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Combien de pixels</Kicker>
-        <Title>Plus de résolution veut dire plus de détails, et plus de coût</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="grid gap-3 sm:grid-cols-2">
-            <Stat value="32 x 32" label="1 024 pixels" />
-            <Stat value="96 x 96" label="9 216 pixels" />
-          </div>
-          <Card title="Le compromis">
-            <BulletList
-              items={[
-                <>Plus de détails aide la précision</>,
-                <>Mais chaque pixel supplémentaire coûte de la mémoire et du calcul</>,
-                <>Les microcontrôleurs ont très peu de RAM, donc le TinyML utilise souvent <Mono>96x96</Mono>{' '}ou{' '}<Mono>160x120</Mono></>,
-              ]}
-            />
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'learning-from-error', chapter: 'Réseaux', kicker: 'Réseaux de neurones · entraînement', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Corriger des millions de réglages</Kicker><Title>L’erreur indique dans quelle direction ajuster chaque poids</Title><Flow direction="horizontal" steps={[{ label: 'Prédire : chat 30 %' }, { label: 'Vérité : chat' }, { label: 'Mesurer la perte' }, { label: 'Ajuster les poids', strong: true }]} /><div className="grid grid-cols-2 gap-4"><Card title="Pas trop petit">L’apprentissage avance très lentement.</Card><Card title="Pas trop grand" tone="negative">On dépasse la bonne zone et l’erreur rebondit.</Card></div></div>,
   },
   {
-    id: 'matrices',
-    chapter: 'Images',
-    kicker: 'Partie 8 · Matrices',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Les images sont des maths</Kicker>
-        <Title>Une image en niveaux de gris est une matrice. La couleur en fait trois.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Une matrice de luminosité">
-            <CodeBlock>{`120 121 119 118 117
-124 126 123 120 118
-130 132 131 125 120`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">Chaque nombre est une valeur de luminosité.</p>
-          </Card>
-          <Card title="Couleur = trois matrices empilées" tone="positive">
-            <div className="flex gap-3">
-              {['R', 'V', 'B'].map((c, i) => (
-                <div
-                  key={c}
-                  className="flex-1 rounded-lg border p-3 text-center font-mono text-sm"
-                  style={{ color: `var(--rgb-${['red', 'green', 'blue'][i]})` }}
-                >
-                  matrice {c}
-                </div>
-              ))}
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Empilez les matrices rouge, verte et bleue et vous obtenez une image en couleurs complète, purement
-              faite de nombres.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'training-simulator', chapter: 'Réseaux', kicker: 'Interaction · ressentir l’entraînement', minutes: 4, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Simulateur d’apprentissage</Kicker><Title className="text-2xl md:text-3xl">Changez la taille du pas : regardez la perte descendre… ou rebondir</Title><TrainingSimulator /></div>,
   },
   {
-    id: 'normalize',
-    chapter: 'Images',
-    kicker: 'Partie 9 · Prétraitement',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Préparer les nombres</Kicker>
-        <Title>La normalisation ramène les pixels de 0-255 à 0-1</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow direction="horizontal" steps={[{ label: '128' }, { label: '128 / 255' }, { label: '0,502', strong: true }]} />
-          </Card>
-          <Prose>
-            Les réseaux de neurones s&apos;entraînent plus stablement quand leurs entrées sont petites et cohérentes.
-            Diviser chaque pixel par 255 garde les calculs bien maîtrisés et accélère l&apos;apprentissage.
-          </Prose>
-        </div>
-      </div>
-    ),
+    id: 'why-cnn', chapter: 'Réseaux', kicker: 'Vision · réseaux convolutifs', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Un réseau adapté aux images</Kicker><Title>Un CNN cherche de petits motifs partout dans l’image</Title><div className="grid gap-4 lg:grid-cols-[1.2fr_1fr]"><Card title="Même motif, autre endroit"><div className="grid grid-cols-5 gap-2">{['↖','↑','↗','←','→','↙','↓','↘','◎','◇'].map((shape, index) => <span key={index} className="rounded border bg-secondary p-3 text-center text-xl">{shape}</span>)}</div></Card><Callout label="Idée clé">Un filtre appris glisse sur l’image. Il peut repérer un bord en haut à gauche ou en bas à droite avec les mêmes poids.</Callout></div></div>,
   },
   {
-    id: 'augmentation',
-    chapter: 'Images',
-    kicker: 'Partie 10 · Augmentation',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Des données gratuites en plus</Kicker>
-        <Title>Transformez 50 images en centaines en les modifiant</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card title="Rotation">Une inclinaison de 15 degrés reste le même objet.</Card>
-          <Card title="Miroir">Reflétez-le de gauche à droite.</Card>
-          <Card title="Zoom">Mise à l&apos;échelle à 1,2x.</Card>
-          <Card title="Luminosité">Rendez-le plus sombre ou plus clair.</Card>
-        </div>
-        <Callout>
-          L&apos;augmentation apprend au modèle qu&apos;un objet reste ce même objet sous des angles et un éclairage
-          différents. C&apos;est l&apos;une des façons les moins chères de rendre un petit jeu de données bien plus
-          robuste.
-        </Callout>
-      </div>
-    ),
+    id: 'convolution', chapter: 'Réseaux', kicker: 'Interaction · convolution', minutes: 4, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Le filtre en action</Kicker><Title className="text-2xl md:text-3xl">Faites glisser une fenêtre 3×3 et construisez une carte de caractéristiques</Title><ConvolutionDemo /></div>,
+  },
+
+  {
+    id: 'internet-data', chapter: 'Déclic 2012', kicker: 'Années 1990–2000 · le carburant arrive', minutes: 2, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>Pourquoi l’IA accélère soudainement</Kicker><Title>Internet et les appareils numériques produisent une quantité gigantesque d’exemples</Title><div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]"><div className="grid gap-3"><Card title="Web">Textes, pages et images deviennent accessibles.</Card><Card title="Caméras">Téléphones et capteurs créent des milliards d’images.</Card><Card title="Étiquettes" tone="positive">Des humains nomment, classent et corrigent les exemples.</Card></div><ArchiveImage src="/history/digital-media.jpg" alt="Groupe de personnes utilisant leurs smartphones" caption="Des milliards de capteurs deviennent des sources de données" credit="Rawpixel.com · CC0" className="h-56 lg:h-full" /></div><Callout label="Nuance">Plus de données n’est pas automatiquement mieux : la qualité, le consentement, la diversité et les biais comptent.</Callout></div>,
   },
   {
-    id: 'features',
-    chapter: 'Images',
-    kicker: 'Partie 10 · Caractéristiques',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce que le modèle recherche</Kicker>
-        <Title>Les humains remarquent les yeux et les contours. Les réseaux apprennent les caractéristiques automatiquement.</Title>
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {['Contours', 'Coins', 'Couleur', 'Forme', 'Texture'].map((t) => (
-            <Card key={t}>{t}</Card>
-          ))}
-        </div>
-        <Prose>
-          Dans l&apos;ancienne vision par ordinateur, les ingénieurs concevaient ces caractéristiques à la main. La
-          percée de l&apos;apprentissage profond, c&apos;est que le réseau découvre lui-même des caractéristiques
-          utiles, directement à partir des pixels.
-        </Prose>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- RÉSEAUX DE NEURONES
-  {
-    id: 'model',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 11 · Modèles',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Connaissance apprise</Kicker>
-        <Title>Un modèle est un cerveau compressé, pas un album photo</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow steps={[{ label: 'Jeu de données' }, { label: 'Apprentissage' }, { label: 'Modèle', strong: true }, { label: 'Prédiction' }]} />
-          </Card>
-          <Callout label="Important">
-            Le modèle ne stocke pas les images d&apos;entraînement. Il stocke des millions de nombres appris appelés{' '}
-            <Term>poids</Term>{' '}(vous entendrez aussi le mot <Term>paramètres</Term>, c&apos;est la même chose) qui
-            capturent ce qu&apos;il en a appris. C&apos;est pourquoi un tout petit fichier peut reconnaître des choses
-            qu&apos;il n&apos;a jamais vues.
-          </Callout>
-        </div>
-      </div>
-    ),
+    id: 'why-gpu', chapter: 'Déclic 2012', kicker: 'Le calcul · beaucoup de multiplications', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Le second ingrédient</Kicker><Title>Les jeux vidéo avaient déjà créé la machine idéale pour entraîner des réseaux</Title><div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]"><div className="grid gap-3"><Card title="CPU"><div className="font-mono text-4xl">4–16</div><p className="mt-2 text-sm text-muted-foreground">Quelques cœurs flexibles pour des tâches variées.</p></Card><Card title="GPU" tone="positive"><div className="font-mono text-4xl text-primary">1000+</div><p className="mt-2 text-sm text-muted-foreground">Beaucoup de petits cœurs pour répéter le même calcul en parallèle.</p></Card></div><ArchiveImage src="/history/geforce-gtx-280.jpg" alt="Carte graphique NVIDIA GeForce GTX 280 démontée" caption="Un GPU : beaucoup de calculs effectués en parallèle" credit="Fritzchens Fritz · CC0" className="h-56 lg:h-full" /></div><Prose>Les réseaux utilisent surtout des multiplications de matrices : exactement le type de travail qu’un GPU peut paralléliser.</Prose></div>,
   },
   {
-    id: 'neuron',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 14 · Neurones',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le bloc de construction</Kicker>
-        <Title>Un neurone artificiel multiplie, additionne, puis décide</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Inspiration biologique">
-            <Flow direction="horizontal" steps={[{ label: 'Signaux' }, { label: 'Cellule cérébrale' }, { label: 'Sortie', strong: true }]} />
-          </Card>
-          <Card title="Neurone artificiel" tone="positive">
-            <Flow
-              steps={[
-                { label: 'Nombres en entrée' },
-                { label: 'Multiplier par les poids' },
-                { label: 'Additionner + biais' },
-                { label: 'Activation' },
-                { label: 'Sortie', strong: true },
-              ]}
-            />
-          </Card>
-        </div>
-        <NeuronPulse className="lg:max-w-md" />
-        <Prose>Empilez des millions de ces neurones en couches et vous obtenez un réseau de neurones.</Prose>
-      </div>
-    ),
+    id: 'gpu-race', chapter: 'Déclic 2012', kicker: 'Interaction · calcul séquentiel ou parallèle', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Course CPU contre GPU</Kicker><Title className="text-2xl md:text-3xl">Même grille de calculs, deux manières de travailler</Title><GpuRace /></div>,
   },
   {
-    id: 'weights-bias',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 12 & 13 · Poids et biais',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La mémoire du réseau</Kicker>
-        <Title>L&apos;entraînement, c&apos;est juste ajuster les poids et les biais</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Poids">
-            <p className="leading-relaxed text-muted-foreground">
-              Chaque connexion a un nombre comme <Mono>0,2</Mono>, <Mono>-0,4</Mono>, ou <Mono>0,9</Mono>.
-              L&apos;entraînement change ces nombres et rien d&apos;autre. Les modèles modernes en contiennent des
-              millions ou des milliards.
-            </p>
-          </Card>
-          <Card title="Biais" tone="positive">
-            <CodeBlock>{`sortie = poids x entrée + biais`}</CodeBlock>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Le biais est un réglage supplémentaire, un peu comme un bouton de sensibilité : il rend le neurone plus
-              facile ou plus difficile à activer, indépendamment de ce que valent ses entrées.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'imagenet', chapter: 'Déclic 2012', kicker: '2009 · un terrain d’entraînement commun', minutes: 2, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>ImageNet</Kicker><Title>Des millions d’images étiquetées permettent enfin de comparer les modèles sur le même défi</Title><div className="grid grid-cols-3 gap-4"><Stat value="14 M+" label="images dans le projet complet" /><Stat value="20 k+" label="catégories organisées" /><Stat value="1 000" label="classes du concours classique" /></div><Card><Flow direction="horizontal" steps={[{ label: 'Même jeu de données' }, { label: 'Même test' }, { label: 'Scores comparables' }, { label: 'Progrès visible', strong: true }]} /></Card></div>,
   },
   {
-    id: 'activation',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 14 · Fonctions d’activation',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Où vit la non-linéarité magique</Kicker>
-        <Title>Sans fonctions d&apos;activation, l&apos;apprentissage profond s&apos;effondrerait</Title>
-        <Callout label="Pourquoi c'est nécessaire">
-          Sans ce petit coude ajouté entre les couches, empiler mille couches reviendrait à une seule grande règle
-          toute droite. Une fonction d&apos;activation, c&apos;est ce qui permet au réseau d&apos;apprendre des
-          motifs vraiment tordus.
-        </Callout>
-        <div className="grid gap-3 lg:grid-cols-3">
-          <Card title="ReLU">
-            Les négatifs deviennent 0, les positifs passent tels quels. Simple, rapide, et le choix par défaut dans les couches cachées.
-          </Card>
-          <Card title="Sigmoïde">
-            Compresse n&apos;importe quel nombre dans l&apos;intervalle 0 à 1. Pratique pour les décisions oui ou non.
-          </Card>
-          <Card title="Softmax" tone="positive">
-            Transforme les scores finaux en probabilités qui totalisent 100 %, pour pouvoir les lire comme des niveaux de confiance.
-          </Card>
-        </div>
-        <Card title="Exemple de softmax">
-          <div className="flex flex-wrap gap-4 font-mono text-sm">
-            <span className="text-primary">Chat 0,82</span>
-            <span className="text-muted-foreground">Chien 0,11</span>
-            <span className="text-muted-foreground">Oiseau 0,07</span>
-            <span className="text-muted-foreground">= 1,00</span>
-          </div>
-        </Card>
-      </div>
-    ),
+    id: 'imagenet-challenge', chapter: 'Déclic 2012', kicker: 'Interaction · repérer un mauvais raccourci', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Que va réellement apprendre le modèle ?</Kicker><Title>Le contexte peut être plus facile à apprendre que l’objet</Title><PredictReveal id="cow-background" question="Toutes les photos de vaches montrent de l’herbe verte. Sur quoi le modèle risque-t-il de s’appuyer ?" options={[{ label: 'La forme de la vache' }, { label: 'L’herbe verte' }, { label: 'La date du fichier' }]} correctIndex={1} explanation={<p>Un modèle cherche le raccourci statistique le plus utile. Il faut donc varier les contextes et tester sur des situations nouvelles.</p>} /><div className="grid grid-cols-3 gap-3"><Card>Vache sur herbe</Card><Card>Vache sur route</Card><Card tone="positive">Vache en gros plan</Card></div></div>,
   },
   {
-    id: 'forward-prop',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 16 · Propagation avant',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Faire une prédiction</Kicker>
-        <Title>Les données avancent à travers les couches</Title>
-        <Card>
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Image' },
-              { label: 'Couche 1' },
-              { label: 'Couche 2' },
-              { label: 'Couche 3' },
-              { label: 'Prédiction', strong: true },
-            ]}
-          />
-        </Card>
-        <Prose>
-          Chaque couche transforme un peu plus les nombres, extrayant une information plus significative. Quand les
-          nombres arrivent au bout, on a une prédiction. Ce trajet à sens unique s&apos;appelle la propagation avant.
-        </Prose>
-      </div>
-    ),
+    id: 'alexnet', chapter: 'Déclic 2012', kicker: '2012 · la démonstration', minutes: 3, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>AlexNet</Kicker><Title>Un CNN profond entraîné sur GPU gagne ImageNet avec une avance spectaculaire</Title><div className="grid gap-4 lg:grid-cols-[1.2fr_1fr]"><Card><Flow direction="horizontal" steps={[{ label: 'ImageNet', hint: 'données' }, { label: 'GPU', hint: 'calcul' }, { label: 'CNN', hint: 'méthode' }, { label: 'AlexNet', strong: true }]} /></Card><Card title="Le déclic" tone="positive">Les réseaux de neurones ne sont plus seulement une vieille idée intéressante : ils deviennent la meilleure méthode pour comprendre les images à grande échelle.</Card></div><Callout label="Le trio à retenir">Les données nourrissent le modèle, le GPU rend les essais possibles et le réseau apprend les motifs.</Callout></div>,
+  },
+
+  {
+    id: 'from-images-to-language', chapter: 'ChatGPT', kicker: 'Des pixels aux séquences', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>La même logique change de média</Kicker><Title>Pour le langage, le modèle apprend les motifs entre des morceaux de texte</Title><div className="grid grid-cols-2 gap-5"><Card title="Vision"><Flow direction="horizontal" steps={[{ label: 'Pixels' }, { label: 'Motifs visuels' }, { label: 'Objet', strong: true }]} /></Card><Card title="Langage" tone="positive"><Flow direction="horizontal" steps={[{ label: 'Tokens' }, { label: 'Motifs de texte' }, { label: 'Token suivant', strong: true }]} /></Card></div><Prose>Un <Term>token</Term> peut être un mot, une partie de mot ou un signe de ponctuation.</Prose></div>,
   },
   {
-    id: 'backprop',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Parties 17-19 · Apprendre de l’erreur',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Apprendre de l&apos;erreur</Kicker>
-        <Title>Le modèle corrige ses poids, un petit pas à la fois</Title>
-        <Card>
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Prédiction vs vérité' },
-              { label: 'Mesurer l’erreur' },
-              { label: 'Ajuster chaque poids, un petit pas', strong: true },
-            ]}
-          />
-        </Card>
-        <Callout label="En une phrase">
-          Le réseau regarde combien il s&apos;est trompé, puis ajuste chaque poids dans la direction qui aurait
-          réduit cette erreur, un peu comme descendre une pente les yeux fermés. Répétez ça des millions de fois et
-          le réseau s&apos;améliore. Edge Impulse fait tout ce calcul pour vous.
-        </Callout>
-        <Card title="La taille du pas s'appelle le taux d'apprentissage" tone="positive">
-          <BulletList
-            items={[
-              <>Pas trop <Term>petit</Term>{' '}: apprentissage douloureusement lent</>,
-              <>Pas trop <Term>grand</Term>{' '}: on dépasse la cible et on rebondit</>,
-              <>Juste ce qu&apos;il faut : la perte descend vite puis se stabilise</>,
-            ]}
-          />
-          <p className="mt-3 text-sm text-muted-foreground">Vous allez ressentir ça directement dans le simulateur d&apos;entraînement, bientôt.</p>
-        </Card>
-        <PredictReveal
-          id="gradient-descent-lr"
-          question="Un taux d'apprentissage 100 fois plus grand que d'habitude va probablement..."
-          options={[
-            { label: 'Apprendre plus vite, sans souci' },
-            { label: 'Rebondir sans jamais se stabiliser' },
-            { label: "Ne rien changer" },
-          ]}
-          correctIndex={1}
-          explanation={
-            <p>
-              Un pas trop grand dépasse le minimum à chaque fois. La perte oscille au lieu de descendre, et le
-              modèle peut même empirer. C&apos;est exactement ce que vous pourrez déclencher vous-même dans le
-              simulateur d&apos;entraînement, un peu plus loin.
-            </p>
-          }
-        />
-      </div>
-    ),
+    id: 'token-game', chapter: 'ChatGPT', kicker: 'Interaction · prochain token', minutes: 3, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Jouez comme un modèle de langage</Kicker><Title className="text-2xl md:text-3xl">Quel morceau de texte devrait venir ensuite ?</Title><TokenPredictor /></div>,
   },
   {
-    id: 'training-epochs',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 12 & 13 · Entraînement et époques',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Répétition</Kicker>
-        <Title>L&apos;entraînement boucle sur le jeu de données de nombreuses fois</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="La boucle">
-            <Flow steps={[{ label: 'Montrer l’image' }, { label: 'Prédire' }, { label: 'Comparer + ajuster' }, { label: 'Répéter', strong: true }]} />
-          </Card>
-          <Card title="Une époque" tone="positive">
-            Une époque signifie que le modèle a vu tout le jeu de données une fois. Avec 1 000 images, l&apos;époque 1
-            montre les 1 000, l&apos;époque 2 les montre à nouveau, et ainsi de suite pendant de nombreuses époques
-            jusqu&apos;à ce que le modèle cesse de s&apos;améliorer.
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'openai-chatgpt', chapter: 'ChatGPT', kicker: '2015–2022 · IA générative', minutes: 3, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>OpenAI et ChatGPT</Kicker><Title>Un grand modèle de langage devient une interface de conversation accessible à tous</Title><div className="grid grid-cols-3 gap-4"><Card title="2015">Création d’OpenAI, laboratoire de recherche en IA.</Card><Card title="2018–2020">Les modèles GPT apprennent à générer du texte à une échelle croissante.</Card><Card title="2022" tone="positive">ChatGPT transforme cette capacité en dialogue simple à utiliser.</Card></div><Callout label="Limite essentielle">Prédire une suite plausible ne garantit ni vérité ni compréhension humaine. Il faut vérifier les faits, les sources et les conséquences.</Callout></div>,
+  },
+
+  {
+    id: 'classification-detection', chapter: 'Détection', kicker: 'Vision · trois questions différentes', minutes: 2, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>Voir plus qu’une étiquette</Kicker><Title>Classifier dit « quoi ». Détecter dit « quoi, combien et où ».</Title><div className="grid grid-cols-3 gap-4"><Card title="Classification">Cette image contient surtout une pomme.</Card><Card title="Localisation">La pomme est à cet endroit.</Card><Card title="Détection" tone="positive">Voici chaque pomme, banane et patate présente.</Card></div><Flow direction="horizontal" steps={[{ label: 'Image caméra' }, { label: 'Caractéristiques CNN' }, { label: 'Classes + positions', strong: true }]} /></div>,
   },
   {
-    id: 'loss-accuracy',
-    chapter: 'Réseaux de neurones',
-    kicker: 'Partie 20 & 21 · Perte et précision',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Deux nombres à surveiller</Kicker>
-        <Title>La perte mesure à quel point on se trompe. La précision, à quelle fréquence on a raison.</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Perte">
-            <p className="leading-relaxed text-muted-foreground">
-              Un seul nombre mesurant à quel point les prédictions sont loin de la vérité. Une perte élevée signifie
-              très faux, une perte basse signifie presque correct. L&apos;entraînement existe pour minimiser la perte.
-            </p>
-          </Card>
-          <Card title="Précision" tone="positive">
-            <p className="leading-relaxed text-muted-foreground">
-              La part des prédictions correctes. 96 correctes sur 100 images donne <Mono>96%</Mono>{' '}de précision.
-              Facile à lire, mais comme vous le verrez, ça peut cacher des problèmes.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- CNN
-  {
-    id: 'why-cnn',
-    chapter: 'CNN',
-    kicker: 'Partie 15 & 20 · Pourquoi les CNN',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le bon outil pour les images</Kicker>
-        <Callout label="Rappel">
-          Tout ce chapitre construit encore un <Term>classificateur</Term>, la machine qui répond « quelle catégorie
-          est-ce ? » vue plus tôt. La seule différence, c&apos;est qu&apos;un CNN apprend à répondre directement à
-          partir des pixels, au lieu de caractéristiques déjà résumées pour lui.
-        </Callout>
-        <Title>Les pixels voisins sont liés, et les CNN exploitent ça</Title>
-        <PredictReveal
-          id="why-cnn-params"
-          question="Une image de 224x224 pixels en couleur. Combien de nombres faut-il connecter à un seul neurone pour qu'il voie toute l'image d'un coup ?"
-          options={[{ label: 'Environ 500' }, { label: 'Environ 20 000' }, { label: 'Plus de 150 000' }]}
-          correctIndex={2}
-          explanation={
-            <p>
-              150 528 exactement (224 x 224 x 3 canaux de couleur). Et ça, c&apos;est pour un seul neurone de la
-              première couche. Un réseau classique a besoin de ça pour chaque neurone, ce qui explose vite. Un CNN
-              résout ce problème avec de petits filtres réutilisés partout dans l&apos;image.
-            </p>
-          }
-        />
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Un réseau classique sur une image 224x224" tone="negative">
-            <Stat value="150 528" label="nombres connectés à chaque neurone" />
-            <p className="mt-3 text-sm text-muted-foreground">Des millions de paramètres, lent, et ça ignore qu&apos;un pixel est lié à ses voisins.</p>
-          </Card>
-          <Card title="Un CNN" tone="positive">
-            <p className="leading-relaxed text-muted-foreground">
-              Réutilise de petits filtres qui glissent sur toute l&apos;image. Bien moins de paramètres, bien plus
-              rapide, et ça respecte la structure 2D d&apos;une image. C&apos;est la norme pour la reconnaissance
-              d&apos;images.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
+    id: 'fomo-demo', chapter: 'Détection', kicker: 'Interaction · classification contre détection', minutes: 4, kind: 'interaction',
+    content: <div className="deck-slide"><Kicker>Une scène, plusieurs objets</Kicker><Title className="text-2xl md:text-3xl">Basculez de la classification à FOMO, puis lancez le balayage</Title><FomoDetector /></div>,
   },
   {
-    id: 'cnn-buildup',
-    chapter: 'CNN',
-    kicker: 'Partie 16 · Hiérarchie',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Du simple au complexe</Kicker>
-        <Title>Chaque couche se construit sur les motifs de la précédente</Title>
-        <Card>
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Contour' },
-              { label: 'Coin' },
-              { label: 'Cercle' },
-              { label: 'Œil' },
-              { label: 'Visage' },
-              { label: 'Personne', strong: true },
-            ]}
-          />
-        </Card>
-        <Prose>
-          Les premières couches détectent des contours et des lignes. Les couches intermédiaires les assemblent en
-          yeux, roues et feuilles. Les couches profondes reconnaissent des objets entiers. Personne n&apos;a programmé
-          cette hiérarchie ; elle émerge de l&apos;entraînement.
-        </Prose>
-      </div>
-    ),
+    id: 'fomo-tradeoffs', chapter: 'Détection', kicker: 'TinyML · choisir le bon compromis', minutes: 3, kind: 'concept',
+    content: <div className="deck-slide"><Kicker>FOMO : Faster Objects, More Objects</Kicker><Title>Pour tenir sur un microcontrôleur, FOMO prédit un centre plutôt qu’une boîte complète</Title><div className="grid grid-cols-3 gap-4"><Card title="Léger" tone="positive">Peu de mémoire et calcul rapide.</Card><Card title="Utile">Compter, trier ou déclencher une action.</Card><Card title="Limite" tone="negative">Deux objets collés peuvent fusionner ; leur taille n’est pas prédite.</Card></div><PredictReveal id="fomo-touching" question="Deux objets identiques se touchent dans la même zone. Que risque de produire FOMO ?" options={[{ label: 'Deux centres parfaits' }, { label: 'Un centre fusionné' }, { label: 'Une boîte géante' }]} correctIndex={1} explanation={<p>Les zones voisines peuvent se regrouper en un seul centroïde. C’est un compromis du modèle léger, pas une preuve que la caméra est cassée.</p>} /></div>,
+  },
+
+  {
+    id: 'xiao-pipeline', chapter: 'Mission XIAO', kicker: 'Projet final · de la caméra à une action', minutes: 4, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>La mission embarquée</Kicker><Title>Construire un détecteur d’objets qui fonctionne sans ordinateur puissant</Title><Flow direction="horizontal" steps={[{ label: '1 · Collecter', hint: 'images variées' }, { label: '2 · Étiqueter', hint: 'objet + position' }, { label: '3 · Entraîner', hint: 'FOMO sur le cloud' }, { label: '4 · Quantifier', hint: 'poids 8 bits' }, { label: '5 · Déployer', hint: 'XIAO + caméra' }, { label: '6 · Réagir', strong: true, hint: 'LED, moteur, alerte' }]} /><div className="grid grid-cols-3 gap-4"><Card title="Entrée">Une image capturée en direct.</Card><Card title="Inférence">Le modèle calcule classes et centres.</Card><Card title="Sortie" tone="positive">Le XIAO prend une décision localement.</Card></div><Callout label="Pourquoi embarquer ?">Faible latence, fonctionnement hors ligne et images pouvant rester sur l’appareil.</Callout></div>,
   },
   {
-    id: 'convolution-demo',
-    chapter: 'CNN',
-    kicker: 'Démo · Convolution',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif · Partie 17</Kicker>
-        <Title className="text-2xl md:text-4xl">Faites glisser un filtre 3x3 et regardez une carte de caractéristiques apparaître</Title>
-        <Prose>
-          Une convolution est une petite fenêtre qui se déplace sur l&apos;image. Chaque filtre chasse un motif
-          précis. Appuyez sur <Mono>Lancer le balayage</Mono>{' '}et changez de filtre pour voir les contours
-          s&apos;illuminer dans la carte de caractéristiques à droite.
-        </Prose>
-        <ConvolutionDemo />
-      </div>
-    ),
-  },
-  {
-    id: 'pooling',
-    chapter: 'CNN',
-    kicker: 'Partie 18 · Pooling',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Réduire volontairement</Kicker>
-        <Title>Le pooling réduit la taille tout en gardant l&apos;essentiel</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow direction="horizontal" steps={[{ label: '4 x 4' }, { label: 'pooling' }, { label: '2 x 2', strong: true }]} />
-          </Card>
-          <Card title="Pourquoi ça aide" tone="positive">
-            <div className="flex flex-wrap gap-2 text-sm">
-              {['Plus rapide', 'Moins de RAM', 'Moins de calcul', 'Moins de surapprentissage'].map((t) => (
-                <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Crucial pour le TinyML, où chaque kilo-octet de mémoire compte.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'feature-maps',
-    chapter: 'CNN',
-    kicker: 'Partie 22 · Cartes de caractéristiques',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Beaucoup de nouvelles images</Kicker>
-        <Title>Après la convolution, une image devient plusieurs cartes de caractéristiques</Title>
-        <Prose>
-          Chaque filtre produit sa propre image de sortie qui met en évidence une chose : l&apos;un trouve les
-          contours verticaux, un autre les cercles, un autre la texture. Les CNN modernes génèrent des centaines ou
-          des milliers de ces cartes de caractéristiques, empilant une information de plus en plus abstraite au fil
-          des couches.
-        </Prose>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card title="Filtre A">contours verticaux</Card>
-          <Card title="Filtre B">cercles</Card>
-          <Card title="Filtre C">texture</Card>
-          <Card title="...">des centaines d&apos;autres</Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'cnn-layers',
-    chapter: 'CNN',
-    kicker: 'Partie 21 · Anatomie',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La pile complète</Kicker>
-        <Title>Les couches d&apos;un CNN, du début à la fin</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="Entrée">Reçoit les pixels.</Card>
-          <Card title="Convolution">Détecte des motifs avec des filtres glissants.</Card>
-          <Card title="Activation">Ajoute de la non-linéarité, généralement ReLU.</Card>
-          <Card title="Pooling">Compresse, en gardant les caractéristiques clés.</Card>
-          <Card title="Aplatissement">Transforme les cartes de caractéristiques en un long vecteur.</Card>
-          <Card title="Dense + Sortie" tone="positive">
-            La partie classificateur : combine tout et produit une probabilité par classe.
-          </Card>
-        </div>
-        <Prose>
-          Tout ce qui précède, convolution, activation, pooling, sert à préparer l&apos;information. C&apos;est
-          seulement à la toute fin qu&apos;un classificateur classique prend le relais et rend sa décision.
-        </Prose>
-      </div>
-    ),
-  },
-  {
-    id: 'output-layer',
-    chapter: 'CNN',
-    kicker: 'Partie 19 · Sortie',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>La réponse finale</Kicker>
-        <Title>La couche de sortie donne une probabilité par classe</Title>
-        <Callout label="Rappel">
-          C&apos;est exactement le rôle d&apos;un <Term>classificateur</Term> : une réponse, une catégorie. Le CNN a
-          juste fait tout le travail de préparation avant que cette dernière couche ne tranche.
-        </Callout>
-        <Card title="Classificateur de fruits" tone="positive">
-          <div className="space-y-3">
-            {[
-              { c: 'Pomme', p: 95 },
-              { c: 'Orange', p: 4 },
-              { c: 'Banane', p: 1 },
-            ].map((r) => (
-              <div key={r.c} className="flex items-center gap-3">
-                <span className={`w-20 font-mono text-sm ${r.p > 50 ? 'text-primary' : 'text-muted-foreground'}`}>{r.c}</span>
-                <div className="h-4 flex-1 overflow-hidden rounded-full bg-secondary">
-                  <div className={`h-full rounded-full ${r.p > 50 ? 'bg-primary' : 'bg-muted-foreground/50'}`} style={{ width: `${r.p}%` }} />
-                </div>
-                <span className="w-12 text-right font-mono text-sm">{r.p}%</span>
-              </div>
-            ))}
-          </div>
-        </Card>
-        <Prose>La plus haute probabilité l&apos;emporte. Ce choix unique est la décision du classificateur.</Prose>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- BIEN ENTRAÎNER
-  {
-    id: 'splits',
-    chapter: 'Bien entraîner',
-    kicker: 'Partie 23 · Découpage des données',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ne jamais étudier l&apos;examen</Kicker>
-        <Title>Découpez vos données en entraînement, validation et test</Title>
-        <div className="grid gap-3 lg:grid-cols-3">
-          <Card title="Entraînement · 70-80%">Utilisé pour apprendre les poids.</Card>
-          <Card title="Validation · 10-15%">Utilisé pour ajuster les réglages pendant l&apos;entraînement.</Card>
-          <Card title="Test · 10-15%" tone="positive">Utilisé une seule fois, à la toute fin, pour mesurer la performance réelle.</Card>
-        </div>
-        <Callout>
-          Le modèle ne doit jamais s&apos;entraîner sur l&apos;ensemble de test. Sinon, votre précision est un
-          mensonge, comme un élève qui a vu les réponses de l&apos;examen à l&apos;avance.
-        </Callout>
-      </div>
-    ),
-  },
-  {
-    id: 'overfitting',
-    chapter: 'Bien entraîner',
-    kicker: 'Partie 22 · Surapprentissage',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>L&apos;échec classique</Kicker>
-        <Title>Mémoriser n&apos;est pas la même chose qu&apos;apprendre</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Surapprentissage" tone="negative">
-            Le modèle mémorise les images d&apos;entraînement et obtient un score parfait dessus, puis échoue sur tout
-            ce qui est nouveau. Comme réussir les exercices d&apos;entraînement mais rater l&apos;examen réel.
-          </Card>
-          <Card title="Sous-apprentissage">
-            L&apos;inverse. Le modèle est trop simple pour capturer le motif du tout, donc il se débrouille mal
-            partout.
-          </Card>
-        </div>
-        <Prose>Un bon entraînement trouve l&apos;équilibre entre ces deux extrêmes, et l&apos;ensemble de validation permet de trouver cet équilibre.</Prose>
-        <PredictReveal
-          id="overfitting-scenario"
-          question="Un modèle obtient 99% de précision sur les images d'entraînement, mais seulement 60% sur des photos jamais vues. Que se passe-t-il ?"
-          options={[
-            { label: 'Surapprentissage' },
-            { label: 'Sous-apprentissage' },
-            { label: 'Tout va bien' },
-          ]}
-          correctIndex={0}
-          explanation={
-            <p>
-              Un tel écart entre l&apos;entraînement et le reste est la signature du surapprentissage : le modèle a
-              mémorisé les exemples au lieu d&apos;apprendre le motif général. La solution passe par plus de données,
-              de l&apos;augmentation, ou un modèle plus simple, pas par plus d&apos;entraînement sur les mêmes images.
-            </p>
-          }
-        />
-      </div>
-    ),
-  },
-  {
-    id: 'transfer-learning',
-    chapter: 'Bien entraîner',
-    kicker: 'Partie 23 · Apprentissage par transfert',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Sur les épaules de géants</Kicker>
-        <Title>Partez d&apos;un modèle qui sait déjà voir</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow
-              steps={[
-                { label: 'MobileNet, pré-entraîné sur des millions d’images' },
-                { label: 'Garder ses compétences visuelles générales' },
-                { label: 'Réentraîner seulement les dernières couches sur vos classes', strong: true },
-              ]}
-            />
-          </Card>
-          <Callout label="Pourquoi c&apos;est important pour le camp">
-            Un modèle entraîné sur des millions d&apos;images comprend déjà les contours, les textures et les formes.
-            Vous ne lui enseignez que vos quelques classes, ce qui demande bien moins de données et de temps. C&apos;est
-            exactement comme ça que les plateformes TinyML comme Edge Impulse obtiennent de bons résultats avec les
-            petits jeux de données qu&apos;on peut collecter en un après-midi.
-          </Callout>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'training-demo',
-    chapter: 'Bien entraîner',
-    kicker: 'Démo · Entraînement',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif · Parties 18-21</Kicker>
-        <Title className="text-2xl md:text-4xl">Entraînez un modèle et regardez la perte descendre pendant que la précision monte</Title>
-        <Prose>
-          Choisissez un taux d&apos;apprentissage, puis appuyez sur <Mono>Entraîner le modèle</Mono>. Découvrez
-          pourquoi trop petit rampe, trop grand rebondit, et juste bien s&apos;installe sur une précision haute et
-          stable.
-        </Prose>
-        <TrainingSimulator />
-      </div>
-    ),
-  },
-  {
-    id: 'confusion-demo',
-    chapter: 'Bien entraîner',
-    kicker: 'Démo · Matrice de confusion',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif · Partie 26</Kicker>
-        <Title className="text-2xl md:text-4xl">La précision seule ment. La matrice de confusion dit la vérité.</Title>
-        <Prose>
-          Classez quelques images pierre, feuille, ciseaux, ou appuyez sur <Mono>Tout classer</Mono>. La diagonale
-          verte représente les bonnes réponses ; chaque cellule rouge montre exactement quelles classes le modèle
-          confond.
-        </Prose>
-        <ClassifierMatrix />
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- TINYML & XIAO
-  {
-    id: 'inference-vs-training',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 24 · Deux phases',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Où chaque étape s&apos;exécute</Kicker>
-        <Title>Entraînez sur un gros ordinateur, exécutez l&apos;inférence sur le petit</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Entraînement">
-            <BulletList
-              items={[
-                <>Se déroule sur un ordinateur puissant ou dans le cloud</>,
-                <>Utilise beaucoup de puissance CPU et GPU</>,
-                <>Peut prendre des minutes à des jours</>,
-                <>Modifie les poids du modèle</>,
-              ]}
-            />
-          </Card>
-          <Card title="Inférence" tone="positive">
-            <BulletList
-              items={[
-                <>Se déroule après l&apos;entraînement</>,
-                <>Utilise le modèle terminé pour faire des prédictions</>,
-                <>Ne modifie pas le modèle</>,
-                <>Fonctionne sur de tout petits appareils comme le XIAO</>,
-              ]}
-            />
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'why-tinyml',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 26 · Pourquoi le TinyML',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>L&apos;IA sans le cloud</Kicker>
-        <Title>Une vraie intelligence sur une carte qui sirote à peine la batterie</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card title="Faible latence">Des décisions en une fraction de seconde, sur l&apos;appareil.</Card>
-          <Card title="Fonctionne hors ligne">Aucun internet nécessaire.</Card>
-          <Card title="Privé">L&apos;image ne quitte jamais la carte.</Card>
-          <Card title="Faible consommation" tone="positive">Fonctionne sur une petite batterie.</Card>
-        </div>
-        <Prose>
-          Un XIAO n&apos;a qu&apos;une infime fraction de la mémoire et de la puissance de calcul d&apos;un
-          ordinateur portable, et pourtant il peut faire tourner des modèles compacts. Le TinyML est l&apos;art de
-          rendre les modèles assez petits, assez rapides et assez efficaces pour tenir dedans.
-        </Prose>
-      </div>
-    ),
-  },
-  {
-    id: 'quantization',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 25 · Quantification',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Le faire tenir</Kicker>
-        <Title>Échangez des décimaux 32 bits contre des entiers 8 bits</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <Flow direction="horizontal" steps={[{ label: 'flottant 32 bits' }, { label: 'quantification' }, { label: 'entier 8 bits', strong: true }]} />
-          </Card>
-          <Card title="Résultat" tone="positive">
-            <div className="flex flex-wrap gap-2 text-sm">
-              {['Modèle plus petit', 'Inférence plus rapide', 'Consommation plus faible'].map((t) => (
-                <span key={t} className="rounded-md border border-primary/40 bg-primary/10 px-3 py-1.5 text-primary">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Le compromis est une petite baisse de précision, généralement négligeable pour les tâches que gère un XIAO.
-            </p>
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'edge-impulse',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 24 & 27 · Flux de travail',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Jour 6 & 7 · Edge Impulse</Kicker>
-        <Title>Le flux de travail, des photos jusqu&apos;à un modèle déployable</Title>
-        <Prose>
-          Cochez chaque étape au fur et à mesure que vous l&apos;accomplissez dans Edge Impulse. Votre progression
-          reste enregistrée si vous quittez cette diapositive. Les neuf premières étapes, jusqu&apos;à entraîner et
-          vérifier le modèle, se font le jour 6. Le déploiement final commence le jour 7.
-        </Prose>
-        <Checklist
-          id="edge-impulse-workflow"
-          title="Pratique · De la caméra au modèle"
-          steps={[
-            { id: 'project', label: 'Créer un projet', detail: 'Sur studio.edgeimpulse.com, nouveau projet, choisir "Images".' },
-            { id: 'connect', label: 'Connecter le XIAO, un téléphone, ou une webcam', detail: 'Le flux vidéo doit apparaître dans l’onglet Data acquisition.' },
-            { id: 'collect', label: 'Collecter des images par classe', detail: 'Visez au moins 50 à 100 images par classe, sous des angles variés.' },
-            { id: 'label', label: 'Étiqueter chaque image', detail: 'Chaque image doit porter le nom exact de sa classe.' },
-            { id: 'split', label: 'Découper en entraînement et test', detail: 'Edge Impulse propose un découpage automatique, environ 80/20.' },
-            { id: 'impulse', label: 'Construire un impulse de classification d’images', detail: 'Ajouter un bloc "Image" puis un bloc "Transfer Learning".' },
-            { id: 'features', label: 'Générer les caractéristiques d’image', detail: 'Onglet Image, cliquer sur "Generate features" et vérifier la séparation des classes.' },
-            { id: 'train', label: 'Entraîner le réseau de neurones', detail: 'Onglet Transfer Learning, lancer l’entraînement, surveiller la perte.' },
-            { id: 'evaluate', label: 'Vérifier la précision et la matrice de confusion', detail: 'Onglet Model testing, viser une précision élevée et une diagonale propre.' },
-            {
-              id: 'deploy',
-              label: 'Déployer le modèle',
-              detail: 'Onglet Deployment, choisir "Arduino library", puis inclure le .zip généré dans l’IDE Arduino.',
-              code: '#include <votre-projet_inferencing.h>',
-            },
-          ]}
-        />
-      </div>
-    ),
-  },
-  {
-    id: 'deployment-runtime',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 27 · Sur l’appareil',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce qui se passe quand vous appuyez sur déployer</Kicker>
-        <Title>Le modèle devient du C++ qui tourne sur la carte</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="Au moment de la compilation">
-            <BulletList
-              items={[
-                <>Modèle converti en TensorFlow Lite for Microcontrollers</>,
-                <>Optimisé, souvent quantifié en 8 bits</>,
-                <>Fichiers source C et C++ générés</>,
-                <>Compilé avec votre sketch Arduino et téléversé</>,
-              ]}
-            />
-          </Card>
-          <Card title="À l'exécution, chaque image" tone="positive">
-            <Flow
-              steps={[
-                { label: 'La caméra capture une image' },
-                { label: 'Redimensionner et normaliser' },
-                { label: 'Inférence du CNN' },
-                { label: 'Probabilités' },
-                { label: 'LED / OLED / moteur / buzzer', strong: true },
-              ]}
-            />
-          </Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'challenges',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 28 · Retour à la réalité',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Pourquoi les projets d&apos;IA échouent</Kicker>
-        <Title>Repérer les problèmes est aussi important qu&apos;entraîner</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="Mauvais éclairage">Des images prises en pleine lumière échouent en faible lumière.</Card>
-          <Card title="Déséquilibre des classes">Une classe a bien plus d&apos;exemples qu&apos;une autre.</Card>
-          <Card title="Surapprentissage">A mémorisé les données d&apos;entraînement plutôt que le motif.</Card>
-          <Card title="Sous-apprentissage">Modèle trop simple pour capturer le motif.</Card>
-          <Card title="Dérive des données">Le monde réel change avec le temps.</Card>
-          <Card title="Biais d’arrière-plan" tone="negative">Chaque photo de chat était sur le même canapé, alors il a appris le canapé.</Card>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'rps-project',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Réalisation · Démo en classe',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Tout le cycle de vie en un seul projet</Kicker>
-        <Title>Pierre, feuille, ciseaux sur le XIAO</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Checklist
-            id="rps-build"
-            title="Pratique · Votre build"
-            steps={[
-              {
-                id: 'collect',
-                label: 'Collectez vos images',
-                detail: '100 à 200 images de chacun de pierre, feuille et ciseaux, sous des éclairages et arrière-plans variés.',
-              },
-              {
-                id: 'train',
-                label: 'Entraînez par apprentissage par transfert',
-                detail: 'Dans Edge Impulse, bloc Transfer Learning, puis vérifiez la matrice de confusion.',
-              },
-              {
-                id: 'deploy',
-                label: 'Déployez sur le XIAO',
-                detail: 'XIAO équipé d’une caméra, bibliothèque Arduino générée par Edge Impulse.',
-                code: 'ei_impulse_result_t result;\nrun_classifier(&signal, &result, false);',
-              },
-              {
-                id: 'react',
-                label: 'Réagissez à la classe détectée',
-                detail: 'Allumez une LED correspondante, ou affichez la classe sur l’écran ou le port série.',
-                code: 'if (result.classification[0].value > 0.8) {\n  digitalWrite(LED_ROCK, HIGH);\n}',
-              },
-            ]}
-          />
-          <Callout label="Pourquoi ce projet">
-            Il touche à chaque idée de ces deux jours : collecte de données, étiquetage, entraînement, évaluation, et
-            inférence sur l&apos;appareil, dans quelque chose que les élèves peuvent construire et comprendre
-            eux-mêmes.
-          </Callout>
-        </div>
-      </div>
-    ),
-  },
-  {
-    id: 'pipeline',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Partie 27 · La boucle complète',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Tout, dans l&apos;ordre</Kicker>
-        <Title>Le pipeline complet de l&apos;IA</Title>
-        <div className="rounded-xl border bg-card p-5 md:p-6">
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Collecter les données' },
-              { label: 'Étiqueter' },
-              { label: 'Construire le jeu de données' },
-              { label: 'Prétraiter' },
-              { label: 'Entraîner le CNN' },
-              { label: 'Évaluer' },
-              { label: 'Améliorer les données' },
-              { label: 'Exporter le modèle' },
-              { label: 'Déployer sur le XIAO' },
-              { label: 'Exécuter sur l’appareil', strong: true },
-            ]}
-          />
-        </div>
-        <Prose>
-          Remarquez que c&apos;est une boucle, pas une ligne. L&apos;évaluation vous renvoie à améliorer les données,
-          et de meilleures données sont presque toujours le chemin le plus rapide vers un meilleur modèle.
-        </Prose>
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- BONUS : DÉTECTION D'OBJETS
-  {
-    id: 'why-detection',
-    chapter: "Bonus : détection d'objets",
-    kicker: 'Démo · Un cran plus loin que la classification',
-    content: (
-      <div className="flex flex-col gap-6">
-        <Kicker>Interactif · Pour aller plus loin</Kicker>
-        <Title className="text-2xl md:text-4xl">Une photo peut cacher plusieurs objets à la fois</Title>
-        <Prose>
-          Jusqu&apos;ici, chaque classificateur regardait une image et rendait un seul label. Mais posez une pomme,
-          une banane et une patate côte à côte, et un classificateur ne peut toujours dire qu&apos;une seule chose.
-          Basculez entre les deux modes ci-dessous pour voir où ça casse, et ce qu&apos;une vraie détection change.
-        </Prose>
-        <FomoDetector />
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-intro',
-    chapter: "Bonus : détection d'objets",
-    kicker: 'Une idée née pour les petits appareils',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>FOMO, Faster Objects, More Objects</Kicker>
-        <Title>Les détecteurs classiques sont trop lourds pour un microcontrôleur</Title>
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card title="YOLO, MobileNet SSD..." tone="negative">
-            <p className="leading-relaxed text-muted-foreground">
-              Ces modèles prédisent une boîte englobante complète pour chaque objet : position, largeur, hauteur.
-              Puissant, mais ça demande plusieurs mégaoctets de mémoire, largement plus que ce qu&apos;a un XIAO.
-            </p>
-          </Card>
-          <Card title="FOMO" tone="positive">
-            <p className="leading-relaxed text-muted-foreground">
-              Edge Impulse a conçu FOMO spécifiquement pour ce problème. En abandonnant la boîte pour ne garder que
-              la position, il tourne avec environ <Term>30 fois moins</Term>{' '}de mémoire et d&apos;énergie qu&apos;un
-              détecteur classique.
-            </p>
-          </Card>
-        </div>
-        <Callout label="Le compromis">
-          FOMO ne dit pas la taille d&apos;un objet, seulement où se trouve son centre. Pour compter des pièces, trier
-          des fruits, ou déclencher un geste, c&apos;est largement suffisant, et c&apos;est ce qui tient enfin dans un
-          microcontrôleur.
-        </Callout>
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-numbers',
-    chapter: "Bonus : détection d'objets",
-    kicker: 'Les chiffres qui comptent',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce que ça coûte vraiment</Kicker>
-        <Title>Assez léger pour tourner sur une carte de la taille d&apos;une pièce</Title>
-        <Card>
-          <Flow
-            direction="horizontal"
-            steps={[
-              { label: 'Image 96x96', hint: 'niveaux de gris' },
-              { label: 'Blocs de 8x8', hint: 'facteur de découpe' },
-              { label: 'Grille 12x12', strong: true, hint: 'une probabilité par cellule' },
-            ]}
-          />
-        </Card>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Stat value="~250" unit="Ko" label="RAM utilisée" />
-          <Stat value="~80" unit="Ko" label="ROM (flash) utilisée" />
-          <Stat value="~143" unit="ms" label="latence par image" />
-          <Stat value="~7" unit="img/s" label="cadence en direct" />
-        </div>
-        <Prose>
-          Sur un jeu de test réel (fruits et insectes), ce genre de modèle FOMO atteint autour de 83 à 85% de{' '}
-          <Term>score F1</Term> (une note unique qui mélange deux mesures de qualité, utile quand il y a plusieurs
-          classes), avec un budget mémoire largement sous la barre du mégaoctet.
-        </Prose>
-      </div>
-    ),
-  },
-  {
-    id: 'fomo-limits',
-    chapter: "Bonus : détection d'objets",
-    kicker: 'Rien n’est gratuit',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Ce que FOMO ne fait pas</Kicker>
-        <Title>Un centre, pas une boîte, et pas deux objets collés</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="Pas de taille" tone="negative">
-            FOMO donne un point, jamais une largeur ni une hauteur. Impossible de savoir si l&apos;objet est petit ou
-            grand rien qu&apos;avec sa sortie.
-          </Card>
-          <Card title="Objets collés" tone="negative">
-            Deux objets de la même classe très proches peuvent fusionner en un seul centroïde détecté, surtout s&apos;ils
-            se touchent dans la grille.
-          </Card>
-          <Card title="Le bon usage" tone="positive">
-            Compter, trier, repérer une présence ou une position approximative : exactement ce dont un projet TinyML
-            a besoin la plupart du temps.
-          </Card>
-        </div>
-        <Prose>
-          Ce compromis est délibéré. FOMO échange de la précision géométrique contre un modèle qui tient réellement
-          dans la mémoire d&apos;un microcontrôleur, ce qui est le seul objectif qui compte ici.
-        </Prose>
-        <PredictReveal
-          id="fomo-overlap"
-          question="Deux pommes identiques posées l'une contre l'autre, dans la même cellule de la grille. Que va probablement rendre FOMO ?"
-          options={[
-            { label: 'Deux centroïdes bien séparés' },
-            { label: 'Un seul centroïde fusionné' },
-            { label: 'Aucune détection' },
-          ]}
-          correctIndex={1}
-          explanation={
-            <p>
-              FOMO regarde des probabilités par cellule et fusionne les zones voisines à forte probabilité en un seul
-              point. Deux objets identiques qui se touchent tombent souvent dans les mêmes cellules et se fondent en
-              un centroïde unique, c&apos;est la limite du modèle, pas un bug.
-            </p>
-          }
-        />
-      </div>
-    ),
-  },
-  // ---------------------------------------------------------------- CONCLUSION
-  {
-    id: 'close',
-    chapter: 'TinyML & XIAO',
-    kicker: 'Pour conclure',
-    content: (
-      <div className="flex flex-col gap-8">
-        <Kicker>Vous pouvez maintenant expliquer</Kicker>
-        <Title>D&apos;un seul pixel à un modèle sur le XIAO</Title>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card title="Récap jour 5">
-            Comment les images deviennent des nombres, comment les classificateurs et les CNN apprennent, et ce
-            qu&apos;est vraiment un premier modèle.
-          </Card>
-          <Card title="Récap jour 6">
-            Collecter et étiqueter des données, entraîner un modèle sur mesure, et repérer le surapprentissage grâce
-            à la matrice de confusion.
-          </Card>
-          <Card title="Récap jour 7">
-            Pourquoi l&apos;apprentissage par transfert et la quantification comptent, et comment déployer un modèle
-            sur le XIAO.
-          </Card>
-          <Card title="Ensuite" tone="positive">
-            Ouvrez Edge Impulse, collectez vos données pierre, feuille, ciseaux, et mettez un classificateur
-            fonctionnel sur la carte.
-          </Card>
-        </div>
-        <Callout label="Une phrase à retenir">
-          Un ordinateur ne voit jamais une image. Il voit des nombres, apprend quels motifs de nombres comptent, et
-          avec le TinyML il peut faire cette vision propulsée par l&apos;apprentissage n&apos;importe où, même sur une
-          carte de la taille d&apos;une pièce de monnaie.
-        </Callout>
-      </div>
-    ),
+    id: 'close', chapter: 'Mission XIAO', kicker: 'Conclusion · relier toute l’histoire', minutes: 3, kind: 'milestone',
+    content: <div className="deck-slide"><Kicker>Vous pouvez maintenant raconter le parcours</Kicker><Title>D’une question en 1950 à une caméra intelligente dans votre main</Title><div className="grid grid-cols-4 gap-3"><Card title="Idée">Apprendre des motifs dans des exemples.</Card><Card title="Carburant">Internet rend les données disponibles.</Card><Card title="Moteur">Les GPU rendent les calculs possibles.</Card><Card title="Résultat" tone="positive">Un modèle compact détecte sur le XIAO.</Card></div><Flow direction="horizontal" steps={[{ label: 'Pixels' }, { label: 'Convolution' }, { label: 'Caractéristiques' }, { label: 'Objets + positions' }, { label: 'Action réelle', strong: true }]} /><Callout label="Dernière question pour la classe">Quel problème réel autour de vous pourrait être résolu par une petite caméra qui détecte des objets sans envoyer ses images sur Internet ?</Callout></div>,
   },
 ]

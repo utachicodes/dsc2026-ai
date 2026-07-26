@@ -40,10 +40,10 @@ export function PredictReveal({
   }
 
   return (
-    <div className="rounded-xl border border-primary/40 bg-primary/5 p-5 md:p-6">
-      <div className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-primary">Devinez avant de voir</div>
-      <p className="mb-4 text-pretty leading-relaxed text-foreground">{question}</p>
-      <div className={cn('grid gap-2.5', options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2')}>
+    <div className="rounded-xl border border-primary/40 bg-primary/5 p-4">
+      <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">Défi collectif · votez avant de révéler</div>
+      <p className="mb-3 text-pretty text-sm leading-relaxed text-foreground">{question}</p>
+      <div className={cn('grid gap-2', options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2')}>
         {options.map((opt, i) => {
           const isCorrect = i === correctIndex
           const isPicked = picked === i
@@ -54,7 +54,7 @@ export function PredictReveal({
               onClick={() => choose(i)}
               variant={variant}
               font="normal"
-              className="justify-center gap-2 py-2.5 text-center font-mono text-xs uppercase tracking-wider"
+              className="justify-center gap-2 py-2 text-center font-mono text-[11px] uppercase tracking-wider"
             >
               {opt.label}
               {revealed && isCorrect ? <Check className="h-3.5 w-3.5" /> : null}
@@ -66,7 +66,7 @@ export function PredictReveal({
       {revealed ? (
         <div
           className={cn(
-            'mt-4 rounded-lg border p-3.5 text-sm leading-relaxed',
+            'mt-3 max-h-24 overflow-hidden rounded-lg border p-3 text-xs leading-relaxed md:text-sm',
             wasCorrect ? 'border-primary/40 bg-background text-foreground' : 'border-destructive/40 bg-background text-foreground',
           )}
         >

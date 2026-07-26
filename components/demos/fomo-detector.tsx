@@ -58,15 +58,10 @@ export function FomoDetector() {
   useEffect(() => reset, [mode])
   useEffect(() => () => { if (raf.current) clearInterval(raf.current) }, [])
 
-  const cellOf = (obj: Obj) => ({
-    col: Math.min(GRID - 1, Math.floor((obj.cx / 100) * GRID)),
-    row: Math.min(GRID - 1, Math.floor((obj.cy / 100) * GRID)),
-  })
-
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr]">
-      <div className="rounded-xl border bg-card p-4 md:p-5">
-        <div className="mb-4 flex items-center gap-1 rounded-lg border bg-secondary p-1">
+    <div className="grid gap-4 lg:grid-cols-[1.1fr_1fr]">
+      <div className="rounded-xl border bg-card p-3 md:p-4">
+        <div className="mb-2 flex items-center gap-1 rounded-lg border bg-secondary p-1">
           {(['classification', 'detection'] as const).map((m) => (
             <button
               key={m}
@@ -82,7 +77,7 @@ export function FomoDetector() {
         </div>
 
         <div
-          className="relative mx-auto aspect-square w-full max-w-[420px] overflow-hidden rounded-lg border bg-secondary/40"
+          className="relative mx-auto aspect-square w-full max-w-[min(310px,38vh)] overflow-hidden rounded-lg border bg-secondary/40"
           role="img"
           aria-label="Scène avec une pomme, une banane et une patate"
         >
@@ -160,7 +155,7 @@ export function FomoDetector() {
           )}
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-2.5">
+        <div className="mt-2 flex items-center justify-center gap-2.5">
           {mode === 'detection' ? (
             <>
               <BitButton onClick={runDetection} font="normal" className="gap-2 font-mono text-xs uppercase tracking-wider">
@@ -178,8 +173,8 @@ export function FomoDetector() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="rounded-xl border bg-card p-5">
+      <div className="flex flex-col gap-3">
+        <div className="rounded-xl border bg-card p-4">
           <div className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Ce qui se passe</div>
           <p className="text-sm leading-relaxed text-muted-foreground">
             En classification, le modèle regarde toute l&apos;image et rend un seul label. En détection, l&apos;image
@@ -190,7 +185,7 @@ export function FomoDetector() {
             {' '}de l&apos;objet.
           </p>
         </div>
-        <div className="rounded-xl border border-primary/40 bg-primary/5 p-5">
+        <div className="rounded-xl border border-primary/40 bg-primary/5 p-4">
           <div className="mb-1 font-mono text-xs uppercase tracking-[0.18em] text-primary">Pourquoi pas une boîte</div>
           <p className="text-pretty text-sm leading-relaxed text-foreground">
             Prédire une boîte englobante coûte beaucoup de mémoire. FOMO ne prédit qu&apos;un centre par objet, ce qui

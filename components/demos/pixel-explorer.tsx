@@ -62,7 +62,6 @@ export function PixelExplorer() {
     setBurst(true)
     const t = setTimeout(() => setBurst(false), 1400)
     return () => clearTimeout(t)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready])
 
   const active = hovered ?? selected
@@ -71,9 +70,9 @@ export function PixelExplorer() {
   const activeCol = active != null ? active % res : null
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.35fr_1fr]">
-      <div className="rounded-xl border bg-card p-4 md:p-5">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+    <div className="grid gap-4 lg:grid-cols-[1.25fr_1fr]">
+      <div className="rounded-xl border bg-card p-3 md:p-4">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-1 rounded-lg border bg-secondary p-1">
             {RES_OPTIONS.map((r) => (
               <button
@@ -101,7 +100,7 @@ export function PixelExplorer() {
 
         <div
           className={cn(
-            'relative mx-auto aspect-square w-full max-w-[440px] overflow-hidden rounded-lg transition-[background-color,padding] duration-500',
+            'relative mx-auto aspect-square w-full max-w-[min(310px,38vh)] overflow-hidden rounded-lg transition-[background-color,padding] duration-500',
             burst ? 'bg-background p-2' : 'bg-background p-0',
           )}
           role="group"
@@ -144,13 +143,13 @@ export function PixelExplorer() {
           </div>
         </div>
 
-        <p className="mt-4 text-center font-mono text-xs text-muted-foreground">
+        <p className="mt-2 text-center font-mono text-xs text-muted-foreground">
           {ready ? `${res * res} pixels` : 'chargement...'} · survolez pour inspecter · cliquez pour figer un pixel
         </p>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="rounded-xl border bg-card p-5">
+      <div className="flex flex-col gap-3">
+        <div className="rounded-xl border bg-card p-4">
           <div className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
             Pixel sélectionné
           </div>
@@ -187,7 +186,7 @@ export function PixelExplorer() {
           )}
         </div>
 
-        <div className="rounded-xl border border-primary/40 bg-primary/5 p-5">
+        <div className="rounded-xl border border-primary/40 bg-primary/5 p-4">
           <div className="mb-1 font-mono text-xs uppercase tracking-[0.18em] text-primary">L&apos;idée clé</div>
           <p className="text-pretty text-sm leading-relaxed text-foreground">
             L&apos;image que vous reconnaissez est une illusion construite à partir d&apos;une grille de carrés

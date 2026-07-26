@@ -145,8 +145,8 @@ export function ConvolutionDemo() {
   }
 
   return (
-    <div className="rounded-xl border bg-card p-4 md:p-6">
-      <div className="mb-5 flex flex-wrap items-center gap-2">
+    <div className="rounded-xl border bg-card p-3 md:p-4">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         {KERNELS.map((k, i) => (
           <button
             key={k.name}
@@ -163,7 +163,7 @@ export function ConvolutionDemo() {
         ))}
       </div>
 
-      <div className="grid items-start gap-6 lg:grid-cols-[1fr_auto_1fr]">
+      <div className="grid items-start gap-4 lg:grid-cols-[1fr_auto_1fr]">
         {/* Input */}
         <div>
           <div className="mb-2 font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">Image d’entrée</div>
@@ -249,7 +249,7 @@ export function ConvolutionDemo() {
       </div>
 
       {/* Controls */}
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
           <BitButton
             onClick={() => {

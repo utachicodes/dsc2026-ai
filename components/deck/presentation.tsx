@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight, Trophy } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button as BitButton } from '@/components/ui/8bit/button'
@@ -19,7 +19,6 @@ export function Presentation() {
 function DeckView() {
   const { correct: quizCorrect, total: quizTotal } = useQuiz()
   const [index, setIndex] = useState(0)
-  const scrollRef = useRef<HTMLDivElement | null>(null)
   const total = slides.length
 
   const go = useCallback(
@@ -34,11 +33,6 @@ function DeckView() {
 
   const next = useCallback(() => go(index + 1), [go, index])
   const prev = useCallback(() => go(index - 1), [go, index])
-
-  // Reset scroll to top on each slide change.
-  useEffect(() => {
-    if (scrollRef.current) scrollRef.current.scrollTop = 0
-  }, [index])
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -81,9 +75,9 @@ function DeckView() {
   const chapterIndex = CHAPTERS.indexOf(activeChapter as (typeof CHAPTERS)[number])
 
   return (
-    <div className="flex h-[100dvh] flex-col bg-background">
+    <div className="deck-shell flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-background">
       {/* Journey trail: a path with one waypoint per chapter and a marker for "you are here" */}
-      <div className="w-full shrink-0 border-b bg-secondary/30 px-4 py-3 md:px-8">
+      <div className="w-full shrink-0 border-b bg-secondary/30 px-4 py-2 md:px-8">
         <div className="relative mx-auto h-1.5 max-w-6xl">
           <div className="absolute inset-0 rounded-full bg-border" aria-hidden />
           <div
@@ -126,7 +120,7 @@ function DeckView() {
 
       {/* Header: chapter rail */}
       <header className="shrink-0 border-b bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 md:px-8">
           <nav aria-label="Chapitres" className="no-scrollbar -mx-1 flex items-center gap-1 overflow-x-auto px-1">
             {CHAPTERS.map((c, i) => {
               const start = chapterStarts.get(c)
@@ -151,13 +145,14 @@ function DeckView() {
         </div>
       </header>
 
-      {/* Slide body with scroll fallback */}
-      <main ref={scrollRef} className="no-scrollbar flex-1 overflow-y-auto">
-        <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center px-4 py-10 md:px-8 md:py-16">
-          <div className="mb-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+      {/* Every slide is a true viewport: content must fit, never scroll. */}
+      <main className="min-h-0 flex-1 overflow-hidden">
+        <div className="mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-4 md:px-8 md:py-5">
+          <div className="mb-2 flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:text-xs">
             <span>{slide.kicker}</span>
+            <span className="ml-auto text-primary">~{slide.minutes} min</span>
           </div>
-          <div key={slide.id} className="slide-enter">
+          <div key={slide.id} className="slide-enter min-h-0">
             {slide.content}
           </div>
         </div>
@@ -165,7 +160,7 @@ function DeckView() {
 
       {/* Footer controls */}
       <footer className="shrink-0 border-t bg-background/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-8">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2 md:px-8">
           <div className="flex items-center gap-3">
             <div className="font-mono text-sm text-muted-foreground">
               <span className="text-foreground">{String(index + 1).padStart(2, '0')}</span>
