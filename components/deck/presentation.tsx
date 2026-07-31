@@ -145,9 +145,9 @@ function DeckView() {
         </div>
       </header>
 
-      {/* Every slide is a true viewport: content must fit, never scroll. */}
-      <main className="min-h-0 flex-1 overflow-hidden">
-        <div className="mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-4 md:px-8 md:py-5">
+      {/* Slides fill the viewport when they fit, and scroll when they overflow. */}
+      <main className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div className="mx-auto flex min-h-full max-w-6xl flex-col justify-center px-4 py-4 md:px-8 md:py-5">
           <div className="mb-2 flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:text-xs">
             <span>{slide.kicker}</span>
             <span className="ml-auto text-primary">~{slide.minutes} min</span>
