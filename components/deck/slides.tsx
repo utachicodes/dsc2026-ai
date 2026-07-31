@@ -12,6 +12,7 @@ import { ConvolutionDemo } from '@/components/demos/convolution-demo'
 import { GpuRace } from '@/components/demos/gpu-race'
 import { TokenPredictor } from '@/components/demos/token-predictor'
 import { FomoDetector } from '@/components/demos/fomo-detector'
+import { tutorialSlides, TUTORIAL_CHAPTER } from './tutorial-slides'
 
 export type Slide = {
   id: string
@@ -22,7 +23,7 @@ export type Slide = {
   content: ReactNode
 }
 
-export const CHAPTERS = ['IA ?', 'Histoire', 'Apprendre', 'Réseaux', 'Déclic 2012', 'ChatGPT', 'Détection', 'Mission XIAO'] as const
+export const CHAPTERS = ['IA ?', 'Histoire', 'Apprendre', 'Réseaux', 'Déclic 2012', 'ChatGPT', 'Détection', 'Mission XIAO', TUTORIAL_CHAPTER] as const
 
 function ArchiveImage({
   src,
@@ -213,4 +214,5 @@ export const slides: Slide[] = [
     id: 'close', chapter: 'Mission XIAO', kicker: 'Conclusion · relier toute l’histoire', minutes: 3, kind: 'milestone',
     content: <div className="deck-slide"><Kicker>Vous pouvez maintenant raconter le parcours</Kicker><Title>D’une question en 1950 à une caméra intelligente dans votre main</Title><div className="grid grid-cols-4 gap-3"><Card title="Idée">Apprendre des motifs dans des exemples.</Card><Card title="Carburant">Internet rend les données disponibles.</Card><Card title="Moteur">Les GPU rendent les calculs possibles.</Card><Card title="Résultat" tone="positive">Un modèle compact détecte sur le XIAO.</Card></div><Flow direction="horizontal" steps={[{ label: 'Pixels' }, { label: 'Convolution' }, { label: 'Caractéristiques' }, { label: 'Objets + positions' }, { label: 'Action réelle', strong: true }]} /><Callout label="Dernière question pour la classe">Quel problème réel autour de vous pourrait être résolu par une petite caméra qui détecte des objets sans envoyer ses images sur Internet ?</Callout></div>,
   },
+  ...tutorialSlides,
 ]

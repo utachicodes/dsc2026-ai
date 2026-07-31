@@ -20,12 +20,14 @@ export function PredictReveal({
   options,
   correctIndex,
   explanation,
+  lang = 'fr',
 }: {
   id: string
   question: ReactNode
   options: Option[]
   correctIndex: number
   explanation: ReactNode
+  lang?: 'fr' | 'en'
 }) {
   const { recordAnswer } = useQuiz()
   const [picked, setPicked] = useState<number | null>(null)
@@ -41,7 +43,9 @@ export function PredictReveal({
 
   return (
     <div className="rounded-xl border border-primary/40 bg-primary/5 p-4">
-      <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">Défi collectif · votez avant de révéler</div>
+      <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+        {lang === 'en' ? 'Class challenge · vote before revealing' : 'Défi collectif · votez avant de révéler'}
+      </div>
       <p className="mb-3 text-pretty text-sm leading-relaxed text-foreground">{question}</p>
       <div className={cn('grid gap-2', options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2')}>
         {options.map((opt, i) => {
@@ -76,7 +80,7 @@ export function PredictReveal({
               wasCorrect ? 'text-primary' : 'text-destructive',
             )}
           >
-            {wasCorrect ? 'Bien vu' : 'Pas tout à fait'}
+            {wasCorrect ? (lang === 'en' ? 'Nice!' : 'Bien vu') : lang === 'en' ? 'Not quite' : 'Pas tout à fait'}
           </div>
           {explanation}
         </div>

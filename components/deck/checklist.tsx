@@ -1,21 +1,32 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Check, Copy, RotateCcw } from 'lucide-react'
+import { type ReactNode, useEffect, useState } from 'react'
+import { Check, ChevronDown, Copy, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button as BitButton } from '@/components/ui/8bit/button'
 import { Progress as BitProgress } from '@/components/ui/8bit/progress'
 
-type Step = { id: string; label: string; detail?: string; code?: string }
+type Step = { id: string; label: string; detail?: string; code?: string; why?: ReactNode }
 
 /**
  * A practical, checkable step list for the workflow and build slides.
  * Progress is saved to localStorage per checklist id, so campers can leave
  * the slide and come back without losing their place.
  */
-export function Checklist({ id, title, steps }: { id: string; title?: string; steps: Step[] }) {
+export function Checklist({
+  id,
+  title,
+  steps,
+  lang = 'fr',
+}: {
+  id: string
+  title?: string
+  steps: Step[]
+  lang?: 'fr' | 'en'
+}) {
   const storageKey = `checklist:${id}`
   const [done, setDone] = useState<Record<string, boolean>>({})
+  const [whyOpen, setWhyOpen] = useState<Record<string, boolean>>({})
   const [copied, setCopied] = useState<string | null>(null)
   const [hydrated, setHydrated] = useState(false)
 
@@ -64,7 +75,7 @@ export function Checklist({ id, title, steps }: { id: string; title?: string; st
     <div className="rounded-xl border bg-card p-5 md:p-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          {title ?? 'Liste pratique'}
+          {title ?? (lang === 'en' ? 'Practical checklist' : 'Liste pratique')}
         </div>
         <div className="flex items-center gap-3">
           <BitProgress value={pct} variant="retro" className="h-2 w-24" />
@@ -114,8 +125,29 @@ export function Checklist({ id, title, steps }: { id: string; title?: string; st
                     className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md border bg-background px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {copied === step.id ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
-                    {copied === step.id ? 'Copié' : 'Copier'}
+                    {copied === step.id ? (lang === 'en' ? 'Copied' : 'Copié') : lang === 'en' ? 'Copy' : 'Copier'}
                   </button>
+                </div>
+              ) : null}
+              {step.why ? (
+                <div className="ml-8 mt-2 overflow-hidden rounded-lg border border-muted bg-secondary/40">
+                  <button
+                    onClick={() => setWhyOpen((w) => ({ ...w, [step.id]: !w[step.id] }))}
+                    className="flex w-full items-center gap-2 px-3 py-1.5 text-left transition-colors hover:bg-secondary"
+                  >
+                    <span className="font-mono text-[9px] uppercase tracking-wider text-primary">Why?</span>
+                    <span className="flex-1 truncate text-[11px] font-medium text-muted-foreground">
+                      {lang === 'en' ? 'Why does this step matter?' : 'Pourquoi cette étape ?'}
+                    </span>
+                    <ChevronDown
+                      className={cn('h-3.5 w-3.5 text-muted-foreground transition-transform', whyOpen[step.id] && 'rotate-180')}
+                    />
+                  </button>
+                  {whyOpen[step.id] ? (
+                    <div className="border-t border-muted px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                      {step.why}
+                    </div>
+                  ) : null}
                 </div>
               ) : null}
             </li>
@@ -125,7 +157,7 @@ export function Checklist({ id, title, steps }: { id: string; title?: string; st
 
       {completed === steps.length && steps.length > 0 ? (
         <div className="mt-4 rounded-lg border border-primary/40 bg-primary/5 p-3 text-center font-mono text-xs uppercase tracking-wider text-primary">
-          Mission terminée
+          Mission {lang === 'en' ? 'complete' : 'terminée'}
         </div>
       ) : null}
     </div>
